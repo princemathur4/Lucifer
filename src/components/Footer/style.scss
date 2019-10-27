@@ -1,0 +1,46 @@
+.site-footer {
+    background: rgb(27, 27, 27);
+    margin-top: 2rem;
+    padding: 2rem 2rem 2rem 4rem;
+
+    .footer-item-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .social-btn {
+            padding-right: 1em;
+            // margin: 0.5rem;
+            max-width: 3em;
+
+            .social-icon {
+                width: 2em;
+            }
+        }
+    }
+
+    .footer-title {
+        color: white;
+        font-size: 1.2em;
+        font-weight: 600;
+        text-align: justify;
+        padding-bottom: 1rem;
+    }
+
+    .footer-item {
+        cursor: pointer;
+        color: rgb(226, 226, 226);
+        font-size: 1em;
+        text-align: justify;
+        transition: 0.3s ease;
+
+        &:hover {
+            color: rgb(255, 255, 255);
+        }
+    }
+
+    .footer-address {
+        color: rgb(206, 206, 206);
+        font-size: 0.8em;
+    }
+}

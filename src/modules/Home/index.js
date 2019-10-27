@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{Fragment} from 'react';
 import NavBar from '../../components/NavBar';
+import Content from '../../components/Content';
+import Footer from '../../components/Footer';
 
 class Home extends React.Component{
     render(){
         return (
-            <NavBar/>
+            <Fragment>
+                <NavBar/>
+                <Content/>
+                <Footer/>
+            </Fragment>
         )
     }
 }

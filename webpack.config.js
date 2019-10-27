@@ -2,10 +2,6 @@ const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const path = require( 'path' );
 
 module.exports = {
-    loader: 'sass-loader',
-    options: {
-        sourceMap: true,
-    },
     context: __dirname,
     entry: './src/index.js',
     output: {
@@ -13,6 +9,7 @@ module.exports = {
         filename: 'main.js',
         publicPath: '/',
     },
+    devtool: 'source-map',
     devServer: {
         historyApiFallback: true
      },
@@ -33,7 +30,7 @@ module.exports = {
             },
             {
                 test: /\.css?$/,
-                use: [ 'style-loader', 'css-loader' ]
+                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
             },
             {
                 test: /\.(png|j?g|svg|gif)?$/,

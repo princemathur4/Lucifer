@@ -1,0 +1,100 @@
+$navbar-tab-hover-border-bottom-color: black;
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eeeeee;
+
+    .logo-img {
+        max-height: 8rem !important;
+        height: 6rem;
+        width: auto;
+    }
+}
+
+.navbar-menu {
+    justify-content: center;
+}
+
+.navbar {
+    position: sticky !important;
+    top: 0;
+    z-index: 2;
+
+    .logo-img {
+        max-height: 5rem !important;
+    }
+
+    a.navbar-item:focus,
+    a.navbar-item:focus-within,
+    a.navbar-item:hover,
+    a.navbar-item.is-active,
+    .navbar-link:focus,
+    .navbar-link:focus-within,
+    .navbar-link:hover,
+    .navbar-link.is-active {
+        background-color: #ffffff00;
+        color: black;
+        font-weight: 600;
+    }
+
+    a.navbar-item:focus,
+    a.navbar-item:focus-within,
+    a.navbar-item:hover,
+    a.navbar-item.is-active,
+    .navbar-link:focus,
+    .navbar-link:focus-within,
+    .navbar-link:hover,
+    .navbar-link.is-active {
+        background-color: #ffffff00;
+    }
+
+    .search-container.field {
+        display: flex;
+        align-items: center;
+        padding: 0 7vw;
+        margin: 0 !important;
+
+        .search-icon {
+            width: 1em;
+        }
+    }
+
+    .input:focus,
+    .textarea:focus,
+    .select select:focus,
+    .is-focused.input,
+    .is-focused.textarea,
+    .select select.is-focused,
+    .input:active,
+    .textarea:active,
+    .select select:active,
+    .is-active.input,
+    .is-active.textarea,
+    .select select.is-active {
+        border-color: #ffffff73;
+        box-shadow: 0 0 0 0.125em rgba(189, 189, 189, 0.4);
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        .action-btn {
+            margin: 0.5rem;
+            max-width: 3em;
+            padding: 0.7em 0.9em;
+
+            &:hover {
+                border-radius: 25px;
+                background: rgba(235, 235, 235, 0.596);
+            }
+
+            .action-icon {
+                width: 1.5em;
+            }
+        }
+    }
+}
