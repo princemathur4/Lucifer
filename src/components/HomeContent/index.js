@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import './style.scss';
 
-class Content extends React.Component {
+class HomeContent extends React.Component {
     render() {
         return (
             <Fragment>
@@ -43,10 +43,28 @@ class Content extends React.Component {
                     </div>
                     </div>
                 </div>
+                <nav class="features-container">
+                    <div class="feature">
+                        <img src="public/icons/free_shipping.png" />
+                        <p class="heading">FREE WORLDWIDE SHIPPING</p>
+                    </div>
+                    <div class="feature">
+                        <img src="public/icons/money_back.png" />
+                        <p class="heading">MONEY BACK GUARANTEE</p>
+                    </div>
+                    <div class="feature">
+                        <img src="public/icons/customer_service.png"/>
+                        <p class="heading">24/7 CUSTOMER SUPPORT</p>
+                    </div>
+                    <div class="feature">
+                        <img src="public/icons/secure_payments.png"/>
+                        <p class="heading">SECURE ONLINE PAYMENTS</p>
+                    </div>
+                </nav>
 
             </Fragment>
         )
     }
 }
 
-export default Content;
+export default HomeContent;

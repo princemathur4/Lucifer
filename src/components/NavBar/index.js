@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import './style.scss';
+import { Link } from "react-router-dom";
 
 class NavBar extends React.Component{
     render() {
@@ -18,7 +19,6 @@ class NavBar extends React.Component{
             </div>
 
             <div id="navbarLabroz" className="navbar-menu">
-                {/* <div className="navbar-start"> */}
                 <a className="navbar-item">
                     Home
                 </a>
@@ -61,39 +61,27 @@ class NavBar extends React.Component{
                         </a>
                     </div>
                 </div>
-                <a className="navbar-item">
-                    Blog
-                </a>
+                <Link to="products" className="navbar-item">
+                    Products
+                </Link>
 
                 <div className="field search-container">
                     <p className="control has-icons-left has-icons-right">
                         <input className="input is-rounded" type="text" placeholder="Find a product"/>
                         <span className="icon is-small is-right">
-                            <img src="public/svg/magnifying-glass.svg" className="search-icon" width="112" height="28"/>
+                            <img src="public/icons/magnifying-glass.svg" className="search-icon" width="112" height="28"/>
                         </span>
                     </p>
                 </div>
                 
                 <div className="action-buttons dropdown is-hoverable">
                     <a className="action-btn" title="Profile" aria-haspopup="true" aria-controls="dropdown-menu1">
-                        <img src="public/svg/avatar.svg" className="action-icon" width="112" height="28"/>
+                        <img src="public/icons/avatar.svg" className="action-icon" width="112" height="28"/>
                     </a>
                     <a className="action-btn" title="Cart">
-                        <img src="public/svg/shopping-cart.svg" className="action-icon" width="112" height="28"/>
+                        <img src="public/icons/shopping-cart.svg" className="action-icon" width="112" height="28"/>
                     </a>
                 </div>
-                {/* <div className="navbar-end"> */}
-                    {/* <div className="navbar-item">
-                        <div className="buttons">
-                        <a className="button is-primary">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a className="button is-light">
-                            Log in
-                        </a>
-                        </div>
-                    </div> */}
-                {/* </div> */}
             </div>
         </nav>
         </Fragment>

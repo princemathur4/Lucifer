@@ -1,0 +1,34 @@
+.product-page {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 1rem;
+
+    .left-container {
+        width: 22%;
+        padding: 1rem;
+        flex-grow: 2;
+        background: rgba(235, 235, 235, 0.274);
+    }
+
+    .right-container {
+        width: 78%;
+        display: flex;
+        flex-grow: 2;
+        flex-direction: column;
+        overflow: auto;
+
+        .results-action-container {
+            width: 100%;
+            padding: 1rem;
+        }
+        .products-list-container {
+            background: rgba(235, 235, 235, 0.534);
+            display: flex;
+            flex-wrap: wrap;
+            flex-grow: 2;
+            padding: 1rem;
+
+        }
+    }
+}

@@ -6,8 +6,8 @@ class Footer extends React.Component{
         return (
             <Fragment>
                 <div className="site-footer">
-                    <div class="columns is-centered">
-                        <div class="column">
+                    <div className="columns is-centered">
+                        <div className="column">
                             <div className="footer-title">
                                 VISIT OUR STORE
                             </div>
@@ -19,7 +19,7 @@ class Footer extends React.Component{
                                 Monday-Saturday: 9.00 am - 9.00 pm
                             </div>
                         </div>
-                        <div class="column">
+                        <div className="column">
                             <div className="footer-title">
                                 INFORMATION
                             </div>
@@ -36,23 +36,23 @@ class Footer extends React.Component{
                                 
                             </div>
                         </div>
-                        <div class="column">
+                        <div className="column">
                             <div className="footer-title">
                                 GET IN TOUCH
                             </div>
                             <div className="footer-item-container">
                                 <a className="social-btn" title="Facebook">
-                                    <img src="public/svg/facebook.svg" className="social-icon" width="112" height="28" />
+                                    <img src="public/icons/facebook.svg" className="social-icon" width="112" height="28" />
                                 </a>
                                 <a className="social-btn" title="Instagram">
-                                    <img src="public/svg/instagram.svg" className="social-icon" width="112" height="28" />
+                                    <img src="public/icons/instagram.svg" className="social-icon" width="112" height="28" />
                                 </a>
                                 <a className="social-btn" title="Twitter">
-                                    <img src="public/svg/twitter.svg" className="social-icon" width="112" height="28" />
+                                    <img src="public/icons/twitter.svg" className="social-icon" width="112" height="28" />
                                 </a>
                             </div>
                         </div>
-                        <div class="column">
+                        <div className="column">
                             <div className="footer-title">
                                 POLICIES
                             </div>

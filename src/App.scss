@@ -25,3 +25,10 @@ $input-border-color: transparent;
 $input-shadow: none;
 
 // Import only what you need from Bulma
+body{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    min-height: 100%;
+    min-width: 100%;
+}
