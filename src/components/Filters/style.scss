@@ -1,0 +1,18 @@
+.filters-container {
+    background: rgb(255, 255, 255);
+    .filters-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border-bottom: 1px solid rgba(238, 238, 238, 0.719);
+        .filters-title{
+            font-weight: 700;
+        }
+        .clear-filters{
+            color: rgba(0, 82, 204, 0.637);
+            font-weight: 500;
+            cursor: pointer;
+        }
+    }
+}

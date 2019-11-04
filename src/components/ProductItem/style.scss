@@ -1,6 +1,6 @@
 .product-item-card {
-    min-width: 30% !important;
-    width: 30% !important;
+    min-width: 23% !important;
+    width: 23% !important;
     margin: 1%;
     border-radius: 8px;
     border: 1px solid rgba(221, 221, 221, 0.774);
@@ -9,15 +9,34 @@
     &:hover {
         box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02) !important;
     }
-    .content{
-        display: flex;
-        justify-content: space-between;
-        button{
-            font-size: 0.8rem;
-            margin: 0 0.3rem;
+
+    .product-image {
+        object-fit: cover;
+    }
+    
+    .card-content{
+        padding: 0.4rem !important;
+        .media{
+            padding: 0.4rem !important;
+            margin: 0.5rem !important;
         }
     }
-    .price-text{
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        button {
+            font-size: 0.8rem;
+            margin: 0 0.3rem;
+
+            .wishlist-icon {
+                height: 1rem;
+            }
+        }
+    }
+
+    .price-text {
         font-weight: 600;
     }
 }

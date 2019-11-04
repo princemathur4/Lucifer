@@ -1,9 +1,9 @@
 export const filters = [
     {
-        "category": "bottomwear",
-        "sub_category": "jeans",
         "sizes": ['M','S','XS'],
         "gender": "male",
+        "price": true,
+         
         // "extra_filters": [{}]
     }
 ]
