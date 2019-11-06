@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from './modules/Home';
 import ProductsPage from './modules/ProductsPage';
@@ -8,6 +8,8 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { decorate, observable, action, computed } from 'mobx';
 import AppStore from './AppStore';
+import Auth from '@aws-amplify/auth';
+import MainLoginPage from "./components/MainLoginPage";
 
 decorate(
     AppStore, {
@@ -17,6 +19,15 @@ decorate(
 const store = new AppStore();
 
 class App extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            isAuthenticated: false,
+            isAuthenticating: true,
+            user: null,
+        }
+    }
+
     routes = [
         {
             path: "/",
@@ -36,8 +47,26 @@ class App extends React.Component {
             }
         },
         {
-            path: "/signin",
+            path: "/men",
             component: Home,
+            name: "men",
+            customProps: {
+                name: "men",
+                store
+            }
+        },
+        {
+            path: "/women",
+            component: Home,
+            name: "women",
+            customProps: {
+                name: "women",
+                store
+            }
+        },
+        {
+            path: "/login",
+            component: MainLoginPage,
             name: "signin",
             customProps: {
                 name: "signin",
@@ -46,10 +75,20 @@ class App extends React.Component {
         },
         {
             path: "/signup",
-            component: Home,
-            name: "signup",
+            component: MainLoginPage,
+            name: "signUp",
             customProps: {
-                name: "signup",
+                name: "signUp",
+                store
+            }
+        },
+        {
+            path: '/forgot_password',
+            component: MainLoginPage,
+            name: 'forgotPassword',
+            customProps: {
+                title: 'Request new password',
+                name: 'forgotPassword',
                 store
             }
         },
@@ -73,12 +112,66 @@ class App extends React.Component {
                 store
             }
         },
-    ]
+    ];
+
+    setAuthStatus = authenticated => {
+        this.setState({ isAuthenticated: authenticated });
+    };
+
+    setUser = user => {
+        try {
+            this.setState({ user: user });
+
+            if (user && authenticationStore.user.email.length === 0) {
+                authenticationStore.setUser({
+                    email: user.attributes.email
+                });
+            }
+        } catch (ex) {
+            console.error(ex);
+        }
+    };
+
+    componentDidMount() {
+        this.authenticateUser();
+    }
+
+    async authenticateUser() {
+        try {
+            const session = await Auth.currentSession();
+            const user = await Auth.currentAuthenticatedUser();
+
+            if (user && authenticationStore.user.email.length === 0) {
+                authenticationStore.setUser({
+                    email: user.attributes.email
+                });
+            }
+
+            this.setState({
+                user: user,
+                isAuthenticated: true,
+                isAuthenticating: false
+            });
+        } catch (error) {
+            this.setState({
+                user: null,
+                isAuthenticated: false,
+                isAuthenticating: false
+            });
+
+            console.log(error);
+        }
+    }
 
     render() {
+        const authProps = {
+            isAuthenticated: this.state.isAuthenticated,
+            user: this.state.user,
+            setAuthStatus: this.setAuthStatus,
+            setUser: this.setUser,
+        };
         return (
             <Router >
-                <NavBar />
                 {
                     this.routes.map(({ path, component: C, name, customProps }) => (
                         <Route path={path} exact={true} key={name}
@@ -88,10 +181,15 @@ class App extends React.Component {
                                         return <Redirect to="/home" />;
                                     } else {
                                         return (
-                                            <C
-                                                {...props}
-                                                {...customProps}
-                                            />
+                                            <Fragment>
+                                                <NavBar { ...props} auth={authProps} />
+                                                <C
+                                                    {...props}
+                                                    {...customProps}
+                                                    auth={authProps}
+                                                />
+                                                <Footer {...props} auth={authProps}/>
+                                            </Fragment>
                                         )
                                     }
 
@@ -101,7 +199,7 @@ class App extends React.Component {
                         </Route>
                     ))
                 }
-                <Footer />
+                
             </Router>
         )
     }

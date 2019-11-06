@@ -3,7 +3,7 @@ const path = require( 'path' );
 
 module.exports = {
     context: __dirname,
-    entry: './src/index.js',
+    entry: ['./src/index.js', "babel-polyfill", "./app/js"],
     output: {
         path: path.resolve( __dirname, 'dist' ),
         filename: 'main.js',
@@ -42,7 +42,8 @@ module.exports = {
     plugins: [
         new HtmlWebPackPlugin({
             template: path.resolve( __dirname, 'public/index.html' ),
-            filename: 'index.html'
+            filename: 'index.html',
+            "transform-regenerator"
         })
     ]
 };

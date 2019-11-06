@@ -1,0 +1,51 @@
+@mixin flex($dir: null, $justifyContent: null, $alignItems: null, $order: null, $wrap: null, $grow: null, $shrink: null,
+$flow: null, $basis: null, $alignContent: null, $alignSelf: null) {
+  display: flex;
+  flex-direction: $dir;
+  flex-flow: $flow;
+  order: $order;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+  flex-basis: $basis; //This defines the default size of an element before the remaining space is distributed.
+  flex-wrap: $wrap; //By default, flex items will all try to fit onto one line. You can change that and allow the items to wrap as needed with this property.
+  flex-grow: $grow; // It dictates what amount of the available space inside the flex container the item should take up.
+  flex-shrink: $shrink; //This defines the ability for a flex item to shrink if necessary.
+  align-content: $alignContent; //This aligns a flex container's lines within when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
+  align-self: $alignSelf; //This allows the default alignment to be overridden for individual flex items.
+}
+
+@mixin border($radius: 0, $color: null, $topCol: null, $bottomCol: null, $leftCol: null, $rightCol: null, $topleftRad: null, $toprightRad: null,
+$bottomleftRad: null, $bottomrightRad: null, $style: null, $width: null) {
+  border-radius: $radius;
+  border-color: $color;
+  border-top-color: $topCol;
+  border-bottom-color: $bottomCol;
+  border-left-color: $leftCol;
+  border-right-color: $rightCol;
+  border-top-left-radius: $topleftRad;
+  border-top-right-radius: $toprightRad;
+  border-bottom-left-radius: $bottomleftRad;
+  border-bottom-right-radius: $bottomrightRad;
+  border-style: $style; //<solid| none (default)| hidden| dashed| dotted| double| groove| ridge| inset| outset>
+  border-width: $width; //<thin| medium| thick> || <px, rem, em>
+}
+
+@mixin font($size: 1rem, $stretch: null, $style: null, $color: null, $variant: null, $weight: null,
+$lineHeight: null, $textAlign: null) {
+  font-size: $size;
+  font-style: $style;
+  color: $color;
+  font-weight: $weight;
+  text-align: $textAlign;
+  line-height: $lineHeight; //Defines the amount of space above and below inline elements.
+  font-stretch: $stretch; //This property sets the font width, such as condensed or expanded.
+  font-variant: $variant; //Changes target text to normal or small caps.
+}
+
+@mixin position($pos: relative, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $pos;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}

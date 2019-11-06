@@ -43,22 +43,22 @@ class HomeContent extends React.Component {
                     </div>
                     </div>
                 </div>
-                <nav class="features-container">
-                    <div class="feature">
+                <nav className="features-container">
+                    <div className="feature">
                         <img src="public/icons/free_shipping.png" />
-                        <p class="heading">FREE WORLDWIDE SHIPPING</p>
+                        <p className="heading">FREE WORLDWIDE SHIPPING</p>
                     </div>
-                    <div class="feature">
+                    <div className="feature">
                         <img src="public/icons/money_back.png" />
-                        <p class="heading">MONEY BACK GUARANTEE</p>
+                        <p className="heading">MONEY BACK GUARANTEE</p>
                     </div>
-                    <div class="feature">
+                    <div className="feature">
                         <img src="public/icons/customer_service.png"/>
-                        <p class="heading">24/7 CUSTOMER SUPPORT</p>
+                        <p className="heading">24/7 CUSTOMER SUPPORT</p>
                     </div>
-                    <div class="feature">
+                    <div className="feature">
                         <img src="public/icons/secure_payments.png"/>
-                        <p class="heading">SECURE ONLINE PAYMENTS</p>
+                        <p className="heading">SECURE ONLINE PAYMENTS</p>
                     </div>
                 </nav>
 

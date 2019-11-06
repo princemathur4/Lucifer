@@ -20,8 +20,8 @@ class Filters extends React.Component {
                     </div>
                 </section>
             </Fragment>
-                                                                                                                            )
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                    
+        )
+    }
+}
+
 export default observer(Filters);
