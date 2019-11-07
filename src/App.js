@@ -6,6 +6,7 @@ import Cart from './modules/Cart';
 import "./App.scss";
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import "./imports";
 import { decorate, observable, action, computed } from 'mobx';
 import AppStore from './AppStore';
 import Auth from '@aws-amplify/auth';
@@ -67,9 +68,10 @@ class App extends React.Component {
         {
             path: "/login",
             component: MainLoginPage,
-            name: "signin",
+            name: "login",
             customProps: {
-                name: "signin",
+                name: "login",
+                title: "Login",
                 store
             }
         },

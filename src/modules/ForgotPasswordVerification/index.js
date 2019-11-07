@@ -1,11 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Button, Form, FormGroup, Spinner, Input, FormFeedback } from 'reactstrap';
 import Validate from "../../utils/FormValidation";
 import Auth from '@aws-amplify/auth';
-import ResponseModal from '../../components/ResponseModal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UncontrolledPopover, PopoverBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 class ForgotPasswordVerification extends Component {
@@ -14,13 +11,6 @@ class ForgotPasswordVerification extends Component {
 		newPassword: '',
 		confirmPassword: '',
 		isLoading: false,
-		isModalOpen: false,
-		modal: {
-			status: "",
-			title: "",
-			text: "",
-			buttonText: ""
-		},
 		errors: {
 			codeInvalid: false,
 			newPasswordInvalid: false,
@@ -63,12 +53,6 @@ class ForgotPasswordVerification extends Component {
 				this.state.newPassword
 			);
 			this.setState({ isLoading: false });
-			this.showPopUpMessageModal(
-				'success',
-				'Done!',
-				"Your Password has been reset successfully. Redirecting to login page now.",
-				"OKAY"
-			);
 			setTimeout(function () {
 				self.props.history.push("/login");
 			}, 2000)
@@ -78,27 +62,9 @@ class ForgotPasswordVerification extends Component {
 			} else if (typeof error === "String") {
 				message = error;
 			}
-			this.showPopUpMessageModal(
-				'error',
-				'Oops!',
-				message,
-				"TRY AGAIN"
-			);
 			this.setState({ isLoading: false });
 			console.log(error);
 		}
-	};
-
-	showPopUpMessageModal = (status, modalTitle, modalText, buttonText) => {
-		this.setState({
-			isModalOpen: true,
-			modal: {
-				status: status,
-				title: modalTitle,
-				text: modalText,
-				buttonText: buttonText
-			}
-		});
 	};
 
 	onInputChange = event => {
@@ -191,21 +157,6 @@ class ForgotPasswordVerification extends Component {
 						<Link className="back-to-login-link" to="/login"> Go back to Login </Link>
 					</div>
 				</Form>
-				{this.state.isModalOpen &&
-					<ResponseModal
-						modal={this.state.isModalOpen}
-						backdrop='static'
-						modalClass="response-modal"
-						titleClass={"title " + this.state.modal.status}
-						modalTitle={this.state.modal.title}
-						textClass="text"
-						modalText={this.state.modal.text}
-						buttonClass={"action-button " + this.state.modal.status}
-						buttonText={this.state.modal.buttonText}
-						onClickAction={this.onActionButtonClick}
-						type={this.state.modal.status}
-					/>
-				}
 			</Fragment>
 		);
 	}

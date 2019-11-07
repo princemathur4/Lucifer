@@ -32,64 +32,28 @@ class NavBar extends React.Component {
                             </Link>
                             <div className="navbar-dropdown">
                                 <div className="dropdown-container">
-                                    <div className="links-container odd-column">
-                                        <Link className="title-link" to="/men">
-                                            Topwear
-                                        </Link>
-                                        <Link className="sub-link" to="/men">
-                                            Jackets
-                                        </Link>
-                                        <Link className="sub-link" to="/men">
-                                            T-shirts
-                                        </Link>
-                                    </div>
                                     <div className="links-container even-column">
-                                        <Link className="title-link" to="/women">
+                                        <Link className="title-link" to="/men">
                                             Bottomwear
                                         </Link>
-                                        <Link className="sub-link" to="/women">
+                                        <Link className="sub-link" to="/men">
                                             Jeans
                                         </Link>
-                                        <Link className="sub-link" to="/women">
+                                        <Link className="sub-link" to="/men">
                                             Shorts
                                         </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="navbar-item has-dropdown is-hoverable">
-                            <Link className="navbar-link" to="/women">
-                                Women
-                            </Link>
-                            <div className="navbar-dropdown">
-                                <div className="dropdown-container">
-                                    <div className="navbar-item links-container odd-column">
-                                        <Link className="title-link" to="/men">
-                                            Topwear
-                                        </Link>
-                                        <Link className="sub-link" to="/men">
-                                            Jackets
-                                        </Link>
-                                        <Link className="sub-link" to="/men">
-                                            Tops
-                                        </Link>
-                                    </div>
-                                    <div className="navbar-item links-container even-column">
-                                        <Link className="title-link" to="/women">
-                                            Bottomwear
-                                        </Link>
-                                        <Link className="sub-link" to="/women">
-                                            Jeans
-                                        </Link>
-                                        <Link className="sub-link" to="/women">
-                                            Jeggings
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <Link to="products" className="navbar-item">
+                        <Link to="/products" className="navbar-item">
                             Products
+                        </Link>
+                        <Link to="/specials" className="navbar-item">
+                            Specials
+                        </Link>
+                        <Link to="/specials" className="navbar-item">
+                            Blog
                         </Link>
 
                         <div className="field search-container">
@@ -139,23 +103,8 @@ class NavBar extends React.Component {
                                 </Link>
                             </div>
                             <div className="dropdown is-right is-hoverable">
-                                <Link to="/signup" className="action-btn" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
+                                <Link to="/cart" className="action-btn" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
                                     <img src="public/icons/shopping-cart.svg" className="action-icon" width="112" height="28" />
-                                    <div className="dropdown-menu" id="dropdown-profile" role="menu">
-                                        <div className="dropdown-content">
-                                            <div className="dropdown-item">
-                                                <div className="login-signup-container">
-                                                    <button className="button is-info is-rounded is-small login-btn">Login</button>
-                                                    <p>OR</p>
-                                                    <button className="button is-info is-rounded is-small signup-btn">Signup</button>
-                                                </div>
-                                            </div>
-                                            <hr className="dropdown-divider" />
-                                            <div className="dropdown-item">
-                                                <p>You need to be logged in to view your profile and orders.</p>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </Link>
                             </div>
                         </div>

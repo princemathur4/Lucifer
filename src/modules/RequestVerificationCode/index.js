@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Button, Form, FormGroup, Spinner, Input, FormFeedback } from 'reactstrap';
 import Validate from "../../utils/FormValidation";
 import Auth from '@aws-amplify/auth';
-import ResponseModal from '../../components/ResponseModal';
 import { Link } from 'react-router-dom';
 
 class RequestVerificationCode extends Component {
@@ -136,57 +134,36 @@ class RequestVerificationCode extends Component {
 	render() {
 		return (
 			<Fragment>
-				<Form>
-					<FormGroup>
-						<div className="label-container">
-							<span className="field-label">E-mail</span>
-						</div>
-						<Input
-							type="text"
-							name="email"
-							placeholder="example@abc.com"
-							onChange={this.onInputChange}
-							// valid={!this.state.errors.emailInvalid}
-							invalid={this.state.errors.emailInvalid}
-						/>
-						<FormFeedback>
-							{this.state.errors.emailInvalid ? "Please Enter a valid Email" : ''}
-						</FormFeedback>
-					</FormGroup>
+					<div className="field">
+						<div className="field-label">EMAIL</div>
+						<p className="control has-icons-left has-icons-right">
+							<input
+								className="input"
+								type="email"
+								placeholder="Email"
+								name="email"
+								onChange={this.onInputChange}
+								onKeyPress={this.onKeyPress}
+							/>
+							<span className="icon is-small is-left">
+								<FontAwesomeIcon icon="envelope" />
+							</span>
+						</p>
+						<div className="form-feedback">{this.state.errors.emailInvalid ? 'Please enter valid E-mail ID' : ''}</div>
+					</div>
 					<div
 						className="response-text">
 						{this.state.errors.cognito ? this.state.errors.cognito.message : ''}
 					</div>
-					<Button
+					<button
 						className="change-password-button"
-						size="sm"
 						onClick={this.forgotPasswordHandler}
-					>
-						{!this.state.isLoading ? "SUBMIT" : ""}
-						{this.state.isLoading && <Spinner size="sm" color="white" />}
-					</Button>
+					>{!this.state.isLoading ? "SUBMIT" : <Spinner size="sm" color="white" />}
+					</button>
 					<div
 						style={{ margin: "-5px 0 -2px 0" }}>
 						<Link className="back-to-login-link" to="/login"> Go back to Login </Link>
 					</div>
-				</Form>
-				{
-					this.state.isModalOpen &&
-					<ResponseModal
-						modal={this.state.isModalOpen}
-						backdrop={true}
-						modalClass="response-modal"
-						titleClass={"title " + this.state.modal.status}
-						modalTitle={this.state.modal.title}
-						textClass="text"
-						modalText={this.state.modal.text}
-						buttonClass={"action-button " + this.state.modal.status}
-						buttonText={this.state.modal.buttonText}
-						onClickAction={this.onActionButtonClick}
-						linkObj={this.state.modal.linkObj}
-						type={this.state.modal.status}
-					/>
-				}
 			</Fragment>
 		);
 	}

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import Login from '../../modules/Login';
 // import Signup from '../../modules/Signup';
 // import CreatePassword from '../../modules/CreatePassword';
-// import ForgotPassword from '../../modules/ForgotPassword';
+import ForgotPassword from '../../modules/ForgotPassword';
 import axios from "axios";
 
 axios.interceptors.response.use((response) => {
@@ -50,11 +50,11 @@ class MainLoginPage extends Component {
                             {this.props.name === 'createPassword' && (
                                 <CreatePassword {...this.props} />
                             )
-                            }
+                            } */}
                             {this.props.name === 'forgotPassword' && (
                                 <ForgotPassword {...this.props} />
                             )
-                            } */}
+                            } 
                         </div>
                     </div>
                 </div>

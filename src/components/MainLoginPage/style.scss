@@ -25,296 +25,124 @@
   min-width: 100%;
   flex-grow: 1;
   font-family: $font-calibri;
-
+  background: linear-gradient(to bottom right, #1279982a, #01a7ad2c) ;
+  
   .spark-logo {
     width: 500px;
     padding-bottom: 1.5rem;
   }
 
   .login-card {
-    background-color: $color-card--bg;
-    box-shadow: $box-shadow--card_login;
-    width: 30%;
-
-    .card-body {
-      padding: 0 1.25rem 1.25rem 1.25rem;
-    }
+    min-width: 450px;
+    background: white;
+    padding: 0 0 5rem 0;
+    margin: 5rem 0;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 
     .card-title {
       letter-spacing: 1.2px;
-      font-size: 1.4em;
+      font-size: 1.6em;
+      text-align: center;
+      font-weight: 600;
       padding: 0.8em 0 0.5em 0;
       color: $color-primary-mono--light;
       border-bottom: 0.8px solid rgb(236, 236, 236);
       -webkit-transform: scale(1, 1.05);
     }
-
-    .form-group {
-      margin-bottom: 0.45rem;
-
-      .valid-feedback {
-        font-weight: 400;
-        line-height: 1.5;
-        text-align: left;
+    .card-body {
+      padding: 0 1.25rem 1.25rem 1.25rem;
+      .response-text{
+        text-align: center;
+        margin: 1rem 0;
       }
-
-      .invalid-feedback {
-        font-weight: 400;
-        line-height: 1.5;
-        text-align: left;
-      }
-    }
-
-    input.form-control {
-      border-radius: .15rem;
-      height: 3em;
-      font-size: 0.9em;
-      color: $color-primary-mono--light;
-
-      &.field-disabled {
-        border: 1.5px solid #ced4da61;
-        background: #e9e9e9;
-      }
-
-      &:not(.is-invalid):not(.is-valid):not(.field-disabled) {
-        border: 1.5px solid #ced4da61;
-        background: #f7f7f7;
-      }
-
-    }
-
-    .form-control:focus {
-      &:not(.is-invalid):not(.is-valid) {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0) !important;
-        background: #fff;
-        border: 1.5px solid #19457261 !important;
-      }
-    }
-
-    .label-container {
-      display: flex;
-      align-content: flex-start;
-      align-items: flex-start;
-      height: 1.9em;
-      margin-bottom: 0.2em;
-
-      .field-label {
-        width: 100%;
-        color: $color-primary-mono--light;
-        font-size: 0.8em;
-        text-align: left;
-        font-weight: 500;
-        display: inline-block;
-        @include stretchFontVertically($y: 1.1);
-
-      }
-    }
-
-    .secondary-inputs {
-      display: flex;
-      align-content: flex-start;
-      align-items: flex-start;
-      justify-content: space-between;
-      justify-items: flex-start;
-
-      .keep-me-signed-in-container {
-        font-size: 0.8em;
-        color: $color-primary-mono--light;
-
-        .keep-me-signed-in {
-          &:hover {
-            color: $color-primary-mono--dark;
-          }
-        }
-      }
-
-      .forgot-password-button {
-        a {
-          cursor: pointer;
-          font-size: 0.8em;
-          color: $color-btn-bg--primary;
-          font-weight: 500;
-
-          &:hover {
-            color: $color-primary--dark !important;
-          }
-        }
-      }
-    }
-
-    .response-text {
-      color: rgba(255, 0, 0, 0.658);
-      font-size: 0.8em;
-      text-align: center;
-    }
-
-    .main-button {
-      font-weight: 500;
-      width: 39%;
-      height: 2.5em;
-      background: $color-primary--lighter;
-      border: 1px solid $color-primary--lighter;
-
-      &:hover {
-        background: $color-primary--light;
-        border: 1px solid $color-primary--light;
-      }
-    }
-
-    .login-button {
-      @extend .main-button;
-    }
-
-    .signup-button {
-      @extend .main-button;
-    }
-
-    .resend-mail-button {
-      margin-top: 2em;
-      @extend .main-button;
-    }
-
-    .change-password-button {
-      margin-top: 2em;
-      @extend .main-button;
-    }
-
-    .main-link {
-      color: $color-primary--dark !important;
-      font-size: 0.85em;
-
-      a {
+      .main-button {
         cursor: pointer;
-        @include stretchFontVertically($y: 1.1);
+        font-weight: 600;
+        width: 100%;
+        height: 2.5em;
+        color: white;
+        border: 1px solid #005983;
+        background-color: #007bb6;
 
         &:hover {
-          color: $color-primary--lighter !important;
+          border: 1px solid #005a83dc;
+          background-color: #007cb6dc;
+        }
+      }
+      
+      input.input{
+        border-radius: 0;
+        box-shadow: 0 0 0 0;
+        height: 3rem;
+        &:focus{
+          border-color: #082555;
+        }
+      }
+      .field{
+        padding: 0 0 1rem 0;
+        .field-label-container{
+          display: flex;
+          justify-content: space-between;
+        }
+        .field-label{
+          @include stretchFontVertically(1.1);
+          letter-spacing: 1.4px;
+          text-align: left;
+          font-weight: 600;
+          padding: 0 0 0.5rem 0;
+        }
+        .form-feedback{
+          padding: 0.3rem;
+          color: red;
+          font-size: 0.8rem;
+          text-align: center;
+        }
+        .forgot-password-button{
+          a{
+            color: rgba(0, 0, 0, 0.644) !important;
+          }
+        }
+        .control.has-icons-left .icon, .control.has-icons-right .icon {
+          color: rgb(143, 143, 143);
+        }
+        .control.has-icons-left .input:focus ~ .icon, .control.has-icons-left .select:focus ~ .icon, .control.has-icons-right .input:focus ~ .icon, .control.has-icons-right .select:focus ~ .icon {
+          color: #4a4a4a;
+        }
+        .icon{
+          height: 3rem;
+        }
+      }
+      .login-button{
+        @extend .main-button;
+        font-size: 1.05rem;
+        font-weight: 700;
+        height: 2.7rem;
+        letter-spacing: 1.4px;
+      }
+      .link-container{
+        text-align: center;
+        margin: 2rem 0 0 0;
+        .create-account-link{
+          color: rgb(58, 58, 58);
+          &:hover{
+            color: rgba(58, 58, 58, 0.692);
+          } 
+        }
+      }
+      .or-text-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: rgb(95, 95, 95);
+        font-weight: 700;
+        padding: 1rem;
+        b{
+          border-radius: 50%;
+          padding: 0.2rem 0.3rem;
+          background: rgba(230, 230, 230, 0.89);
         }
       }
     }
-
-    .resend-mail-link {
-      @extend .main-link;
-    }
-
-    .create-account-link {
-      @extend .main-link;
-    }
-
-    .back-to-login-link {
-      @extend .main-link;
-    }
-
-    .info {
-      margin-left: 8px;
-      color: rgb(87, 87, 87);
-
-      :hover {
-        color: gray;
-      }
-    }
-
-    .email-info {
-      @extend .info;
-    }
-
-    .password-info {
-      @extend .info;
-    }
-
-    .page-not-found {
-      .link-error-title {
-        color: gray;
-        font-size: 1.3em;
-      }
-
-      .link-error-message {
-        color: gray;
-        line-height: 1.2em;
-        margin-bottom: 20px;
-      }
-    }
-  }
 }
-
-/* ==============================
-   MEDIA QUERIES
-   ============================== */
-
-@mixin styling($logoScaleFactor: 0.5, $loginCardWidth: 85%, $direction: row, $logoRightMargin: 0px) {
-  .spark-logo {
-    transform: scale($logoScaleFactor);
-    margin-right: $logoRightMargin;
-  }
-
-  .login-page {
-    flex-direction: $direction;
-
-    .login-card {
-      width: $loginCardWidth;
-    }
-  }
-}
-
-@media #{$mobile--smallest} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.5,
-  );
-}
-
-@media #{$mobile--smaller} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.6,
-  );
-}
-
-@media #{$mobile} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.6,
-    $loginCardWidth: 75%);
-}
-
-@media #{$mobile--large} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.75,
-    $loginCardWidth: 75%);
-}
-
-@media #{$mobile--largest} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.75,
-    $loginCardWidth: 75%);
-}
-
-@media #{$tablet--smaller} {
-  @include styling($direction: row,
-    $logoRightMargin: 3vw,
-    $logoScaleFactor: 0.75,
-    $loginCardWidth: 66%);
-}
-
-@media #{$tablet} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.75,
-    $loginCardWidth: 50%);
-}
-
-@media #{$desktop} {
-  @include styling($direction: row,
-    $logoRightMargin: 3vw,
-    $logoScaleFactor: 0.75,
-    $loginCardWidth: 30%);
-  }
-  
-@media #{$tablet--tall} {
-  @include styling($direction: column,
-    $logoScaleFactor: 0.75,
-    $loginCardWidth: 50%);
-  }
-  
-@media #{$desktop--HD} {
-  @include styling($direction: row,
-  $logoRightMargin: 3vw,
-  $logoScaleFactor: 0.75,
-  $loginCardWidth: 30%);
 }

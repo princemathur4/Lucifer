@@ -25,14 +25,14 @@ class ProductItem extends React.Component {
 
 
                         <div className="content">
-                            <button class="button is-outlined">
-                                <span class="icon">
+                            <button className="button is-outlined">
+                                <span className="icon">
                                     <img src="public/icons/small-bookmark.svg" className="wishlist-icon"/>
                                 </span>
                                 <span>Save in Wishlist</span>
                                 </button>
-                            <button class="button is-outlined">
-                                <span class="icon">
+                            <button className="button is-outlined">
+                                <span className="icon">
                                     <img src="public/icons/add-to-cart.svg" />
                                 </span>
                                 <span>Add to Cart</span>

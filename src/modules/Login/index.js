@@ -3,6 +3,7 @@ import Validate from "../../utils/FormValidation";
 import { observer } from 'mobx-react';
 import Auth from '@aws-amplify/auth';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Login extends Component {
     state = {
@@ -64,7 +65,6 @@ class Login extends Component {
                     errors: { ...this.state.errors, ...error },
                     isLoading: false
                 });
-
                 return;
             }
 
@@ -89,7 +89,6 @@ class Login extends Component {
             }
 
             //Amplitude tracking
-            amplitudeAnalytics.login(user);
             this.setState({ isAuthenticated: true, isLoading: false, user });
         } catch (error) {
             let err = null;
@@ -120,98 +119,80 @@ class Login extends Component {
     render() {
         return (
             <Fragment>
-                <div class="field">
-                    <p class="control has-icons-left has-icons-right">
+                <div className="response-text">
+                    {this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span>: ''}
+                </div>
+                <div className="field">
+                    <div className="field-label">EMAIL</div>
+                    <p className="control has-icons-left has-icons-right">
                         <input 
-                            class="input" 
-                            type="email" 
+                        className="input" 
+                            type="email"
                             placeholder="Email" 
                             name="email"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
                         />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-check"></i>
+                        <span className="icon is-small is-left">
+                            <FontAwesomeIcon icon="envelope" />
                         </span>
                     </p>
-                    <div className="form-feedback">{this.state.errors.emailInvalid ? 'Please enter valid E-mail ID' : ''}</div>
                 </div>
-                <div class="field">
-                    <p class="control has-icons-left">
-                        <input class="input" type="password" placeholder="Password" />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
+                <div className="field">
+                    <div className="field-label-container">
+                        <div className="field-label">
+                            PASSWORD
+                        </div>
+                        <span className="forgot-password-button" >
+                            <Link to="/forgot_password">Forgot?</Link>
+                        </span>
+                    </div>
+                    <p className="control has-icons-left">
+                        <input className="input" 
+                            type="password" 
+                            placeholder="Password" 
+                            name="password"
+                            onChange={this.onInputChange}
+                            onKeyPress={this.onKeyPress}
+                        />
+                        <span className="icon is-small is-left">
+                            <FontAwesomeIcon icon="lock" />
                         </span>
                     </p>
-                    <div className="form-feedback">{this.state.errors.passwordInvalid ? "Please enter valid Password" : ''}</div>
-                </div>
-                <FormGroup>
-                    <div className="label-container">
-                        <span className="field-label">E-mail</span>
-                    </div>
-                    <Input
-                        
-                    />
-                    <FormFeedback
-                    >
-                        {this.state.errors.emailInvalid ? 'Please enter valid E-mail ID' : ''}
-                    </FormFeedback>
-                </FormGroup>
-                <FormGroup>
-                    <div className="label-container">
-                        <span className="field-label">Password</span>
-                    </div>
-                    <Input
-                        type="password"
-                        name="password"
-                        onChange={this.onInputChange}
-                        onKeyPress={this.onKeyPress}
-                        invalid={this.state.errors.passwordInvalid}
-                    />
-                    <FormFeedback
-                    >
-                        
-                    </FormFeedback>
-                </FormGroup>
-                <div
-                    className="response-text">
-                    {this.state.errors.cognito ? this.state.errors.cognito.message : ''}
-                </div>
-                <div className="secondary-inputs">
-                    <span className="forgot-password-button" >
-                        <Link to="/forgot_password">Forgot Password?</Link>
-                    </span>
                 </div>
                 <button
-                    className="login-button"
-                    size="sm"
+                    className={this.state.isLoading ? "button login-button is-loading" : "login-button"}
                     onClick={this.onLoginSubmit}
-                >{!this.state.isLoading ? "LOGIN" : <Spinner size="sm" color="white" />}
+                >
+                    Sign In
                 </button>
-                <div
-                    style={{ margin: "-5px 0 -2px 0" }}>
+                <div className="link-container">
                     <Link className="create-account-link" to="/signup"> Create an Account </Link>
                 </div>
-                {/* {
-                    this.state.isModalOpen &&
-                    <ResponseModal
-                        modal={this.state.isModalOpen}
-                        backdrop={true}
-                        modalClass="response-modal"
-                        titleClass={"title " + this.state.modal.status}
-                        modalTitle={this.state.modal.title}
-                        textClass="text"
-                        modalText={this.state.modal.text}
-                        buttonClass={"action-button " + this.state.modal.status}
-                        buttonText={this.state.modal.buttonText}
-                        onClickAction={this.onActionButtonClick}
-                        linkObj={this.state.modal.linkObj}
-                        type={this.state.modal.status}
-                    />
-                } */}
+                <div className="or-text-container">
+                    <b>OR</b> 
+                    <div className="sign-up-using-text">
+                        Sign up using 
+                    </div>
+                </div>
+                <div class="field has-addons" style={{ display: "flex", justifyContent: "center"}}>
+                    <p class="control">
+                        <button class="button">
+                            <span class="icon is-small" style={{ height: "1rem" }}>
+                                <FontAwesomeIcon icon={['fab', 'google']} style={{ color: "#cb0808" }}/>
+                            </span>
+                            <span>Google</span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="button">
+                            <span class="icon is-small" style={{ height: "1rem" }}>
+                                <FontAwesomeIcon icon={['fab', 'facebook']} style={{ color: "#3e3eb5" }}/>
+                            </span>
+                            <span>Facebook</span>
+                        </button>
+                    </p>
+                </div>
             </Fragment >
         );
     }
