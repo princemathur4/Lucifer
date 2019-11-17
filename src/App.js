@@ -81,6 +81,7 @@ class App extends React.Component {
             name: "signUp",
             customProps: {
                 name: "signUp",
+                title: "Sign Up",
                 store
             }
         },

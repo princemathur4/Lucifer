@@ -4,9 +4,8 @@ import React, { Component } from 'react';
 import './style.scss';
 import { observer } from 'mobx-react';
 import Login from '../../modules/Login';
-// import Signup from '../../modules/Signup';
-// import CreatePassword from '../../modules/CreatePassword';
-import ForgotPassword from '../../modules/ForgotPassword';
+import SignupController from '../../modules/SignupController';
+import ForgotPasswordController from '../../modules/ForgotPasswordController';
 import axios from "axios";
 
 axios.interceptors.response.use((response) => {
@@ -33,6 +32,7 @@ class MainLoginPage extends Component {
     }
 
     render() {
+        console.log("title",this.props.title)
         return (
             <div className="login-page">
                 <div className="login-card">
@@ -43,16 +43,12 @@ class MainLoginPage extends Component {
                                 <Login {...this.props} />
                             )
                             }
-                            {/* {this.props.name === 'signUp' && (
-                                <Signup {...this.props} />
+                            {this.props.name === 'signUp' && (
+                                <SignupController {...this.props} />
                             )
                             }
-                            {this.props.name === 'createPassword' && (
-                                <CreatePassword {...this.props} />
-                            )
-                            } */}
                             {this.props.name === 'forgotPassword' && (
-                                <ForgotPassword {...this.props} />
+                                <ForgotPasswordController {...this.props} />
                             )
                             } 
                         </div>

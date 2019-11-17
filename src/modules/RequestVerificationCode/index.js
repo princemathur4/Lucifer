@@ -3,10 +3,11 @@ import { observer } from 'mobx-react';
 import Validate from "../../utils/FormValidation";
 import Auth from '@aws-amplify/auth';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class RequestVerificationCode extends Component {
 	state = {
-		email: '',
+		phone: '',
 		isLoading: false,
 		isModalOpen: false,
 		modal: {
@@ -17,7 +18,7 @@ class RequestVerificationCode extends Component {
 			linkObj: {}
 		},
 		errors: {
-			emailInvalid: false,
+			phoneInvalid: false,
 			cognito: null,
 		}
 	};
@@ -27,7 +28,7 @@ class RequestVerificationCode extends Component {
 			responseText: "",
 			errors: {
 				cognito: null,
-				emailInvalid: false,
+				phoneInvalid: false,
 			}
 		});
 	};
@@ -35,6 +36,7 @@ class RequestVerificationCode extends Component {
 	forgotPasswordHandler = async event => {
 		event.preventDefault();
 		this.setState({ isLoading: true });
+		
 		// Form validation
 		this.clearErrorState();
 		const error = Validate('requestVerificationCode', this.state);
@@ -50,9 +52,9 @@ class RequestVerificationCode extends Component {
 		let status = 'error';
 		// AWS Cognito integration here
 		try {
-			await Auth.forgotPassword(this.state.email);
+			await Auth.forgotPassword(this.state.phone);
 			this.setState({ isLoading: false });
-			this.props.setEmail(this.state.email);
+			this.props.setPhone(this.state.phone);
 			setTimeout(function () {
 				self.props.changeScreen('forgotPasswordVerification')
 			}, 2500);
@@ -84,7 +86,7 @@ class RequestVerificationCode extends Component {
 					className: ""
 				}
 			} else if (error.code === "CodeDeliveryFailureException") {
-				message = "We are sorry, but we couldn't send the verification code to your E-mail. Please check the email you've entered and try again.";
+				message = "We are sorry, but we couldn't send the verification code to your E-mail. Please check the phone you've entered and try again.";
 				buttonText = "OKAY";
 			} else if (error.code === "InternalErrorException") {
 				message = "Our servers are down for the moment. Please try again after sometime.";
@@ -134,36 +136,35 @@ class RequestVerificationCode extends Component {
 	render() {
 		return (
 			<Fragment>
-					<div className="field">
-						<div className="field-label">EMAIL</div>
-						<p className="control has-icons-left has-icons-right">
-							<input
-								className="input"
-								type="email"
-								placeholder="Email"
-								name="email"
-								onChange={this.onInputChange}
-								onKeyPress={this.onKeyPress}
-							/>
-							<span className="icon is-small is-left">
-								<FontAwesomeIcon icon="envelope" />
-							</span>
-						</p>
-						<div className="form-feedback">{this.state.errors.emailInvalid ? 'Please enter valid E-mail ID' : ''}</div>
-					</div>
-					<div
-						className="response-text">
-						{this.state.errors.cognito ? this.state.errors.cognito.message : ''}
-					</div>
-					<button
-						className="change-password-button"
-						onClick={this.forgotPasswordHandler}
-					>{!this.state.isLoading ? "SUBMIT" : <Spinner size="sm" color="white" />}
-					</button>
-					<div
-						style={{ margin: "-5px 0 -2px 0" }}>
-						<Link className="back-to-login-link" to="/login"> Go back to Login </Link>
-					</div>
+				<div className="field">
+					<div className="field-label">PHONE NUMBER</div>
+					<p className="control has-icons-left has-icons-right">
+						<input
+							className="input"
+							type="phone"
+							placeholder="Phone"
+							name="phone"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="mobile-alt" />
+						</span>
+					</p>
+					<div className="form-feedback">{this.state.errors.phoneInvalid ? 'Please enter valid E-mail ID' : ''}</div>
+				</div>
+				<div
+					className="response-text">
+					{this.state.errors.cognito ? this.state.errors.cognito.message : ''}
+				</div>
+				<button
+					className="submit-button"
+					onClick={this.forgotPasswordHandler}
+				>{!this.state.isLoading ? "SUBMIT" : <Spinner size="sm" color="white" />}
+				</button>
+				<div className="link-container">
+					<Link className="back-to-login-link" to="/login"> Go back to Sign In </Link>
+				</div>
 			</Fragment>
 		);
 	}

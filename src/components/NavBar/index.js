@@ -67,8 +67,8 @@ class NavBar extends React.Component {
 
                         <div className="action-buttons">
                             <div className="dropdown is-right is-hoverable">
-                                <Link to="/login" className="action-btn" title="Profile" aria-haspopup="true" aria-controls="dropdown-profile">
-                                    <img src="public/icons/avatar.svg" className="action-icon" width="112" height="28" />
+                                <div className="action-btn" title="Profile" aria-haspopup="true" aria-controls="dropdown-profile">
+                                    <img src="public/icons/avatar.svg" onClick={()=>{this.props.history.push('/profile')}} className="action-icon" width="112" height="28" />
                                     <div className="dropdown-menu" id="dropdown-profile" role="menu">
                                         {this.props.auth.isAuthenticated ?
                                         <div className="dropdown-content">
@@ -88,9 +88,19 @@ class NavBar extends React.Component {
                                         <div className="dropdown-content">
                                             <div className="dropdown-item">
                                                 <div className="login-signup-container">
-                                                    <button className="button is-info is-rounded is-small login-btn">Login</button>
+                                                    <button 
+                                                        className="button is-info is-rounded is-small login-btn"
+                                                        onClick={()=>{this.props.history.push('/login')}}
+                                                    >
+                                                        Login
+                                                    </button>
                                                     <p>OR</p>
-                                                    <button className="button is-info is-rounded is-small signup-btn">Signup</button>
+                                                    <button 
+                                                        className="button is-info is-rounded is-small signup-btn"
+                                                        onClick={()=>{this.props.history.push('/signup')}}
+                                                    >
+                                                        Signup
+                                                    </button>
                                                 </div>
                                             </div>
                                             <hr className="dropdown-divider"/>
@@ -100,7 +110,7 @@ class NavBar extends React.Component {
                                         </div>
                                         }
                                     </div>
-                                </Link>
+                                </div>
                             </div>
                             <div className="dropdown is-right is-hoverable">
                                 <Link to="/cart" className="action-btn" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">

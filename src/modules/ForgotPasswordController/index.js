@@ -3,18 +3,19 @@ import { observer } from 'mobx-react';
 import ForgotPasswordVerification from '../ForgotPasswordVerification';
 import RequestVerificationCode from '../RequestVerificationCode';
 
-class ForgotPassword extends Component {
+class ForgotPasswordController extends Component {
 	state = {
-		email: '',
-		screen: 'requestVerificationCode'
+		phone: '',
+		// screen: 'requestVerificationCode'
+		screen: 'forgotPasswordVerification'
 	};
 
 	changeScreen = (screen) => {
 		this.setState({ screen })
 	};
 
-	setEmail = (email) => { 
-		this.setState({ email })
+	setPhone = (phone) => { 
+		this.setState({ phone })
 	};
 
 	render() {
@@ -24,13 +25,13 @@ class ForgotPassword extends Component {
 					<RequestVerificationCode
 						{ ...this.props }
 						changeScreen={this.changeScreen}
-						setEmail={this.setEmail}
+						setPhone={this.setPhone}
 					/>
 				)}
 				{this.state.screen=== 'forgotPasswordVerification' &&(
 					<ForgotPasswordVerification
 						{...this.props}
-						email={this.state.email}
+						phone={this.state.phone}
 					/>
 			)}
 			</Fragment>
@@ -38,4 +39,4 @@ class ForgotPassword extends Component {
 	}
 }
 
-export default observer(ForgotPassword);
+export default observer(ForgotPasswordController);

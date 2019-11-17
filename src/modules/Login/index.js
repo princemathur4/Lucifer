@@ -7,25 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Login extends Component {
     state = {
-        email: '',
+        phone: '',
         password: '',
         keepMeLoggedIn: false,
         isLoading: false,
         isAuthenticated: false,
         user: null,
-        modal: {
-            status: "",
-            title: "",
-            text: "",
-            buttonText: "",
-            linkObj: {
-                link: "",
-                text: "",
-                className: ""
-            }
-        },
         errors: {
-            emailInvalid: false,
+            phoneInvalid: false,
             passwordInvalid: false,
             cognito: null,
         },
@@ -36,7 +25,7 @@ class Login extends Component {
         this.setState({
             responseText: "",
             errors: {
-                emailInvalid: false,
+                phoneInvalid: false,
                 passwordInvalid: false,
                 cognito: null,
             }
@@ -69,27 +58,26 @@ class Login extends Component {
             }
 
             // AWS Cognito integration here
-            const { email, password } = this.state;
-            const user = await Auth.signIn(email, password);
+            const { password } = this.state;
+            const username = this.state.phone;
+            const user = await Auth.signIn(username, password);
 
             if (user.hasOwnProperty("challengeName") && user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-                // this.showPopUpMessageModal(
-                //     'warning',
-                //     'Oops!',
+                console.log("challenge encountered");
                 //     "Seems like you are entering a temporary password. Please create a fresh new password using the link previously sent to your mail or generate a new link here.",
-                //     "",
                 //     {
                 //         link: "/resendmail",
                 //         text: "Resend link",
                 //         className: ""
                 //     }
-                // );
-                // this.props.store.emailFromPreviousScreen = this.state.email;
-                // return;
+                // this.props.store.phoneFromPreviousScreen = this.state.phone;
+                return;
             }
 
-            //Amplitude tracking
-            this.setState({ isAuthenticated: true, isLoading: false, user });
+            this.setState({ isLoading: false });
+            this.props.auth.setAuthStatus(true);
+            this.props.auth.setUser(user);
+            this.props.history.push("/");
         } catch (error) {
             let err = null;
             !error.message ? err = { "message": error } : err = error;
@@ -102,7 +90,6 @@ class Login extends Component {
             });
         }
     };
-
 
     onInputChange = event => {
         this.setState({
@@ -120,21 +107,21 @@ class Login extends Component {
         return (
             <Fragment>
                 <div className="response-text">
-                    {this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span>: ''}
+                    {this.state.errors.cognito || this.state.errors.phoneInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Phone Number or Password</span>: ''}
                 </div>
                 <div className="field">
-                    <div className="field-label">EMAIL</div>
+                    <div className="field-label">PHONE NUMBER</div>
                     <p className="control has-icons-left has-icons-right">
                         <input 
                         className="input" 
-                            type="email"
-                            placeholder="Email" 
-                            name="email"
+                            type="text"
+                            placeholder="XXXXXXXXXX" 
+                            name="phone"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
                         />
                         <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon="envelope" />
+                            <FontAwesomeIcon icon="mobile-alt" />
                         </span>
                     </p>
                 </div>
@@ -150,7 +137,7 @@ class Login extends Component {
                     <p className="control has-icons-left">
                         <input className="input" 
                             type="password" 
-                            placeholder="Password" 
+                            placeholder="" 
                             name="password"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
@@ -172,21 +159,21 @@ class Login extends Component {
                 <div className="or-text-container">
                     <b>OR</b> 
                     <div className="sign-up-using-text">
-                        Sign up using 
+                        Sign in using 
                     </div>
                 </div>
-                <div class="field has-addons" style={{ display: "flex", justifyContent: "center"}}>
-                    <p class="control">
-                        <button class="button">
-                            <span class="icon is-small" style={{ height: "1rem" }}>
+                <div className="field has-addons" style={{ display: "flex", justifyContent: "center"}}>
+                    <p className="control">
+                        <button className="button">
+                            <span className="icon is-small" style={{ height: "1rem" }}>
                                 <FontAwesomeIcon icon={['fab', 'google']} style={{ color: "#cb0808" }}/>
                             </span>
                             <span>Google</span>
                         </button>
                     </p>
-                    <p class="control">
-                        <button class="button">
-                            <span class="icon is-small" style={{ height: "1rem" }}>
+                    <p className="control">
+                        <button className="button">
+                            <span className="icon is-small" style={{ height: "1rem" }}>
                                 <FontAwesomeIcon icon={['fab', 'facebook']} style={{ color: "#3e3eb5" }}/>
                             </span>
                             <span>Facebook</span>

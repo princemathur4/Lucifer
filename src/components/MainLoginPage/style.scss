@@ -35,39 +35,48 @@
   .login-card {
     min-width: 450px;
     background: white;
-    padding: 0 0 5rem 0;
     margin: 5rem 0;
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 
     .card-title {
       letter-spacing: 1.2px;
-      font-size: 1.6em;
+      font-size: 2em;
       text-align: center;
       font-weight: 600;
       padding: 0.8em 0 0.5em 0;
       color: $color-primary-mono--light;
-      border-bottom: 0.8px solid rgb(236, 236, 236);
       -webkit-transform: scale(1, 1.05);
     }
     .card-body {
       padding: 0 1.25rem 1.25rem 1.25rem;
+
       .response-text{
         text-align: center;
         margin: 1rem 0;
       }
+
       .main-button {
         cursor: pointer;
-        font-weight: 600;
         width: 100%;
-        height: 2.5em;
+        height: 2.7rem;
         color: white;
-        border: 1px solid #005983;
-        background-color: #007bb6;
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        border: 1px solid #00bba8;
+        background-color: #00af9e;
 
         &:hover {
-          border: 1px solid #005a83dc;
-          background-color: #007cb6dc;
+          border: 1px solid #029183ce;
+          background-color: #029183ce;
         }
+      }
+      .main-link{
+        color: rgb(58, 58, 58);
+          &:hover{
+            text-decoration: underline;
+            color: rgba(58, 58, 58, 0.692);
+          }
       }
       
       input.input{
@@ -100,6 +109,10 @@
         .forgot-password-button{
           a{
             color: rgba(0, 0, 0, 0.644) !important;
+            &:hover{
+              color:rgba(0, 0, 0, 0.438);
+              text-decoration: underline;
+            }
           }
         }
         .control.has-icons-left .icon, .control.has-icons-right .icon {
@@ -112,23 +125,32 @@
           height: 3rem;
         }
       }
+
       .login-button{
         @extend .main-button;
-        font-size: 1.05rem;
-        font-weight: 700;
-        height: 2.7rem;
-        letter-spacing: 1.4px;
       }
+      .signup-button{
+        @extend .main-button;
+      }
+      .submit-button{
+        @extend .main-button;
+      }
+      .change-password-button{
+        @extend .main-button;
+      }
+
       .link-container{
         text-align: center;
         margin: 2rem 0 0 0;
+
         .create-account-link{
-          color: rgb(58, 58, 58);
-          &:hover{
-            color: rgba(58, 58, 58, 0.692);
-          } 
+          @extend .main-link;
+        }
+        .back-to-login-link{
+          @extend .main-link;
         }
       }
+
       .or-text-container{
         display: flex;
         flex-direction: column;
