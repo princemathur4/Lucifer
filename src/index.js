@@ -9,7 +9,8 @@ Auth.configure({
     mandatorySignId: true,
     region: config.cognito.REGION,
     userPoolId: config.cognito.USER_POOL_ID,
-    userPoolWebClientId: config.cognito.APP_CLIENT_ID
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+    IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
 });
 
 ReactDOM.render( <App/>, document.getElementById('root') );

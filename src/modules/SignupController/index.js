@@ -5,7 +5,7 @@ import ConfirmSignup from '../ConfirmSignup';
 
 class SignupController extends Component {
 	state = {
-		phone: '',
+		email: '',
 		screen: 'signup'
 	};
 
@@ -13,8 +13,8 @@ class SignupController extends Component {
 		this.setState({ screen });
 	};
 
-	setPhone = (phone) => { 
-		this.setState({ phone });
+	setEmail = (email) => { 
+		this.setState({ email });
 	};
 
 	render() {
@@ -24,13 +24,13 @@ class SignupController extends Component {
 					<Signup
 						{ ...this.props }
 						changeScreen={this.changeScreen}
-						setPhone={this.setPhone}
+						setEmail={this.setEmail}
 					/>
 				)}
 				{this.state.screen=== 'confirmSignup' &&(
 					<ConfirmSignup
 						{...this.props}
-						phone={this.state.phone}
+						email={this.state.email}
 					/>
 			)}
 			</Fragment>

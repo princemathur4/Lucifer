@@ -1,8 +1,43 @@
 import React, { Fragment } from 'react';
 import './style.scss';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Hub } from 'aws-amplify';
+import Auth from "@aws-amplify/auth";
 
 class NavBar extends React.Component {
+    constructor(props){
+        super(props);
+        
+        Hub.listen("auth", ({ payload: { event, data } }) => {
+            switch (event) {
+                case "signOut":
+                    window.history.pushState(
+                        "",
+                        "",
+                        "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]
+                    ); // clear all params from url
+                    this.props.auth.setAuthStatus(false);
+                    this.props.auth.setUser(null);
+                    this.props.history.push("/");
+                    break;
+
+                default:
+                    break;
+            }
+        });
+    }
+    
+    handleLogout = () => {
+        event.preventDefault();
+
+        try {
+            Auth.signOut();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     render() {
         return (
             <Fragment>
@@ -79,9 +114,17 @@ class NavBar extends React.Component {
                                             <div className="dropdown-item">
                                                 <Link to="/myaccount">Wishlist</Link>
                                             </div>
-                                            <hr className="dropdown-divider"/>
                                             <div className="dropdown-item">
                                                 <Link to="/myaccount">Orders</Link>
+                                            </div>
+                                            <hr className="dropdown-divider"/>
+                                            <div className="dropdown-item">
+                                                <button class="button" onClick={this.handleLogout}>
+                                                    <span class="icon is-small">
+                                                        <FontAwesomeIcon icon="sign-out-alt"/>
+                                                    </span>
+                                                    <span>Logout</span>
+                                                </button>
                                             </div>
                                         </div>
                                         :

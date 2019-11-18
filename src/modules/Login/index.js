@@ -7,14 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Login extends Component {
     state = {
-        phone: '',
+        email: '',
         password: '',
         keepMeLoggedIn: false,
         isLoading: false,
         isAuthenticated: false,
         user: null,
         errors: {
-            phoneInvalid: false,
+            emailInvalid: false,
             passwordInvalid: false,
             cognito: null,
         },
@@ -25,7 +25,7 @@ class Login extends Component {
         this.setState({
             responseText: "",
             errors: {
-                phoneInvalid: false,
+                emailInvalid: false,
                 passwordInvalid: false,
                 cognito: null,
             }
@@ -59,7 +59,7 @@ class Login extends Component {
 
             // AWS Cognito integration here
             const { password } = this.state;
-            const username = this.state.phone;
+            const username = this.state.email;
             const user = await Auth.signIn(username, password);
 
             if (user.hasOwnProperty("challengeName") && user.challengeName === 'NEW_PASSWORD_REQUIRED') {
@@ -70,7 +70,7 @@ class Login extends Component {
                 //         text: "Resend link",
                 //         className: ""
                 //     }
-                // this.props.store.phoneFromPreviousScreen = this.state.phone;
+                // this.props.store.emailFromPreviousScreen = this.state.email;
                 return;
             }
 
@@ -107,21 +107,21 @@ class Login extends Component {
         return (
             <Fragment>
                 <div className="response-text">
-                    {this.state.errors.cognito || this.state.errors.phoneInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Phone Number or Password</span>: ''}
+                    {this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span>: ''}
                 </div>
                 <div className="field">
-                    <div className="field-label">PHONE NUMBER</div>
+                    <div className="field-label">EMAIL</div>
                     <p className="control has-icons-left has-icons-right">
                         <input 
                         className="input" 
                             type="text"
                             placeholder="XXXXXXXXXX" 
-                            name="phone"
+                            name="email"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
                         />
                         <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon="mobile-alt" />
+                            <FontAwesomeIcon icon="envelope" />
                         </span>
                     </p>
                 </div>

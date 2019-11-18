@@ -50,6 +50,10 @@
     .card-body {
       padding: 0 1.25rem 1.25rem 1.25rem;
 
+      .section.auth{
+        padding: 1.5rem !important;
+      }
+
       .response-text{
         text-align: center;
         margin: 1rem 0;
@@ -64,6 +68,7 @@
         font-weight: 700;
         letter-spacing: 1.4px;
         border: 1px solid #00bba8;
+        border-radius: 0 !important;
         background-color: #00af9e;
 
         &:hover {
@@ -71,6 +76,7 @@
           background-color: #029183ce;
         }
       }
+
       .main-link{
         color: rgb(58, 58, 58);
           &:hover{
@@ -87,6 +93,7 @@
           border-color: #082555;
         }
       }
+
       .field{
         padding: 0 0 1rem 0;
         .field-label-container{
@@ -125,7 +132,9 @@
           height: 3rem;
         }
       }
-
+      .field.has-addons{
+        padding: 0 !important;
+      }
       .login-button{
         @extend .main-button;
       }

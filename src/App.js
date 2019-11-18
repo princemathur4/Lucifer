@@ -11,6 +11,7 @@ import { decorate, observable, action, computed } from 'mobx';
 import AppStore from './AppStore';
 import Auth from '@aws-amplify/auth';
 import MainLoginPage from "./components/MainLoginPage";
+import config from './config';
 
 decorate(
     AppStore, {
@@ -124,18 +125,33 @@ class App extends React.Component {
     setUser = user => {
         try {
             this.setState({ user: user });
-
-            if (user && authenticationStore.user.email.length === 0) {
-                authenticationStore.setUser({
-                    email: user.attributes.email
-                });
-            }
+            console.log("user", user);
         } catch (ex) {
             console.error(ex);
         }
     };
 
-    componentDidMount() {
+    loadFacebookSDK() {
+        window.fbAsyncInit = function () {
+            window.FB.init({
+                appId: config.social.FB,
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v3.1'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }
+
+    async componentDidMount() {
+        this.loadFacebookSDK();
         this.authenticateUser();
     }
 
@@ -143,12 +159,6 @@ class App extends React.Component {
         try {
             const session = await Auth.currentSession();
             const user = await Auth.currentAuthenticatedUser();
-
-            if (user && authenticationStore.user.email.length === 0) {
-                authenticationStore.setUser({
-                    email: user.attributes.email
-                });
-            }
 
             this.setState({
                 user: user,

@@ -38,7 +38,7 @@ class ConfirmSignUp extends Component {
 			return;
 		}
 		// AWS Cognito integration here
-		const username = this.props.phone;
+		const username = this.props.email;
 		const code = this.state.code; 
 		try {
 			await Auth.confirmSignUp(username, code);
@@ -75,7 +75,7 @@ class ConfirmSignUp extends Component {
 		return (
 			<Fragment>
 				<div className="response-text">
-					{this.state.errors.cognito || this.state.errors.phoneInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Phone Number or Password</span> : ''}
+					{this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span> : ''}
 				</div>
 				<div className="field">
 					<div className="field-label">VERIFICATION CODE</div>

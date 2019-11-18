@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class RequestVerificationCode extends Component {
 	state = {
-		phone: '',
+		email: '',
 		isLoading: false,
 		isModalOpen: false,
 		modal: {
@@ -18,7 +18,7 @@ class RequestVerificationCode extends Component {
 			linkObj: {}
 		},
 		errors: {
-			phoneInvalid: false,
+			emailInvalid: false,
 			cognito: null,
 		}
 	};
@@ -28,7 +28,7 @@ class RequestVerificationCode extends Component {
 			responseText: "",
 			errors: {
 				cognito: null,
-				phoneInvalid: false,
+				emailInvalid: false,
 			}
 		});
 	};
@@ -52,18 +52,12 @@ class RequestVerificationCode extends Component {
 		let status = 'error';
 		// AWS Cognito integration here
 		try {
-			await Auth.forgotPassword(this.state.phone);
+			await Auth.forgotPassword(this.state.email);
 			this.setState({ isLoading: false });
-			this.props.setPhone(this.state.phone);
+			this.props.setEmail(this.state.email);
 			setTimeout(function () {
 				self.props.changeScreen('forgotPasswordVerification')
 			}, 2500);
-			this.showPopUpMessageModal(
-				'success',
-				'One more step',
-				"We have sent a verification code to your E-mail ID. Please copy it to the next screen along with your new password to complete the process!",
-				"Okay"
-			);
 		} catch (error) {
 			if (error.code === "NotAuthorizedException") {
 				if (error.message === "User is disabled") {
@@ -86,7 +80,7 @@ class RequestVerificationCode extends Component {
 					className: ""
 				}
 			} else if (error.code === "CodeDeliveryFailureException") {
-				message = "We are sorry, but we couldn't send the verification code to your E-mail. Please check the phone you've entered and try again.";
+				message = "We are sorry, but we couldn't send the verification code to your E-mail. Please check the email you've entered and try again.";
 				buttonText = "OKAY";
 			} else if (error.code === "InternalErrorException") {
 				message = "Our servers are down for the moment. Please try again after sometime.";
@@ -96,29 +90,9 @@ class RequestVerificationCode extends Component {
 				buttonText = "OKAY";
 			}
 			// TODO: add an if statement here for error code wise response handling
-			this.showPopUpMessageModal(
-				status,
-				'Oops!',
-				message,
-				buttonText,
-				linkObj
-			);
 			this.setState({ isLoading: false });
 			console.log(error);
 		}
-	};
-
-	showPopUpMessageModal = (status, modalTitle, modalText, buttonText, linkObj) => {
-		this.setState({
-			isModalOpen: true,
-			modal: {
-				status: status,
-				title: modalTitle,
-				text: modalText,
-				buttonText: buttonText,
-				linkObj: linkObj
-			}
-		});
 	};
 
 	onInputChange = event => {
@@ -137,21 +111,21 @@ class RequestVerificationCode extends Component {
 		return (
 			<Fragment>
 				<div className="field">
-					<div className="field-label">PHONE NUMBER</div>
+					<div className="field-label">EMAIL</div>
 					<p className="control has-icons-left has-icons-right">
 						<input
 							className="input"
-							type="phone"
-							placeholder="Phone"
-							name="phone"
+							type="email"
+							placeholder="Email"
+							name="email"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
 						/>
 						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="mobile-alt" />
+							<FontAwesomeIcon icon="envelope" />
 						</span>
 					</p>
-					<div className="form-feedback">{this.state.errors.phoneInvalid ? 'Please enter valid E-mail ID' : ''}</div>
+					<div className="form-feedback">{this.state.errors.emailInvalid ? 'Please enter valid E-mail ID' : ''}</div>
 				</div>
 				<div
 					className="response-text">

@@ -5,8 +5,8 @@ function validateForm(page, state) {
 	let newState = {};
 	switch (page) {
 		case 'login':
-			if (state.hasOwnProperty("phone") && (state.phone === "" || isNaN(state.phone) || state.phone.length < 10)) {
-				newState = { phoneInvalid: true };
+			if (state.hasOwnProperty("email") && (state.email === "" || !state.email.match(mailformat))) {
+				newState = { emailInvalid: true };
 			}
 			if (state.hasOwnProperty("password") && state.password === "") {
 				newState = { passwordInvalid: true };
@@ -14,8 +14,11 @@ function validateForm(page, state) {
 			break;
 
 		case 'signUp':
-			if (state.hasOwnProperty("phone") && (state.phone === "" || isNaN(state.phone) || state.phone.length < 10)) {
-				newState = { phoneInvalid: true };
+			if (state.hasOwnProperty("name") && state.name === "" ) {
+				newState = { nameInvalid: true };
+			}
+			if (state.hasOwnProperty("email") && (state.email === "" || !state.email.match(mailformat))) {
+				newState = { emailInvalid: true };
 			}
 			if (state.hasOwnProperty("newPassword")) {
 				if (state.newPassword === "" || !state.newPassword.match(passwordFormat)) {
@@ -37,13 +40,13 @@ function validateForm(page, state) {
 			break;
 		case 'resendMail':
 		case 'requestVerificationCode':
-			if (state.hasOwnProperty("phone") && (state.phone === "" || isNaN(state.phone) || state.phone.length < 10)) {
-				newState = { phoneInvalid: true };
+			if (state.hasOwnProperty("email") && (state.email === "" || !state.email.match(mailformat))) {
+				newState = { emailInvalid: true };
 			}
 			break;
 		case 'forgotPasswordVerification':
-			if (state.hasOwnProperty("phone") && (state.phone === "" || isNaN(state.phone) || state.phone.length < 10)) {
-				newState = { phoneInvalid: true };
+			if (state.hasOwnProperty("email") && (state.email === "" || !state.email.match(mailformat))) {
+				newState = { emailInvalid: true };
 			}
 			if (state.hasOwnProperty("code")) {
 				if (state.code.length !== 6) {

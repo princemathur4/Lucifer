@@ -4,15 +4,17 @@ import Validate from "../../utils/FormValidation";
 import Auth from '@aws-amplify/auth';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FacebookButton from "../../components/FacebookButton";
 
 class Signup extends Component {
 	state = {
-		phone: '',
+		name: "",
+		email: '',
 		newPassword: '',
 		confirmPassword: '',
 		isLoading: false,
 		errors: {
-			phoneInvalid: false,
+			emailInvalid: false,
 			newPasswordInvalid: false,
 			confirmPasswordInvalid: false,
 			cognito: null,
@@ -24,7 +26,8 @@ class Signup extends Component {
 			responseText: "",
 			errors: {
 				cognito: null,
-				phoneInvalid: false,
+				nameInvalid: false,
+				emailInvalid: false,
 				newPasswordInvalid: false,
 				confirmPasswordInvalid: false,
 			}
@@ -45,18 +48,22 @@ class Signup extends Component {
 			});
 			return;
 		}
-		const { password } = this.state;
-		const username = this.state.phone;
+		const { name } = this.state;
+		const username = this.state.email;
+		const password = this.state.newPassword;
 		let self = this;
 		// AWS Cognito integration here
 		try{
 			let response = await Auth.signUp({
 				username,
 				password,
+				attributes:{
+					name
+				}
 			})
 			console.log(response);
 			this.setState({ isLoading: false });
-			this.props.setPhone(this.state.phone);
+			this.props.setEmail(this.state.email);
 			setTimeout(function () {
 				self.props.changeScreen('confirmSignup')
 			}, 2500);
@@ -82,21 +89,37 @@ class Signup extends Component {
 		return (
 			<Fragment>
 				<div className="response-text">
-					{this.state.errors.cognito || this.state.errors.phoneInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Phone Number or Password</span> : ''}
+					{this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email Number or Password</span> : ''}
 				</div>
 				<div className="field">
-					<div className="field-label">PHONE NUMBER</div>
+					<div className="field-label">NAME</div>
 					<p className="control has-icons-left has-icons-right">
 						<input
 							className="input"
 							type="text"
 							placeholder=""
-							name="phone"
+							name="name"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
 						/>
 						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="mobile-alt" />
+							<FontAwesomeIcon icon="user" />
+						</span>
+					</p>
+				</div>
+				<div className="field">
+					<div className="field-label">E-MAIL</div>
+					<p className="control has-icons-left has-icons-right">
+						<input
+							className="input"
+							type="text"
+							placeholder=""
+							name="email"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="envelope" />
 						</span>
 					</p>
 				</div>
@@ -156,12 +179,9 @@ class Signup extends Component {
 						</button>
 					</p>
 					<p className="control">
-						<button className="button">
-							<span className="icon is-small" style={{ height: "1rem" }}>
-								<FontAwesomeIcon icon={['fab', 'facebook']} style={{ color: "#3e3eb5" }} />
-							</span>
-							<span>Facebook</span>
-						</button>
+						<FacebookButton
+							{...this.props}
+						/>
 					</p>
 				</div>
 				<div className="link-container">
