@@ -7,6 +7,7 @@ import Login from '../../modules/Login';
 import SignupController from '../../modules/SignupController';
 import ForgotPasswordController from '../../modules/ForgotPasswordController';
 import axios from "axios";
+import ResendMail from '../../modules/ResendMail';
 
 axios.interceptors.response.use((response) => {
     return response;
@@ -44,6 +45,10 @@ class MainLoginPage extends Component {
                             )
                             }
                             {this.props.name === 'signUp' && (
+                                <SignupController {...this.props} />
+                            )
+                            }
+                            {this.props.name === 'resendMail' && (
                                 <SignupController {...this.props} />
                             )
                             }

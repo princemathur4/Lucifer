@@ -14,22 +14,22 @@ class Signup extends Component {
 		confirmPassword: '',
 		isLoading: false,
 		errors: {
+			nameInvalid: false,
 			emailInvalid: false,
 			newPasswordInvalid: false,
 			confirmPasswordInvalid: false,
-			cognito: null,
+			responseText: ''
 		}
 	};
-
+	
 	clearErrorState = () => {
 		this.setState({
-			responseText: "",
 			errors: {
-				cognito: null,
 				nameInvalid: false,
 				emailInvalid: false,
 				newPasswordInvalid: false,
 				confirmPasswordInvalid: false,
+				responseText: ''
 			}
 		})
 	};
@@ -62,14 +62,24 @@ class Signup extends Component {
 				}
 			})
 			console.log(response);
-			this.setState({ isLoading: false });
 			this.props.setEmail(this.state.email);
-			setTimeout(function () {
-				self.props.changeScreen('confirmSignup')
-			}, 2500);
-		}catch(e){
-			console.error(e);
+			self.props.changeScreen('confirmSignup');
+		}catch(error){
+			console.error(error);
+			let responseText = "";
+			if (error.hasOwnProperty("code") && error.hasOwnProperty("message")) { //"CodeDeliveryFailureException"/"LimitExceededException"
+				responseText = error.message;
+			} else if (typeof error === "String") {
+				responseText = error;
+			}
+			this.setState({
+				errors: {
+					...this.state.errors,
+					responseText
+				},
+			})
 		}
+		this.setState({ isLoading: false });
 	};
 
 	onInputChange = event => {
@@ -88,86 +98,17 @@ class Signup extends Component {
 	render() {
 		return (
 			<Fragment>
-				<div className="response-text">
-					{this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email Number or Password</span> : ''}
-				</div>
-				<div className="field">
-					<div className="field-label">NAME</div>
-					<p className="control has-icons-left has-icons-right">
-						<input
-							className="input"
-							type="text"
-							placeholder=""
-							name="name"
-							onChange={this.onInputChange}
-							onKeyPress={this.onKeyPress}
-						/>
-						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="user" />
+				{
+					this.state.errors.responseText &&
+					<div className="response-text">
+						<span className="response-tag">
+							{this.state.errors.responseText}
 						</span>
-					</p>
-				</div>
-				<div className="field">
-					<div className="field-label">E-MAIL</div>
-					<p className="control has-icons-left has-icons-right">
-						<input
-							className="input"
-							type="text"
-							placeholder=""
-							name="email"
-							onChange={this.onInputChange}
-							onKeyPress={this.onKeyPress}
-						/>
-						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="envelope" />
-						</span>
-					</p>
-				</div>
-				<div className="field">
-					<div className="field-label">
-						NEW PASSWORD
+						<button className="delete is-small" onClick={this.onCloseResponse} ></button>
 					</div>
-					<p className="control has-icons-left">
-						<input className="input"
-							type="password"
-							placeholder=""
-							name="newPassword"
-							onChange={this.onInputChange}
-							onKeyPress={this.onKeyPress}
-						/>
-						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="lock" />
-						</span>
-					</p>
-				</div>
-				<div className="field">
-					<div className="field-label">
-						CONFIRM NEW PASSWORD
-					</div>
-					<p className="control has-icons-left">
-						<input className="input"
-							type="password"
-							placeholder=""
-							name="confirmPassword"
-							onChange={this.onInputChange}
-							onKeyPress={this.onKeyPress}
-						/>
-						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="lock" />
-						</span>
-					</p>
-				</div>
-				<button
-					className={this.state.isLoading ? "button signup-button is-loading" : "signup-button"}
-					onClick={this.signUpHandler}
-				>
-					Sign Up!
-                </button>
-				<div className="or-text-container">
-					<b>OR</b>
-					<div className="sign-up-using-text">
-						Sign in using
-                    </div>
+				}
+				<div className="sign-up-using-text">
+					Sign in using
 				</div>
 				<div className="field has-addons" style={{ display: "flex", justifyContent: "center" }}>
 					<p className="control">
@@ -184,8 +125,120 @@ class Signup extends Component {
 						/>
 					</p>
 				</div>
-				<div className="link-container">
+				<div className="or-text-container">
+					<b>OR</b>
+				</div>
+				<div className="field">
+					<div className={!this.state.errors.nameInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input
+							className={!this.state.errors.nameInvalid ? "input" : "input is-danger"}
+							type="text"
+							placeholder="Enter your Name"
+							name="name"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="user" />
+						</span>
+						{
+							this.state.errors.nameInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									This is a mandatory field
+                                </p>
+							</Fragment>
+						}
+					</div>
+				</div>
+				<div className="field">
+					<div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input
+							className={!this.state.errors.emailInvalid ? "input" : "input is-danger"}
+							type="text"
+							placeholder="Your Email-ID"
+							name="email"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="envelope" />
+						</span>
+						{
+							this.state.errors.emailInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">Please enter a valid E-mail ID</p>
+							</Fragment>
+						}
+					</div>
+				</div>
+				<div className="field">
+					<div className={!this.state.errors.newPasswordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input 
+							className={!this.state.errors.newPasswordInvalid ? "input" : "input is-danger"}
+							type="password"
+							placeholder="Enter New Password"
+							name="newPassword"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="lock" />
+						</span>
+						{
+							this.state.errors.newPasswordInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Password must contain atleast 8 characters, one uppercase, one lowercase and one number.
+								</p>
+							</Fragment>
+						}
+					</div>
+				</div>
+				<div className="field">
+					<div className={!this.state.errors.confirmPasswordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input 
+							className={!this.state.errors.confirmPasswordInvalid ? "input" : "input is-danger"}
+							type="password"
+							placeholder="Re-enter New Password"
+							name="confirmPassword"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="lock" />
+						</span>
+						{
+							this.state.errors.confirmPasswordInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Passwords don't match
+								</p>
+							</Fragment>
+						}
+					</div>
+				</div>
+				<button
+					className={this.state.isLoading ? "button signup-button is-loading" : "signup-button"}
+					onClick={this.signUpHandler}
+				>
+					Sign Up!
+                </button>
+				<div className="links-container">
 					<Link className="back-to-login-link" to="/login"> Go back to Sign In </Link>
+					<Link className="forgot-password-link" to="/resend_mail"> Resend Mail! </Link>
 				</div>
 			</Fragment>
 		);

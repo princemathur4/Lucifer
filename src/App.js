@@ -97,6 +97,16 @@ class App extends React.Component {
             }
         },
         {
+            path: '/resend_mail',
+            component: MainLoginPage,
+            name: 'resendMail',
+            customProps: {
+                title: 'Resend Verification Code',
+                name: 'resendMail',
+                store
+            }
+        },
+        {
             path: "/products",
             component: ProductsPage,
             name: "product",

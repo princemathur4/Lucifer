@@ -10,25 +10,17 @@ class RequestVerificationCode extends Component {
 		email: '',
 		isLoading: false,
 		isModalOpen: false,
-		modal: {
-			status: "",
-			title: "",
-			text: "",
-			buttonText: "",
-			linkObj: {}
-		},
 		errors: {
 			emailInvalid: false,
-			cognito: null,
+			responseText: "",
 		}
 	};
 
 	clearErrorState = () => {
 		this.setState({
-			responseText: "",
 			errors: {
-				cognito: null,
 				emailInvalid: false,
+				responseText: "",
 			}
 		});
 	};
@@ -47,51 +39,38 @@ class RequestVerificationCode extends Component {
 			});
 			return;
 		}
-		let self = this;
-		let message, buttonText, linkObj;
-		let status = 'error';
+		let responseText;
 		// AWS Cognito integration here
 		try {
 			await Auth.forgotPassword(this.state.email);
-			this.setState({ isLoading: false });
 			this.props.setEmail(this.state.email);
-			setTimeout(function () {
-				self.props.changeScreen('forgotPasswordVerification')
-			}, 2500);
+			this.setState({ isLoading: false });
+			this.props.changeScreen('forgotPasswordVerification');
 		} catch (error) {
+			console.log(error);
 			if (error.code === "NotAuthorizedException") {
 				if (error.message === "User is disabled") {
-					message = "User is Disabled. Please contact Spark Capital at sales@sparkcapital.in"
+					responseText = "User is Disabled. Please ask for support from our support page."
 				} else {
-					message = "Looks like you've not completed the sign up process yet. Click here to generate a fresh new password for your account.";
-					buttonText = "";
-					linkObj = {
-						link: "/resendmail",
-						text: "Resend link",
-						className: ""
-					}
+					responseText = "Looks like you've not completed the sign up process yet. Go to our sign up page to create a new account.";
 				}
 			} else if (error.code === "UserNotFoundException") {
-				message = "We are sorry, but we couldn't verify your account. Try to sign up again on our platform or else if you're facing a problem you may write to sales@sparkcapital.in";
-				buttonText = "";
-				linkObj = {
-					link: "/signup",
-					text: "Sign Up!",
-					className: ""
-				}
+				responseText = "Sorry we couldn't verify your account. Try to sign up again on our platform.";
 			} else if (error.code === "CodeDeliveryFailureException") {
-				message = "We are sorry, but we couldn't send the verification code to your E-mail. Please check the email you've entered and try again.";
-				buttonText = "OKAY";
+				responseText = "Sorry we couldn't send the verification code to your E-mail. Please check the email you've entered and try again.";
 			} else if (error.code === "InternalErrorException") {
-				message = "Our servers are down for the moment. Please try again after sometime.";
-				buttonText = "TRY AGAIN";
+				responseText = "Our servers are down for the moment. Please try again after sometime.";
+			} else if (error.code === "LimitExceededException") {
+				responseText = "Attempt limit exceeded, please try again after sometime.";
 			} else {
-				message = "Something went wrong. Please try again later.";
-				buttonText = "OKAY";
+				responseText = "Something went wrong. Please try again after sometime.";
 			}
-			// TODO: add an if statement here for error code wise response handling
-			this.setState({ isLoading: false });
-			console.log(error);
+			this.setState({
+				errors: {
+					...this.state.errors, responseText
+				},
+				isLoading: false
+			})
 		}
 	};
 
@@ -101,22 +80,36 @@ class RequestVerificationCode extends Component {
 		});
 	};
 
-	onActionButtonClick = () => {
+	onKeyPress = (e) => {
+		if (e.key === 'Enter') {
+			this.forgotPasswordHandler(e);
+		}
+	};
+ 
+	onCloseResponse = () => {
 		this.setState({
-			isModalOpen: false
-		});
+			errors: { ...this.state.errors, responseText: "" }
+		})
 	}
 
 	render() {
 		return (
 			<Fragment>
+				{
+					this.state.errors.responseText &&
+					<div className="response-text is-error">
+						<span className="response-tag">
+							{this.state.errors.responseText}
+						</span>
+						<button className="delete is-small" onClick={this.onCloseResponse} ></button>
+					</div>
+				}
 				<div className="field">
-					<div className="field-label">EMAIL</div>
-					<p className="control has-icons-left has-icons-right">
+					<div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input
-							className="input"
+							className={!this.state.errors.emailInvalid ? "input" : "input is-danger"}
 							type="email"
-							placeholder="Email"
+							placeholder="Enter your Email-ID"
 							name="email"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
@@ -124,18 +117,25 @@ class RequestVerificationCode extends Component {
 						<span className="icon is-small is-left">
 							<FontAwesomeIcon icon="envelope" />
 						</span>
-					</p>
-					<div className="form-feedback">{this.state.errors.emailInvalid ? 'Please enter valid E-mail ID' : ''}</div>
-				</div>
-				<div
-					className="response-text">
-					{this.state.errors.cognito ? this.state.errors.cognito.message : ''}
+						{
+							this.state.errors.emailInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Please enter your registered Email-ID
+                                </p>
+							</Fragment>
+						}
+					</div>
 				</div>
 				<button
-					className="submit-button"
+					className={this.state.isLoading ? "button submit-button is-loading" : "submit-button"}
 					onClick={this.forgotPasswordHandler}
-				>{!this.state.isLoading ? "SUBMIT" : <Spinner size="sm" color="white" />}
-				</button>
+				>
+					Submit
+                </button>
 				<div className="link-container">
 					<Link className="back-to-login-link" to="/login"> Go back to Sign In </Link>
 				</div>

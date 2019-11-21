@@ -9,16 +9,17 @@ class ConfirmSignUp extends Component {
 	state = {
 		code: '',
 		isLoading: false,
+		infoMessage: "One more step! A Verification code is sent to your registered mail ID. Please submit it here to confirm your account.",
 		errors: {
+			responseText: '',
 			codeInvalid: false,
-			cognito: null,
 		}
 	};
 
 	clearErrorState = () => {
 		this.setState({
 			errors: {
-				cognito: null,
+				responseText: '',
 				codeInvalid: false,
 			}
 		});
@@ -42,21 +43,34 @@ class ConfirmSignUp extends Component {
 		const code = this.state.code; 
 		try {
 			await Auth.confirmSignUp(username, code);
-			this.setState({ isLoading: false });
+			this.setState({ infoMessage: "Done! You can now login to continue shopping.", errors: { ...this.state.errors, responseText: "" }, isLoading: false });
 			setTimeout(function () {
 				self.props.history.push("/login");
-			}, 2000);
+			}, 2500);
 		} catch (error) {
-			let message = "";
+			let responseText = "";
 			if (error.hasOwnProperty("code") && error.hasOwnProperty("message")) { //"CodeDeliveryFailureException"/"LimitExceededException"
-				message = error.message;
+				responseText = error.message;
 			} else if (typeof error === "String") {
-				message = error;
+				responseText = error;
 			}
-			this.setState({ isLoading: false });
+			this.setState({
+				errors: {
+					...this.state.errors, responseText
+				},
+				infoMessage: "",
+				isLoading: false
+			})
 			console.log(error);
 		}
 	};
+
+	onCloseResponse = () => {
+		let { errors } = this.state; 
+		this.setState({
+			errors: { ...errors, responseText: ""} 
+		})
+	}
 
 	onInputChange = event => {
 		this.setState({
@@ -74,16 +88,31 @@ class ConfirmSignUp extends Component {
 	render() {
 		return (
 			<Fragment>
-				<div className="response-text">
-					{this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span> : ''}
-				</div>
+				{
+                    this.state.errors.responseText &&
+					<div className="response-text is-error">
+                        <span className="response-tag">
+                            {this.state.errors.responseText}
+                        </span>
+                        <button className="delete is-small" onClick={this.onCloseResponse} ></button>
+                    </div>
+                }
+				{
+					!this.state.errors.responseText &&
+					this.state.infoMessage &&
+					<div className="response-text is-info">
+						<span className="response-tag">
+							{this.state.infoMessage}
+						</span>
+						<button className="delete is-small" onClick={() => { this.setState({ infoMessage: "" }) }} ></button>
+					</div>
+				}
 				<div className="field">
-					<div className="field-label">VERIFICATION CODE</div>
-					<p className="control has-icons-left has-icons-right">
+					<div className={!this.state.errors.codeInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input
-							className="input"
+							className={!this.state.errors.codeInvalid ? "input" : "input is-danger"}
 							type="text"
-							placeholder=""
+							placeholder="Enter Verification Code"
 							name="code"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
@@ -91,7 +120,18 @@ class ConfirmSignUp extends Component {
 						<span className="icon is-small is-left">
 							<FontAwesomeIcon icon="key" />
 						</span>
-					</p>
+						{
+							this.state.errors.codeInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Enter valid verfication code
+                                </p>
+							</Fragment>
+						}
+					</div>
 				</div>
 				<button
 					className={this.state.isLoading ? "button submit-button is-loading" : "submit-button"}

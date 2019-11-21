@@ -65,8 +65,8 @@ class FacebookButton extends Component {
     render() {
         return (
             <button className="button" onClick={this.handleClick}>
-                <span className="icon is-small" style={{ height: "1rem" }}>
-                    <FontAwesomeIcon icon={['fab', 'facebook']} style={{ color: "#3e3eb5" }} />
+                <span className="icon" style={{ height: "1rem" }}>
+                    <FontAwesomeIcon icon={['fab', 'facebook-square']} style={{ color: "#3e3eb5" }} />
                 </span>
                 <span>Facebook</span>
             </button>

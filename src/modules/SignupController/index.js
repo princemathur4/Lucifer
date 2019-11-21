@@ -2,12 +2,16 @@ import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
 import Signup from '../Signup';
 import ConfirmSignup from '../ConfirmSignup';
+import ResendMail from '../ResendMail';
 
 class SignupController extends Component {
-	state = {
-		email: '',
-		screen: 'signup'
-	};
+	constructor(props){
+		super(props);
+		this.state = {
+			email: '',
+			screen: this.props.name
+		};
+	}
 
 	changeScreen = (screen) => {
 		this.setState({ screen });
@@ -20,9 +24,16 @@ class SignupController extends Component {
 	render() {
 		return (
 			<Fragment>
-				{this.state.screen === 'signup' && (
+				{this.state.screen === 'signUp' && (
 					<Signup
 						{ ...this.props }
+						changeScreen={this.changeScreen}
+						setEmail={this.setEmail}
+					/>
+				)}
+				{this.state.screen === 'resendMail' && (
+					<ResendMail
+						{...this.props}
 						changeScreen={this.changeScreen}
 						setEmail={this.setEmail}
 					/>

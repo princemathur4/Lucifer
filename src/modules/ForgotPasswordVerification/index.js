@@ -11,18 +11,19 @@ class ForgotPasswordVerification extends Component {
 		newPassword: '',
 		confirmPassword: '',
 		isLoading: false,
+		infoMessage: "A Verification code is sent to your registered mail ID. Please submit it here to change your password.",
 		errors: {
+			responseText: "",
 			codeInvalid: false,
 			newPasswordInvalid: false,
 			confirmPasswordInvalid: false,
-			cognito: null,
 		}
 	};
 
 	clearErrorState = () => {
 		this.setState({
 			errors: {
-				cognito: null,
+				responseText: "",
 				codeInvalid: false,
 				newPasswordInvalid: false,
 				confirmPasswordInvalid: false,
@@ -44,26 +45,35 @@ class ForgotPasswordVerification extends Component {
 			this.setState({ isLoading: false });
 			return;
 		}
-		let message = "We couldn't reset your Password at the moment. Please try again after sometime or write to sales@sparkcapital.in";
 		// AWS Cognito integration here
-		const username = this.props.email;
 		try {
 			await Auth.forgotPasswordSubmit(
-				username,
+				this.props.email,
 				this.state.code,
 				this.state.newPassword
 			);
-			this.setState({ isLoading: false });
+			this.setState({ 
+				infoMessage: "Success! Password changed succesfully.", 
+				errors: { ...this.state.errors, responseText: "" },
+				isLoading: false
+			});
 			setTimeout(function () {
 				self.props.history.push("/login");
-			}, 2000)
+			}, 2500);
 		} catch (error) {
+			let responseText = "We couldn't reset your Password at the moment. Please try again after sometime";
 			if (error.hasOwnProperty("code") && error.hasOwnProperty("message")) { //"CodeDeliveryFailureException"/"LimitExceededException"
-				message = error.message;
+				responseText = error.message;
 			} else if (typeof error === "String") {
-				message = error;
+				responseText = error;
 			}
-			this.setState({ isLoading: false });
+			this.setState({
+				errors: {
+					...this.state.errors, responseText
+				},
+				infoMessage: "",
+				isLoading: false
+			})
 			console.log(error);
 		}
 	};
@@ -81,19 +91,40 @@ class ForgotPasswordVerification extends Component {
 		}
 	}
 
+	onCloseResponse = () => {
+		this.setState({
+			errors: { ...this.state.errors, responseText: "" }
+		})
+	}
+
 	render() {
 		return (
 			<Fragment>
-				<div className="response-text">
-					{this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span> : ''}
-				</div>
+				{
+					this.state.errors.responseText &&
+					<div className="response-text">
+						<span className="response-tag">
+							{this.state.errors.responseText}
+						</span>
+						<button className="delete is-small" onClick={this.onCloseResponse} ></button>
+					</div>
+				}
+				{
+					!this.state.errors.responseText &&
+					this.state.infoMessage &&
+					<div className="response-text is-info">
+						<span className="response-tag">
+							{this.state.infoMessage}
+						</span>
+						<button className="delete is-small" onClick={() => { this.setState({ infoMessage: "" }) }} ></button>
+					</div>
+				}
 				<div className="field">
-					<div className="field-label">VERIFICATION CODE</div>
-					<p className="control has-icons-left has-icons-right">
+					<div className={!this.state.errors.codeInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input
-							className="input"
+							className={!this.state.errors.codeInvalid ? "input" : "input is-danger"}
 							type="text"
-							placeholder=""
+							placeholder="Enter Verification Code"
 							name="code"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
@@ -101,16 +132,25 @@ class ForgotPasswordVerification extends Component {
 						<span className="icon is-small is-left">
 							<FontAwesomeIcon icon="key" />
 						</span>
-					</p>
+						{
+							this.state.errors.codeInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Enter a valid verfication code
+                                </p>
+							</Fragment>
+						}
+					</div>
 				</div>
 				<div className="field">
-					<div className="field-label">
-						NEW PASSWORD
-					</div>
-					<p className="control has-icons-left">
-						<input className="input"
+					<div className={!this.state.errors.newPasswordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input 
+							className={!this.state.errors.newPasswordInvalid ? "input" : "input is-danger"}
 							type="password"
-							placeholder=""
+							placeholder="Enter new password"
 							name="newPassword"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
@@ -118,16 +158,25 @@ class ForgotPasswordVerification extends Component {
 						<span className="icon is-small is-left">
 							<FontAwesomeIcon icon="lock" />
 						</span>
-					</p>
+						{
+							this.state.errors.newPasswordInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Password must contain atleast 8 characters, one uppercase, one lowercase and one number.
+                                </p>
+							</Fragment>
+						}
+					</div>
 				</div>
 				<div className="field">
-					<div className="field-label">
-						CONFIRM NEW PASSWORD
-					</div>
-					<p className="control has-icons-left">
-						<input className="input"
+					<div className={!this.state.errors.confirmPasswordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input 
+							className={!this.state.errors.confirmPasswordInvalid ? "input" : "input is-danger"}
 							type="password"
-							placeholder=""
+							placeholder="Re-enter new password"
 							name="confirmPassword"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
@@ -135,11 +184,22 @@ class ForgotPasswordVerification extends Component {
 						<span className="icon is-small is-left">
 							<FontAwesomeIcon icon="lock" />
 						</span>
-					</p>
+						{
+							this.state.errors.confirmPasswordInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">
+									Passwords don't match
+                                </p>
+							</Fragment>
+						}
+					</div>
 				</div>
 				<button
 					className={this.state.isLoading ? "button change-password-button is-loading" : "change-password-button"}
-					onClick={this.signUpHandler}
+					onClick={this.passwordVerificationHandler}
 				>
 					Change password
                 </button>

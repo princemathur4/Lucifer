@@ -25,7 +25,10 @@
   min-width: 100%;
   flex-grow: 1;
   font-family: $font-calibri;
-  background: linear-gradient(to bottom right, #1279982a, #01a7ad2c) ;
+  // background: linear-gradient(to bottom right,  #00c4ff6e, #f072acb5) ;
+  // background: linear-gradient(to bottom right,  #00c4ff6e, #a803be69) ;
+  background: linear-gradient(to bottom right,  #00c4ffa8, #00d1b2e8) ;
+  // background: linear-gradient(to bottom right,  #26b9ff, #1bddcb) ;
   
   .spark-logo {
     width: 500px;
@@ -34,8 +37,9 @@
 
   .login-card {
     min-width: 450px;
+    max-width: 450px;
     background: white;
-    margin: 5rem 0;
+    margin: 1.5rem 0 2rem;
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 
     .card-title {
@@ -51,12 +55,37 @@
       padding: 0 1.25rem 1.25rem 1.25rem;
 
       .section.auth{
-        padding: 1.5rem !important;
+        padding: 0 1.5rem !important;
       }
 
       .response-text{
         text-align: center;
-        margin: 1rem 0;
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        border-radius: 4px;
+        min-height: 2em;
+        padding: 0.75em;
+        &.is-error{
+          color: #cc0f35;
+          background-color: #feecf0;
+        }
+        &.is-info{
+          color: #1b79b0;
+          background: #e2f5ff;
+        }
+        .response-tag{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1.5;
+          font-size: 1rem;
+          flex-grow: 2;
+          flex-wrap: wrap;
+          padding-left: 0.75em;
+          padding-right: 0.75em;
+        }
       }
 
       .main-button {
@@ -67,21 +96,23 @@
         font-size: 1.05rem;
         font-weight: 700;
         letter-spacing: 1.4px;
-        border: 1px solid #00bba8;
+        border: 1px solid #23ced1;
         border-radius: 0 !important;
-        background-color: #00af9e;
-
+        background: #23ced1;
+        margin: 1rem 0 0 0;
         &:hover {
-          border: 1px solid #029183ce;
-          background-color: #029183ce;
+          border: 1px solid #29d5cc;
+          background: #29d5cc;
         }
       }
 
       .main-link{
-        color: rgb(58, 58, 58);
-          &:hover{
-            text-decoration: underline;
-            color: rgba(58, 58, 58, 0.692);
+        cursor: pointer;
+        color: #1a9296;
+        &:hover{
+          cursor: pointer;
+          text-decoration: underline;
+            color: #077a7e;
           }
       }
       
@@ -95,7 +126,6 @@
       }
 
       .field{
-        padding: 0 0 1rem 0;
         .field-label-container{
           display: flex;
           justify-content: space-between;
@@ -134,6 +164,7 @@
       }
       .field.has-addons{
         padding: 0 !important;
+        margin: 0 !important;
       }
       .login-button{
         @extend .main-button;
@@ -151,16 +182,36 @@
       .link-container{
         text-align: center;
         margin: 2rem 0 0 0;
-
+        .create-account-link{
+        @extend .main-link;
+      }
+      .back-to-login-link{
+        @extend .main-link;
+      }
+      }
+      .links-container{
+        display: flex;
+        justify-content: space-between;
+        color: gray;
+        margin-top: 1rem;
         .create-account-link{
           @extend .main-link;
+          color: #1a9296;
+          font-size: 0.85rem;
+        }
+        .forgot-password-link{
+          @extend .main-link;
+          color: #1a9296;
+          font-size: 0.85rem;
         }
         .back-to-login-link{
           @extend .main-link;
+          color: #1a9296;
+          font-size: 0.85rem;
         }
       }
-
-      .or-text-container{
+      
+      .sign-up-using-text{
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -168,9 +219,18 @@
         color: rgb(95, 95, 95);
         font-weight: 700;
         padding: 1rem;
+      }
+      .or-text-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: rgb(74, 83, 94);
+        font-weight: 700;
+        padding: 1rem;
         b{
           border-radius: 50%;
-          padding: 0.2rem 0.3rem;
+          padding: 0.3rem 0.5rem;
           background: rgba(230, 230, 230, 0.89);
         }
       }

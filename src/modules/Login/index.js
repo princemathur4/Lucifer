@@ -4,41 +4,32 @@ import { observer } from 'mobx-react';
 import Auth from '@aws-amplify/auth';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FacebookButton from "../../components/FacebookButton";
 
 class Login extends Component {
     state = {
         email: '',
         password: '',
-        keepMeLoggedIn: false,
         isLoading: false,
         isAuthenticated: false,
         user: null,
         errors: {
+            responseText: "",
             emailInvalid: false,
             passwordInvalid: false,
-            cognito: null,
         },
         isSubmitted: false
     };
 
     clearErrorState = () => {
         this.setState({
-            responseText: "",
             errors: {
+                responseText: "",
                 emailInvalid: false,
                 passwordInvalid: false,
-                cognito: null,
             }
         });
     };
-
-    componentDidUpdate() {
-        if (this.state.isAuthenticated) {
-            this.props.auth.setAuthStatus(true);
-            this.props.auth.setUser(this.state.user);
-            this.props.history.push("/");
-        }
-    }
 
     onLoginSubmit = async event => {
         event.preventDefault();
@@ -78,18 +69,43 @@ class Login extends Component {
             this.props.auth.setAuthStatus(true);
             this.props.auth.setUser(user);
             this.props.history.push("/");
-        } catch (error) {
-            let err = null;
-            !error.message ? err = { "message": error } : err = error;
+        } catch (err) {
+            let responseText = 'Something went wrong, Please try again later!';
+            if (err.code === 'UserNotConfirmedException') {
+                responseText = "Seems like you didn't finish the email verification. Please try signing up with us again to login.";
+                // The error happens if the user didn't finish the confirmation step when signing up
+                // In this case you need to resend the code and confirm the user
+                // About how to resend the code and confirm the user, please check the signUp part
+            } else if (err.code === 'PasswordResetRequiredException') {
+                responseText = "Password needs to be reset. Please go to forgot password page to finish the process.";
+                // The error happens when the password is reset in the Cognito console
+                // In this case you need to call forgotPassword to reset the password
+                // Please check the Forgot Password part.
+            } else if (err.code === 'NotAuthorizedException') {
+                responseText = "Incorrect Email or Password";
+                // The error happens when the incorrect password is provided
+            } else if (err.code === 'UserNotFoundException') {
+                responseText = "User does not exist. Please try signing up with us first to login.";
+                // The error happens when the supplied username/email does not exist in the Cognito user pool
+            } else {
+                console.log(err);
+            }
             this.setState({
                 errors: {
                     ...this.state.errors,
-                    cognito: err
+                    responseText
                 },
                 isLoading: false
             });
         }
     };
+
+    onCloseResponse = () => {
+        let { errors } = this.state;  
+        this.setState({
+            errors: { ...errors, responseText: '' }
+        })
+    }
 
     onInputChange = event => {
         this.setState({
@@ -106,16 +122,42 @@ class Login extends Component {
     render() {
         return (
             <Fragment>
-                <div className="response-text">
-                    {this.state.errors.cognito || this.state.errors.emailInvalid || this.state.errors.passwordInvalid ? <span className="tag is-danger is-light is-medium">Incorrect Email or Password</span>: ''}
+                {
+                    this.state.errors.responseText &&
+                    <div className="response-text is-error">
+                        <span className="response-tag">
+                            {this.state.errors.responseText}
+                        </span>
+                        <button className="delete is-small" onClick={this.onCloseResponse} ></button>
+                    </div>
+                }
+                <div className="sign-up-using-text">
+                    Sign in using
+				</div>
+                <div className="field has-addons" style={{ display: "flex", justifyContent: "center" }}>
+                    <p className="control">
+                        <button className="button">
+                            <span className="icon" style={{ height: "1rem" }}>
+                                <FontAwesomeIcon icon={['fab', 'google']} style={{ color: "#cb0808" }} />
+                            </span>
+                            <span>Google</span>
+                        </button>
+                    </p>
+                    <p className="control">
+                        <FacebookButton
+                            {...this.props}
+                        />
+                    </p>
+                </div>
+                <div className="or-text-container">
+                    <b>OR</b>
                 </div>
                 <div className="field">
-                    <div className="field-label">EMAIL</div>
-                    <p className="control has-icons-left has-icons-right">
-                        <input 
-                        className="input" 
+                    <div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+                        <input
+                            className={!this.state.errors.emailInvalid ? "input" : "input is-danger"}
                             type="text"
-                            placeholder="XXXXXXXXXX" 
+                            placeholder="Your Email-ID"
                             name="email"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
@@ -123,21 +165,23 @@ class Login extends Component {
                         <span className="icon is-small is-left">
                             <FontAwesomeIcon icon="envelope" />
                         </span>
-                    </p>
+                        {
+                            this.state.errors.emailInvalid &&
+                            <Fragment>
+                                <span className="icon is-small is-right">
+                                    <FontAwesomeIcon icon="exclamation-triangle" />
+                                </span>
+                                <p className="help is-danger">Please enter your registered E-mail here</p>
+                            </Fragment>
+                        }
+                    </div>
                 </div>
                 <div className="field">
-                    <div className="field-label-container">
-                        <div className="field-label">
-                            PASSWORD
-                        </div>
-                        <span className="forgot-password-button" >
-                            <Link to="/forgot_password">Forgot?</Link>
-                        </span>
-                    </div>
-                    <p className="control has-icons-left">
-                        <input className="input" 
-                            type="password" 
-                            placeholder="" 
+                    <div className={!this.state.errors.passwordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+                        <input 
+                            className={!this.state.errors.passwordInvalid ? "input" : "input is-danger"}
+                            type="password"
+                            placeholder="Enter your Password"
                             name="password"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
@@ -145,7 +189,18 @@ class Login extends Component {
                         <span className="icon is-small is-left">
                             <FontAwesomeIcon icon="lock" />
                         </span>
-                    </p>
+                        {
+                            this.state.errors.passwordInvalid &&
+                            <Fragment>
+                                <span className="icon is-small is-right">
+                                    <FontAwesomeIcon icon="exclamation-triangle" />
+                                </span>
+                                <p className="help is-danger">
+                                    Please enter your password here
+								</p>
+                            </Fragment>
+                        }
+                    </div>
                 </div>
                 <button
                     className={this.state.isLoading ? "button login-button is-loading" : "login-button"}
@@ -153,32 +208,9 @@ class Login extends Component {
                 >
                     Sign In
                 </button>
-                <div className="link-container">
-                    <Link className="create-account-link" to="/signup"> Create an Account </Link>
-                </div>
-                <div className="or-text-container">
-                    <b>OR</b> 
-                    <div className="sign-up-using-text">
-                        Sign in using 
-                    </div>
-                </div>
-                <div className="field has-addons" style={{ display: "flex", justifyContent: "center"}}>
-                    <p className="control">
-                        <button className="button">
-                            <span className="icon is-small" style={{ height: "1rem" }}>
-                                <FontAwesomeIcon icon={['fab', 'google']} style={{ color: "#cb0808" }}/>
-                            </span>
-                            <span>Google</span>
-                        </button>
-                    </p>
-                    <p className="control">
-                        <button className="button">
-                            <span className="icon is-small" style={{ height: "1rem" }}>
-                                <FontAwesomeIcon icon={['fab', 'facebook']} style={{ color: "#3e3eb5" }}/>
-                            </span>
-                            <span>Facebook</span>
-                        </button>
-                    </p>
+                <div className="links-container">
+                    <Link className="forgot-password-link" to="/forgot_password"> Forgot Password? </Link>
+                    <Link className="create-account-link" to="/signup"> Create Account </Link>
                 </div>
             </Fragment >
         );
