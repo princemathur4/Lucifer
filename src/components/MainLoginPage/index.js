@@ -37,7 +37,7 @@ class MainLoginPage extends Component {
         return (
             <div className="login-page">
                 <div className="login-card">
-                    <div className="card-title">{this.props.title}</div>
+                    <div className="card-title" style={{ fontSize: (this.props.title.length > 10 ) ? "1.7em": "2em" }}>{this.props.title}</div>
                     <div className="card-body">
                         <div className="section auth">
                             {this.props.name === 'login' && (

@@ -1,6 +1,6 @@
 // Import a Google Font
 @import '~bulma/bulma.sass';
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import './base/styles/fonts.scss';
 
 // Set your brand colors
 $purple: #8a4d76;
@@ -10,7 +10,8 @@ $beige-light: #d0d1cd;
 $beige-lighter: #eff0eb;
 
 // Update Bulma's global variables
-$family-sans-serif: 'Nunito', sans-serif;
+// $family-sans-serif: 'Nunito', sans-serif;
+
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
@@ -26,6 +27,7 @@ $input-shadow: none;
 
 // Import only what you need from Bulma
 body{
+    font-family: $family-sans-serif !important;
     display: flex;
     flex-direction: column;
     flex-grow: 2;
