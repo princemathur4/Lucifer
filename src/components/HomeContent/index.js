@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import './style.scss';
+import women_pink from 'img/women_pink.png';
 
 class HomeContent extends React.Component {
     render() {
@@ -9,7 +10,7 @@ class HomeContent extends React.Component {
                     <div className="tile is-ancestor">
                         <div className="tile is-vertical is-6">
                             <div className="tile image-container">
-                                <img src="public/img/women_pink.png" className="img-element"/>
+                                <img src={women_pink} className="img-element"/>
                                 <div className="left-overlay">
                                     <a className="text">◀ Women </a>
                                 </div>
