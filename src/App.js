@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from './modules/Home';
 import ProductsPage from './modules/ProductsPage';
 import Cart from './modules/Cart';
+import MyAccount from './modules/MyAccount';
 import "./App.scss";
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
@@ -11,7 +12,7 @@ import { decorate, observable, action, computed } from 'mobx';
 import AppStore from './AppStore';
 import Auth from '@aws-amplify/auth';
 import MainLoginPage from "./components/MainLoginPage";
-import config from './config';
+import './apis/interceptors';
 
 decorate(
     AppStore, {
@@ -35,6 +36,7 @@ class App extends React.Component {
             path: "/",
             component: {},
             name: "",
+            authRequired: false,
             customProps: {
                 name: "",
             }
@@ -43,6 +45,7 @@ class App extends React.Component {
             path: "/home",
             component: Home,
             name: "home",
+            authRequired: false,
             customProps: {
                 name: "home",
                 store
@@ -52,17 +55,9 @@ class App extends React.Component {
             path: "/men",
             component: Home,
             name: "men",
+            authRequired: false,
             customProps: {
                 name: "men",
-                store
-            }
-        },
-        {
-            path: "/women",
-            component: Home,
-            name: "women",
-            customProps: {
-                name: "women",
                 store
             }
         },
@@ -70,6 +65,7 @@ class App extends React.Component {
             path: "/login",
             component: MainLoginPage,
             name: "login",
+            authRequired: false,
             customProps: {
                 name: "login",
                 title: "Login",
@@ -80,6 +76,7 @@ class App extends React.Component {
             path: "/signup",
             component: MainLoginPage,
             name: "signUp",
+            authRequired: false,
             customProps: {
                 name: "signUp",
                 title: "Sign Up",
@@ -90,6 +87,7 @@ class App extends React.Component {
             path: '/forgot_password',
             component: MainLoginPage,
             name: 'forgotPassword',
+            authRequired: false,
             customProps: {
                 title: 'Request new password',
                 name: 'forgotPassword',
@@ -100,6 +98,7 @@ class App extends React.Component {
             path: '/resend_mail',
             component: MainLoginPage,
             name: 'resendMail',
+            authRequired: false,
             customProps: {
                 title: 'Resend Verification Code',
                 name: 'resendMail',
@@ -126,6 +125,56 @@ class App extends React.Component {
                 store
             }
         },
+        {
+            path: "/myaccount",
+            component: MyAccount,
+            name: "myAccount",
+            authRequired: true,
+            customProps: {
+                name: "profile",
+                store
+            }
+        },
+        {
+            path: "/profile",
+            component: MyAccount,
+            name: "profile",
+            authRequired: true,
+            customProps: {
+                name: "profile",
+                store
+            }
+        },
+        {
+            path: "/addresses",
+            component: MyAccount,
+            name: "addresses",
+            authRequired: true,
+            customProps: {
+                name: "addresses",
+                store
+            }
+        },
+        {
+            path: "/passwords",
+            component: MyAccount,
+            name: "passwords",
+            authRequired: true,
+            customProps: {
+                name: "passwords",
+                store
+            }
+        },
+        {
+            path: "/orders",
+            component: MyAccount,
+            name: "orders",
+            authRequired: true,
+            customProps: {
+                name: "orders",
+                store
+            }
+        },
     ];
 
     setAuthStatus = authenticated => {
@@ -141,27 +190,7 @@ class App extends React.Component {
         }
     };
 
-    loadFacebookSDK() {
-        window.fbAsyncInit = function () {
-            window.FB.init({
-                appId: config.social.FB,
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v3.1'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    }
-
     async componentDidMount() {
-        this.loadFacebookSDK();
         this.authenticateUser();
     }
 
@@ -169,13 +198,14 @@ class App extends React.Component {
         try {
             const session = await Auth.currentSession();
             const user = await Auth.currentAuthenticatedUser();
-
+            console.log("user", user);
             this.setState({
                 user: user,
                 isAuthenticated: true,
                 isAuthenticating: false
             });
         } catch (error) {
+            console.log("user", null);
             this.setState({
                 user: null,
                 isAuthenticated: false,
@@ -194,23 +224,30 @@ class App extends React.Component {
             setUser: this.setUser,
         };
         return (
+            !this.state.isAuthenticating &&
             <Router >
                 {
-                    this.routes.map(({ path, component: C, name, customProps }) => (
+                    this.routes.map(({ path, component: C, name, customProps, authRequired }) => (
                         <Route path={path} exact={true} key={name}
                             render={
                                 (props) => {
                                     if (path === "/") {
                                         return <Redirect to="/home" />;
                                     } else {
-                                        return (
+                                        return ( 
                                             <Fragment>
                                                 <NavBar { ...props} auth={authProps} />
-                                                <C
-                                                    {...props}
-                                                    {...customProps}
-                                                    auth={authProps}
-                                                />
+                                                {
+                                                    ((authRequired && this.state.isAuthenticated) || !authRequired) 
+                                                    ? 
+                                                    <C
+                                                        {...props}
+                                                        {...customProps}
+                                                        auth={authProps}
+                                                    /> 
+                                                    :
+                                                    <Redirect to="/login" />
+                                                }
                                                 <Footer {...props} auth={authProps}/>
                                             </Fragment>
                                         )

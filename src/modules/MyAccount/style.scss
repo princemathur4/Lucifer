@@ -1,0 +1,15 @@
+.my-account-container{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2rem 4rem; 
+    .side-menu{
+        width: 25%;
+        padding-right: 1rem; 
+        border-right: 1px solid rgb(235, 235, 235); 
+    }
+    .content{
+        padding: 0 4rem; 
+        width: 80%;
+    }
+}

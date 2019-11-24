@@ -7,5 +7,11 @@
     },
     "social": {
         "FB": "517136788871267"
+    },
+    "oauth": {
+        "domain": "https://labroz-denim.auth.ap-south-1.amazoncognito.com",
+        "redirectSignIn": "http://localhost:8080/home",
+        "redirectSignOut": "http://localhost:8080/home",
+        "responseType": "code"
     }
 }

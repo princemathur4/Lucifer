@@ -5,6 +5,7 @@ import Auth from '@aws-amplify/auth';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FacebookButton from "../../components/FacebookButton";
+import commonApi from "../../apis/common";
 
 class Signup extends Component {
 	state = {

@@ -11,6 +11,9 @@ Auth.configure({
     userPoolId: config.cognito.USER_POOL_ID,
     userPoolWebClientId: config.cognito.APP_CLIENT_ID,
     IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
+    oauth: {
+        ...config.oauth
+    }
 });
 
 ReactDOM.render( <App/>, document.getElementById('root') );

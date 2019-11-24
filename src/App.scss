@@ -1,10 +1,10 @@
-// Import a Google Font
+$primary: #007b8b91;
+$link: #007b8bc4;
 @import '~bulma/bulma.sass';
 @import './base/styles/fonts.scss';
 
 // Set your brand colors
-$purple: #8a4d76;
-$pink: #fa7c91;
+$purple: #77004f;
 $brown: #757763;
 $beige-light: #d0d1cd;
 $beige-lighter: #eff0eb;
@@ -14,8 +14,6 @@ $beige-lighter: #eff0eb;
 
 $grey-dark: $brown;
 $grey-light: $beige-light;
-$primary: $purple;
-$link: $pink;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
 
@@ -24,6 +22,7 @@ $body-background-color: $beige-lighter;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+$menu-item-active-background-color: rgb(21, 140, 170) !important;
 
 // Import only what you need from Bulma
 body{

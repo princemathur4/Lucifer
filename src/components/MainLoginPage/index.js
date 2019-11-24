@@ -6,34 +6,17 @@ import { observer } from 'mobx-react';
 import Login from '../../modules/Login';
 import SignupController from '../../modules/SignupController';
 import ForgotPasswordController from '../../modules/ForgotPasswordController';
-import axios from "axios";
 import ResendMail from '../../modules/ResendMail';
-
-axios.interceptors.response.use((response) => {
-    return response;
-}, error => {
-    let err;
-    if (error.hasOwnProperty("response")) {
-        console.log("interceptor", error.response)
-        err = error.response;
-    } else {
-        err = error;
-    }
-    return Promise.reject(err);
-});
 
 class MainLoginPage extends Component {
 
     componentDidMount() {
         if (this.props.auth.isAuthenticated) {
             this.props.history.push('/'); // redirect user to app if user is authenticated
-        } else if (this.props.name === 'mainPage') {
-            this.props.history.push('/login'); // redirect user to login if no endpoint is given
         }
     }
 
     render() {
-        console.log("title",this.props.title)
         return (
             <div className="login-page">
                 <div className="login-card">

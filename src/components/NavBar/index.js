@@ -112,15 +112,21 @@ class NavBar extends React.Component {
                                             </div>
                                             <hr className="dropdown-divider"/>
                                             <div className="dropdown-item">
-                                                <Link to="/myaccount">Wishlist</Link>
+                                                <Link to="/profile">Personal Info</Link>
                                             </div>
                                             <div className="dropdown-item">
-                                                <Link to="/myaccount">Orders</Link>
+                                                <Link to="/wishlist">Wishlist</Link>
+                                            </div>
+                                            <div className="dropdown-item">
+                                                <Link to="/orders">Orders</Link>
+                                            </div>
+                                            <div className="dropdown-item">
+                                                <Link to="/orders">Orders</Link>
                                             </div>
                                             <hr className="dropdown-divider"/>
                                             <div className="dropdown-item">
-                                                <button class="button" onClick={this.handleLogout}>
-                                                    <span class="icon is-small">
+                                                <button className="button" onClick={this.handleLogout}>
+                                                    <span className="icon is-small">
                                                         <FontAwesomeIcon icon="sign-out-alt"/>
                                                     </span>
                                                     <span>Logout</span>
