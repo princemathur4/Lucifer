@@ -42,13 +42,13 @@ class Footer extends React.Component{
                             </div>
                             <div className="footer-item-container">
                                 <a className="social-btn" title="Facebook">
-                                    <img src="public/icons/facebook.svg" className="social-icon" width="112" height="28" />
+                                    <img src="https://i.ibb.co/4F7krFm/facebook.png" className="social-icon" width="112" height="28" />
                                 </a>
                                 <a className="social-btn" title="Instagram">
-                                    <img src="public/icons/instagram.svg" className="social-icon" width="112" height="28" />
+                                    <img src="https://i.ibb.co/N2TsSJJ/instagram.png" className="social-icon" width="112" height="28" />
                                 </a>
                                 <a className="social-btn" title="Twitter">
-                                    <img src="public/icons/twitter.svg" className="social-icon" width="112" height="28" />
+                                    <img src="https://i.ibb.co/1QMnP37/twitter.png" className="social-icon" width="112" height="28" />
                                 </a>
                             </div>
                         </div>

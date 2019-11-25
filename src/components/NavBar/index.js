@@ -95,7 +95,7 @@ class NavBar extends React.Component {
                             <p className="control has-icons-left has-icons-right">
                                 <input className="input is-rounded" type="text" placeholder="Find a product" />
                                 <span className="icon is-small is-right">
-                                    <img src="public/icons/magnifying-glass.svg" className="search-icon" width="112" height="28" />
+                                    <img src="https://i.ibb.co/sV93MZG/magnifying-glass.png" className="search-icon" width="112" height="28" />
                                 </span>
                             </p>
                         </div>
@@ -103,7 +103,7 @@ class NavBar extends React.Component {
                         <div className="action-buttons">
                             <div className="dropdown is-right is-hoverable">
                                 <div className="action-btn" aria-haspopup="true" aria-controls="dropdown-profile">
-                                    <img src="public/icons/avatar.svg" onClick={()=>{this.props.history.push('/profile')}} className="action-icon" width="112" height="28" />
+                                    <img src="https://i.ibb.co/89rzTMv/avatar.png" onClick={()=>{this.props.history.push('/profile')}} className="action-icon" width="112" height="28" />
                                     <div className="dropdown-menu" id="dropdown-profile" role="menu">
                                         {this.props.auth.isAuthenticated ?
                                         <div className="dropdown-content">
@@ -163,7 +163,7 @@ class NavBar extends React.Component {
                             </div>
                             <div className="dropdown is-right is-hoverable">
                                 <Link to="/cart" className="action-btn" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
-                                    <img src="public/icons/shopping-cart.svg" className="action-icon" width="112" height="28" />
+                                    <img src="https://i.ibb.co/S3x3K0Q/shopping-cart.png" className="action-icon" width="112" height="28" />
                                 </Link>
                             </div>
                         </div>
