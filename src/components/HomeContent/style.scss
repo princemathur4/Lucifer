@@ -6,7 +6,7 @@
 }
 
 .tile-container {
-    padding: 4rem;
+    padding: 4rem 8rem;
 }
 
 .image-container {
@@ -66,7 +66,7 @@
 
 .bg-women-latest-collection {
     height: 70%;
-    @include apply-background-image('../../../public/img/COVER.png');
+    @include apply-background-image('https://i.ibb.co/T0P5bjk/COVER.png');
 }
 
 .features-container {
