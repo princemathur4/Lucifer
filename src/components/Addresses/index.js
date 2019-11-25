@@ -7,18 +7,20 @@ import { addresses, addressEditableFields } from "../../constants";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Address from "../Address";
 import Spinner from "../Spinner";
+import find from "lodash.find";
+import Modal from "../Modal";
 
 class Addresses extends Component {
     constructor(props) {
         super(props);
         this.state = {
             addresses: {},
-            mode: "view",
+            mode: "",
             responseMsg: "",
             responseType: "",
             isEditLoading: false,
-            isLoading: true
         }
+        this.current_address_id = '';
     }
 
     componentDidMount() {
@@ -28,7 +30,9 @@ class Addresses extends Component {
     async makeFetchApiCall() {
         let session = await getSession();
         console.log("addresses token", session.accessToken.jwtToken);
-
+        this.clearErrorStates();
+        this.updateEditableFieldStates();
+        this.setState({ isLoading: true, mode: "view" });
         try {
             let response = await commonApi.get('get_addresses',
                 {
@@ -52,17 +56,16 @@ class Addresses extends Component {
     handleSubmit = (e) => {
         let payload = {};
         let isError = false;
-        let errors = {...this.state.errors};
-        addressEditableFields.forEach((obj, idx)=>{
-            console.log(this.state[obj.name])
-            if (!this.state[obj.name]){
+        let errors = { ...this.state.errors };
+        addressEditableFields.forEach((obj, idx) => {
+            if (!this.state[obj.name]) {
                 errors[obj.name] = true;
                 isError = true;
                 return;
             }
             payload[obj.name] = this.state[obj.name];
         })
-        if(isError){
+        if (isError) {
             this.setState({
                 errors: errors,
             })
@@ -73,15 +76,16 @@ class Addresses extends Component {
 
     async makeUpdateApiCall(payload) {
         let url = '';
+        let self = this;
         this.setState({ isEditLoading: true });
         if (this.state.mode === "add") {
             url = 'add_address';
         } else {
-            url = 'edit_addresses';
+            url = 'edit_address';
+            payload["address_id"] = this.current_address_id;
         }
 
         let session = await getSession();
-        console.log("profile session", payload)
         try {
             let response = await commonApi.post(url,
                 { ...payload },
@@ -89,8 +93,11 @@ class Addresses extends Component {
             );
             console.log("response", response);
             if (response.data && response.data.success) {
-                this.setState({ responseMsg: response.data.message, responseType: "success", isEditLoading: false, mode: "view" });
-                this.makeFetchApiCall();
+                this.setState({ responseMsg: response.data.message, responseType: "success", isEditLoading: false });
+                this.current_address_id = '';
+                setTimeout(function(){
+                    self.makeFetchApiCall();
+                },3000);
             } else {
                 this.setState({ responseMsg: response.data.message, responseType: "error", isEditLoading: false });
             }
@@ -101,35 +108,82 @@ class Addresses extends Component {
         }
     }
 
-    handleEdit = (e) => {
-        let errors = {};
-        let editableStates = {};
-        // addressesEditableFields.forEach((obj) => {
-        //     errors[obj.name] = false;
-        //     editableStates[obj.name] = this.state.addressesData.hasOwnProperty(obj.name) ? this.state.addressesData[obj.name] : '';
-        // })
-        this.setState({
-            mode: "edit",
-            errors: errors,
-            ...editableStates
-        });
+    async onAddressRemove (){
+        let session = await getSession();
+        try {
+            let response = await commonApi.post('delete_address',
+                { address_id: this.current_address_id },
+                { headers: { "Authorization": session.accessToken.jwtToken } }
+            );
+            console.log("response", response);
+            if (response.data && response.data.success) {
+                this.setState({ isModalActive: false, mode: "view" });
+                this.makeFetchApiCall();
+            } else {
+                this.setState({ isModalActive: false });
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+            this.setState({ isModalActive: false });
+        }
     }
 
-    handleAddClick = () =>{
+    clearErrorStates(){
         let errors = {};
-        let editableStates = {};
         addressEditableFields.forEach((obj) => {
             errors[obj.name] = false;
         })
         this.setState({
-            mode: "add",
             errors: errors,
+            responseMsg: '', 
+            responseType: ""
+        });
+    }
+
+    updateEditableFieldStates = (editableObj) =>{
+        let editableStates = {};
+        addressEditableFields.forEach((obj) => {
+            editableStates[obj.name] = editableObj && editableObj[obj.name] ? editableObj[obj.name] : '';
+        })
+        this.setState({
             ...editableStates
         });
     }
 
+    handleAddBtnClick = () => {
+        this.clearErrorStates();
+        this.updateEditableFieldStates();
+        this.current_address_id = '';
+        this.setState({
+            mode: "add",
+        });
+    }
+
+    handleEditBtnClick = (_id) => {
+        this.clearErrorStates();
+        this.current_address_id = _id;
+        let editableObj = find(this.state.addresses, function (addressObj) { return addressObj._id === _id });
+        console.log("editableObj",editableObj)
+        this.updateEditableFieldStates(editableObj);
+        this.setState({
+            mode: "edit",
+        });
+    }
+
+    onDeleteClick = (_id) => {
+        this.setState({ isModalActive: true });
+        this.current_address_id = _id;
+    }
+
     handleCancel = (e) => {
+        this.current_address_id = '';
         this.setState({ mode: "view" });
+    }
+
+    handleCancelDelete = ()=>{
+        this.current_address_id = '';
+        this.setState({ isModalActive: false });
     }
 
     onCloseResponse = () => {
@@ -154,44 +208,59 @@ class Addresses extends Component {
                                 <div className="header-text is-size-5">
                                     Your Saved Addresses
                                 </div>
+                                <button className="button add-btn" onClick={this.handleAddBtnClick}>
+                                    <span className="icon is-small">
+                                        <FontAwesomeIcon icon="plus" />
+                                    </span>
+                                    Add New Address
+                                </button>
                             </div>
+                            <Modal 
+                                isActive={this.state.isModalActive} 
+                                title="Delete Confirmation"
+                                content="Are you sure you want to delete this address?"
+                                positiveBtnTitle="Yes"
+                                negativeBtnTitle="No"
+                                handlePositiveFeedback={this.onAddressRemove.bind(this)}
+                                handleNegativeFeedback={this.handleCancelDelete}
+                            />
                             <div className="addresses-body">
                                 {
                                     !this.state.isLoading && !!Object.keys(this.state.addresses).length ?
                                         Object.keys(this.state.addresses).map((key, idx) => {
                                             return (
-                                                <Address key={idx} data={this.state.addresses[key]}/>
+                                                <Address 
+                                                    key={idx} 
+                                                    data={this.state.addresses[key]} 
+                                                    handleEditBtnClick={this.handleEditBtnClick}
+                                                    onDeleteClick={this.onDeleteClick.bind(this)}
+                                                />
                                             )
                                         })
-                                    :
-                                    (!this.state.isLoading ?
-                                        <div className="no-data">
-                                            <div className="has-text-grey is-size-5">
-                                                No Saved Addresses
+                                        :
+                                        (!this.state.isLoading ?
+                                            <div className="no-data">
+                                                <div className="has-text-grey is-size-5">
+                                                    No Saved Addresses
+                                        </div>
+                                                
                                             </div>
-                                            <button class="button add-btn" onClick={this.handleAddClick}>
-                                                <span class="icon is-small">
-                                                    <FontAwesomeIcon icon="plus"/>
-                                                </span>
-                                                Add New Address
-                                            </button>
-                                        </div>
-                                    :
-                                        <div className="loader-container">
-                                            <Spinner color="primary" size="medium" />
-                                        </div>
-                                    )
-
-                            }
+                                            :
+                                            <div className="loader-container">
+                                                <Spinner color="primary" size="medium" />
+                                            </div>
+                                        )
+                                }
                             </div>
                         </Fragment>
                     }
                     {
-                        this.state.mode === "add" &&
+                        (this.state.mode === "add" ||
+                        this.state.mode === "edit" )&&
                         <Fragment>
                             <div className="addresses-header">
                                 <div className="header-text is-size-5">
-                                    Add new address
+                                    {this.state.mode === "add" ? "Add new address" : "Edit Address"}
                                 </div>
                                 <div className="btn-container">
                                 </div>
@@ -209,6 +278,7 @@ class Addresses extends Component {
                                                             <input
                                                                 className={!this.state.errors[obj.name] ? "input" : "input is-danger"}
                                                                 type="text"
+                                                                value={this.state[obj.name]}
                                                                 name={obj.name}
                                                                 onChange={this.onInputChange}
                                                             />

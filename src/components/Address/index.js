@@ -15,7 +15,7 @@ class Address extends Component {
                     <div className="user-name is-size-6">
                         {this.props.data.name}
                     </div>
-                    <span class="tag">{titleCase(this.props.data.address_type)}</span>
+                    <span class="tag is-medium">{titleCase(this.props.data.address_type)}</span>
                 </div>
                 <div className="user-address is-size-6">
                     {this.props.data.address}
@@ -33,12 +33,24 @@ class Address extends Component {
                     Mobile - {this.props.data.mobile}
                 </div>
                 <footer class="card-footer">
-                    <button class="button is-fullwidth" onClick={this.props.handleEdit}>
-                        <span class="icon is-small">
-                            <FontAwesomeIcon icon="edit" className="edit-btn-icon" />
-                        </span>
-                        Edit
-                    </button>
+                    <div class="field has-addons action-btns">
+                        <p class="control">
+                            <button class="button" onClick={() => { this.props.handleEditBtnClick(this.props.data._id)}}>
+                                <span class="icon is-small">
+                                    <FontAwesomeIcon icon="edit" className="edit-btn-icon" />
+                                </span>
+                                <span>Edit</span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button" onClick={()=>{this.props.onDeleteClick(this.props.data._id)}}>
+                                <span class="icon is-small">
+                                    <FontAwesomeIcon icon="trash-alt" className="delete-btn-icon" />
+                                </span>
+                                <span>Remove</span>
+                            </button>
+                        </p>
+                    </div>
                 </footer>
             </div>
         )

@@ -63,6 +63,12 @@ export const addressEditableFields = [
         type: 'radio',
         options: [{ value: "home", title: "Home" }, { value: "office", title: "Office" }],
     },
+    // {
+    //     title: 'Make this the default address',
+    //     name: 'default',
+    //     type: 'radio',
+    //     options: [{ value: "yes", title: "Yes" }, { value: "no", title: "No" }],
+    // },
 ]
 
 export const myAccountTabs = {

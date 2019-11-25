@@ -7,8 +7,8 @@
     "webpack-dev-server": "webpack-dev-server",
     "dev": "webpack-dev-server --mode=development",
     "prod": "webpack --mode=production",
-    "start": "node server.js", 
-    "heroku-postbuild": "webpack -p" 
+    "start": "node server.js",
+    "heroku-postbuild": "webpack -p"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "bulma": "^0.8.0",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
+    "lodash.find": "^4.6.0",
     "mobx": "^5.14.2",
     "mobx-react": "^6.1.4",
     "node-sass": "^4.13.0",

@@ -1,9 +1,11 @@
 .addresses-body{
+    font-size: 0.9rem;
     .card{
-        margin: 2rem 0;
-        padding: 1rem;
+        margin: 2em 0;
+        padding: 1em;
         box-shadow: 0 0 0 0;
         border: 1px solid rgb(219, 219, 219);
+        font-size: 0.9rem;
         .user-header{
             display: flex;
             justify-content: space-between;
@@ -12,16 +14,32 @@
             font-weight: 600;
         }
         .user-mobile{
-            padding: 0.7rem 0; 
+            padding: 0.7em 0;
         }
         &:hover{
             border: 1px solid rgb(240, 240, 240);
             box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
         }
         .card-footer{
-            button{
-                span{
-                    margin-right: 0.5rem !important;
+            .action-btns{
+                width: 100% !important;
+                display: flex !important;
+                flex-grow: 2 !important;
+
+                .control{
+                    margin-bottom: 0;
+                    width: 100% !important;
+                    display: flex !important;
+                    flex-grow: 2 !important;
+                    button{
+                        width: 100% !important;
+                        display: flex !important;
+                        flex-grow: 2 !important;
+                        justify-content: center;
+                        span{
+                            margin-right: 0.5em !important;
+                        }
+                    }
                 }
             }
         }

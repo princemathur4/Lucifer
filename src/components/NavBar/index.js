@@ -42,7 +42,7 @@ class NavBar extends React.Component {
         return (
             <Fragment>
                 <Link className="logo-container" to="/">
-                    <img src="public/img/larboz_logo.png" className="logo-img" width="112" height="28" />
+                    <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="112" height="28" />
                 </Link>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <div className="navbar-brand">
@@ -113,6 +113,9 @@ class NavBar extends React.Component {
                                             <hr className="dropdown-divider"/>
                                             <div className="dropdown-item">
                                                 <Link to="/profile">Personal Info</Link>
+                                            </div>
+                                            <div className="dropdown-item">
+                                                <Link to="/wishlist">Addresses</Link>
                                             </div>
                                             <div className="dropdown-item">
                                                 <Link to="/wishlist">Wishlist</Link>

@@ -2,14 +2,14 @@
     display: flex;
     width: 100%;
     box-sizing: border-box;
-    padding: 2rem 4rem; 
+    padding: 2rem 5rem; 
     .side-menu{
         width: 25%;
-        padding-right: 1rem; 
+        padding-right: 3rem; 
         border-right: 1px solid rgb(235, 235, 235); 
     }
     .content{
-        padding: 0 4rem; 
+        padding-left: 3rem; 
         width: 80%;
     }
 }

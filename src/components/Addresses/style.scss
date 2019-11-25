@@ -8,10 +8,23 @@
         align-items: center;
         padding-bottom: 1rem;
         border-bottom: 1px solid rgb(223, 223, 223);
+        .add-btn{
+            font-weight: 600;
+            color: rgb(2, 59, 145);
+            background: white;
+            border: 1px solid rgb(2, 59, 145);
+            &:hover{
+                color: white;
+                background: rgb(2, 59, 145);
+            }
+            span{
+                margin-right: 0.5rem !important;
+            }
+        }
     }
     .addresses-body{
         padding: 0.5rem 0;
-        width: 100%;
+        width: 70%;
         height: 100%;
 
         .no-data{
@@ -19,19 +32,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            .add-btn{
-                font-weight: 600;
-                color: rgb(1, 177, 124);
-                background: white;
-                border: 1px solid rgb(1, 177, 124);
-                &:hover{
-                    color: white;
-                    background: rgb(1, 177, 124);
-                }
-                span{
-                    margin-right: 0.5rem !important;
-                }
-            }
+            
         }
         .loader-container{
             width: 100%;
@@ -125,7 +126,7 @@
                 color: #cc0f35;
                 background-color: #feecf0;
             }
-            &.is-info{
+            &.is-success{
                 color: #1b79b0;
                 background: #e2f5ff;
             }
