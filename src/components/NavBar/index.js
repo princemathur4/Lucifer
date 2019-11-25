@@ -102,7 +102,7 @@ class NavBar extends React.Component {
 
                         <div className="action-buttons">
                             <div className="dropdown is-right is-hoverable">
-                                <div className="action-btn" title="Profile" aria-haspopup="true" aria-controls="dropdown-profile">
+                                <div className="action-btn" aria-haspopup="true" aria-controls="dropdown-profile">
                                     <img src="public/icons/avatar.svg" onClick={()=>{this.props.history.push('/profile')}} className="action-icon" width="112" height="28" />
                                     <div className="dropdown-menu" id="dropdown-profile" role="menu">
                                         {this.props.auth.isAuthenticated ?
@@ -118,14 +118,11 @@ class NavBar extends React.Component {
                                                 <Link to="/wishlist">Wishlist</Link>
                                             </div>
                                             <div className="dropdown-item">
-                                                <Link to="/orders">Orders</Link>
-                                            </div>
-                                            <div className="dropdown-item">
-                                                <Link to="/orders">Orders</Link>
+                                                <Link to="/orders">Orders & Returns</Link>
                                             </div>
                                             <hr className="dropdown-divider"/>
                                             <div className="dropdown-item">
-                                                <button className="button" onClick={this.handleLogout}>
+                                                    <button className="button is-small has-text-grey-darker	 is-light is-fullwidth" onClick={this.handleLogout}>
                                                     <span className="icon is-small">
                                                         <FontAwesomeIcon icon="sign-out-alt"/>
                                                     </span>

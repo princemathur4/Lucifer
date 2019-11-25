@@ -1,0 +1,145 @@
+.addresses-container{
+    width: 100%;
+    height: 100%;
+    .addresses-header{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgb(223, 223, 223);
+    }
+    .addresses-body{
+        padding: 0.5rem 0;
+        width: 100%;
+        height: 100%;
+
+        .no-data{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            .add-btn{
+                font-weight: 600;
+                color: rgb(1, 177, 124);
+                background: white;
+                border: 1px solid rgb(1, 177, 124);
+                &:hover{
+                    color: white;
+                    background: rgb(1, 177, 124);
+                }
+                span{
+                    margin-right: 0.5rem !important;
+                }
+            }
+        }
+        .loader-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-grow: 2;
+            align-items: center;
+            justify-content: center;
+        }
+        .field{
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            align-items: center;
+            .field-title{
+                text-align: left;
+                font-weight: 600;
+                width: 20%;
+                vertical-align: middle;
+            }
+            .field-value{
+                text-align: left;
+                width: 80%;
+                vertical-align: middle;
+            }
+        }
+        .editable-field{
+            font-family: inherit;
+            margin-bottom: 1rem; 
+            width: 70%;
+
+            .editable-field-label{
+                text-align: left;
+                font-weight: 600;
+                padding: 0 0 0.3rem 0;
+            }
+            input.input{
+                border-radius: 0;
+                box-shadow: 0 0 0 0;
+                height: 2.5rem;
+                font-family: inherit;        
+                padding-left: calc(0.75em - 1px);
+                &:focus{
+                border-color: #082555;
+                }
+            }
+            label{
+                margin-right: 0.5rem;
+                input[type="checkbox"], input[type="radio"] {
+                    margin-right: 0.5rem !important;
+                }
+            }
+        }
+        .action-buttons{
+            button{
+                margin-right: 0.5rem;
+                &.submit-btn{
+                    background: rgb(255, 255, 255);
+                    color: rgb(12, 175, 180);
+                    border: 1px solid rgb(12, 175, 180);
+                    &:hover{
+                        background: rgb(12, 175, 180);
+                        color: rgb(255, 255, 255);
+                        border: 1px solid rgb(12, 175, 180);
+                    }
+                }
+                &.cancel-btn{
+                    background: rgb(255, 255, 255);
+                    color: rgb(180, 23, 12);
+                    border: 1px solid rgb(180, 23, 12);
+                    &:hover{
+                        background: rgb(180, 23, 12);
+                        color: rgb(255, 255, 255);
+                        border: 1px solid rgb(180, 23, 12);
+                    }
+                }
+            }
+        }
+        .response-text{
+            text-align: center;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            border-radius: 4px;
+            min-height: 2em;
+            padding: 0.75em;
+            margin-top: 1rem;
+            &.is-error{
+                color: #cc0f35;
+                background-color: #feecf0;
+            }
+            &.is-info{
+                color: #1b79b0;
+                background: #e2f5ff;
+            }
+            .response-tag{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1.5;
+                font-size: 1rem;
+                flex-grow: 2;
+                flex-wrap: wrap;
+                padding-left: 0.75em;
+                padding-right: 0.75em;
+            }
+        }
+    }
+}

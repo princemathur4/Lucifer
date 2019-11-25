@@ -5,6 +5,7 @@ import commonApi from "../../apis/common";
 import { titleCase } from "../../utils/utilFunctions";
 import { profileEditableFields } from "../../constants";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from "../Spinner";
 
 class Profile extends Component {
     constructor(props) {
@@ -12,7 +13,10 @@ class Profile extends Component {
         this.state = {
             profileData: {},
             mode: "view",
-            responseMsg: ""
+            responseMsg: "",
+            responseType: "",
+            isLoading: true ,
+            isEditLoading: false
         }
     }
 
@@ -22,65 +26,69 @@ class Profile extends Component {
 
     async makeFetchApiCall() {
         let session = await getSession();
-        console.log("profile session", session)
+        console.log("profile token", session.accessToken.jwtToken);
         try {
             let response = await commonApi.get('profile',
-                { headers: { "Authorization": session.accessToken.jwtToken } }
+                { 
+                    params: {},
+                    headers: { Authorization: session.accessToken.jwtToken } 
+                }
             );
-            console.log("response", response)
+            console.log("response", response);
             if (response.data && response.data.success) {
-                this.setState({ profileData: response.data.data });
+                this.setState({ profileData: response.data.data, isLoading: false });
             } else {
-                this.setState({ profileData: { name: "Prince Mathur", email: "princemathur.mathur4@gmail.com", phone: 9971936873 } });
+                this.setState({ profileData: {}, isLoading: false});
             }
         }
         catch (e) {
             console.log("error", e);
-            this.setState({ profileData: { name: "Prince Mathur", email: "princemathur.mathur4@gmail.com", phone: 9971936873 } });
+            this.setState({ profileData: {}, isLoading: false });
         }
     }
     
     handleSubmit = (e) => {
         let payload = {};
-        let isError = false;
-        let errors = {...this.state.errors};
-        profileEditableFields.forEach((obj, idx)=>{
-            console.log(this.state[obj.name])
-            if (!this.state[obj.name]){
-                errors[obj.name] = true;
-                isError = true;
-                return;
-            }
-            payload[obj.name] = this.state[obj.name];
-        })
-        if(isError){
-            this.setState({
-                errors: errors
-            })
-            return;
-        }
+        // let isError = false;
+        // let errors = {...this.state.errors};
+        // profileEditableFields.forEach((obj, idx)=>{
+        //     console.log(this.state[obj.name])
+        //     if (!this.state[obj.name]){
+        //         errors[obj.name] = true;
+        //         isError = true;
+        //         return;
+        //     }
+        //     payload[obj.name] = this.state[obj.name];
+        // })
+        // if(isError){
+        //     this.setState({
+        //         errors: errors
+        //     })
+        //     return;
+        // }
         this.makeUpdateApiCall(payload);
     }
 
     async makeUpdateApiCall(payload) {
+        this.setState({ isEditLoading: true })
         let session = await getSession();
         console.log("profile session", session)
         try {
             let response = await commonApi.post('edit_profile',
-                { data: payload },
+                { ...payload },
                 { headers: { "Authorization": session.accessToken.jwtToken } }
             );
             console.log("response", response)
             if (response.data && response.data.success) {
-                console.log("success")
+                this.setState({ responseMsg: response.data.message, responseType: "success", isEditLoading: false, mode: "view" });
+                this.makeFetchApiCall();
             } else {
-                console.log("error")
+                this.setState({ responseMsg: response.data.message, responseType: "error", isEditLoading: false });
             }
-            this.setState({ responseMsg: response.data.message });
         }
         catch (e) {
             console.log("error", e);
-            this.setState({ responseMsg: "Something Went wrong." });
+            this.setState({ responseMsg: "Something went wrong.", responseType: "error", isEditLoading: false });
         }
     }
 
@@ -101,6 +109,7 @@ class Profile extends Component {
     handleCancel = (e) => {
         this.setState({ mode: "view" });
     }
+
     onCloseResponse = () =>{
         this.setState({ responseMsg: "" })
     }
@@ -124,16 +133,19 @@ class Profile extends Component {
                                     Your Info
                                 </div>
                                 <div className="btn-container">
-                                    <button className="button is-dark" onClick={this.handleEdit}>Edit</button>
+                                    {
+                                        !this.state.isLoading && !!Object.keys(this.state.profileData).length &&
+                                        <button className="button is-dark" onClick={this.handleEdit}>Edit</button>
+                                    }
                                 </div>
                             </div>
                             <div className="profile-body">
                                 {
-                                    Object.keys(this.state.profileData).map((key, idx) => {
+                                    !this.state.isLoading && !!Object.keys(this.state.profileData).length ? Object.keys(this.state.profileData).map((key, idx) => {
                                         return (
                                             <div key={idx} className="field">
                                                 <div className="field-title is-size-6">
-                                                    {titleCase(key)}
+                                                    {titleCase(key).replace('_', ' ')}
                                                 </div>
                                                 <div className="field-value is-size-6">
                                                     {this.state.profileData[key]}
@@ -141,6 +153,18 @@ class Profile extends Component {
                                             </div>
                                         )
                                     })
+                                    :
+                                    (!this.state.isLoading ? 
+                                    <div className="no-data">
+                                        <div className="has-text-grey is-size-5">
+                                            No Data Available
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="loader-container">
+                                        <Spinner color="primary" size="medium"/>
+                                    </div>
+                                    )
                                 }
                             </div>
                         </Fragment>
@@ -219,12 +243,12 @@ class Profile extends Component {
                                     })
                                 }
                                 <div className="action-buttons">
-                                    <button className="button submit-btn" onClick={this.handleSubmit}>Submit</button>
+                                        <button className={!this.state.isEditLoading ? "button submit-btn" : "button submit-btn is-loading"} onClick={this.handleSubmit}>Submit</button>
                                     <button className="button cancel-btn" onClick={this.handleCancel}>Cancel</button>
                                 </div>
                                 {
                                     this.state.responseMsg &&
-                                    <div className="response-text is-error">
+                                        <div className={"response-text is-" + this.state.responseType}>
                                         <span className="response-tag">
                                             {this.state.responseMsg}
                                         </span>

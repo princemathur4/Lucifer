@@ -1,0 +1,32 @@
+.spinner {
+    border-radius: 50%;
+    -webkit-animation: spin 0.7s linear infinite; /* Safari */
+    animation: spin 0.7s linear infinite;
+}
+.small{
+    width: 20px;
+    height: 20px;
+}
+.medium{
+    width: 50px;
+    height: 50px;
+}
+.primary{
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #089aad;
+}
+.gray{
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3d3d3d;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

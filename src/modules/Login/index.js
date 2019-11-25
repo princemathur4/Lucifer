@@ -5,6 +5,7 @@ import Auth from '@aws-amplify/auth';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FacebookButton from "../../components/FacebookButton";
+import commonApi from "../../apis/common";
 
 class Login extends Component {
     state = {
@@ -64,7 +65,14 @@ class Login extends Component {
                 // this.props.store.emailFromPreviousScreen = this.state.email;
                 return;
             }
-
+            
+            try{
+                await commonApi.post('login', {}, 
+                    { headers: { "Authorization": user.signInUserSession.accessToken.jwtToken } }
+                );
+            }catch(e){
+                console.log(e);
+            }
             this.setState({ isLoading: false });
             this.props.auth.setAuthStatus(true);
             this.props.auth.setUser(user);

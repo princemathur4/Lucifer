@@ -23,7 +23,7 @@ class MyAccount extends Component {
                                 My account
                             </h1>
                             {this.props.auth.user &&
-                                <h3 className="">
+                                <h3 >
                                     {this.props.auth.user.attributes.name}
                                 </h3>
                             }
