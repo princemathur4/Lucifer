@@ -41,10 +41,10 @@ class NavBar extends React.Component {
     render() {
         return (
             <Fragment>
-                <Link className="logo-container" to="/">
-                    <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="112" height="28" />
-                </Link>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
+                    <Link className="logo-container" to="/">
+                        <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="112" height="28" />
+                    </Link>
                     <div className="navbar-brand">
                         <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarLabroz">
                             <span aria-hidden="true"></span>
@@ -68,22 +68,22 @@ class NavBar extends React.Component {
                             <div className="navbar-dropdown">
                                 <div className="dropdown-container">
                                     <div className="links-container even-column">
-                                        <Link className="title-link" to="/men">
+                                        <div className="title-link">
                                             Bottomwear
-                                        </Link>
-                                        <Link className="sub-link" to="/men">
+                                        </div>
+                                        <Link className="sub-link" to="/products?category=bottomwear&sub_category=jeans">
                                             Jeans
                                         </Link>
-                                        <Link className="sub-link" to="/men">
+                                        <Link className="sub-link" to="/products?category=bottomwear&sub_category=chinos">
+                                            Chinos
+                                        </Link>
+                                        <Link className="sub-link" to="/products?category=bottomwear&sub_category=shorts">
                                             Shorts
                                         </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Link to="/products" className="navbar-item">
-                            Products
-                        </Link>
                         <Link to="/specials" className="navbar-item">
                             Specials
                         </Link>

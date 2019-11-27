@@ -44,7 +44,7 @@ class Signup extends Component {
 		const error = Validate('signUp', this.state);
 		if (Object.keys(error).length) {
 			this.setState({
-				errors: { ...this.state.errors, ...error },
+				errors: { ...error },
 				isLoading: false
 			});
 			return;

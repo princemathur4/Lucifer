@@ -1,4 +1,5 @@
 .filters-container {
+    width: 100%;
     background: rgb(255, 255, 255);
     .filters-header{
         display: flex;
@@ -13,6 +14,20 @@
             color: rgba(0, 82, 204, 0.637);
             font-weight: 500;
             cursor: pointer;
+        }
+    }
+    .filters-body{
+        display: flex;
+        flex-direction: column;
+        .filter-field{
+            .filter-field-title{
+                font-weight: 600;
+                padding: 0.3rem 0;
+            }
+            .filter-field-content{
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 }

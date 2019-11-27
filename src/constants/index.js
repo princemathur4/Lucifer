@@ -1,3 +1,94 @@
+export const productFilters = [
+    {
+        "filter_name": "color",
+        "filter_type": "multiSelect",
+        "values": [
+            {
+                "key": "black",
+                "title": "Black"
+            },
+            {
+                "key": "blue",
+                "title": "Blue"
+            },
+            {
+                "key": "grey",
+                "title": "Grey"
+            }
+        ]
+    },
+    {
+        "filter_name": "fit",
+        "filter_type": "multiSelect",
+        "values": [
+            {
+                "key": "regular_fit",
+                "title": "Regular Fit"
+            },
+            {
+                "key": "slim_fit",
+                "title": "Slim Fit"
+            }
+        ]
+    },
+    {
+        "filter_name": "size",
+        "filter_type": "multiSelect",
+        "values": [
+            {
+                "key": "30",
+                "title": "30"
+            },
+            {
+                "key": "32",
+                "title": "32"
+            },
+            {
+                "key": "36",
+                "title": "36"
+            },
+            {
+                "key": "38",
+                "title": "38"
+            }
+        ]
+    },
+    {
+        "filter_name": "fabric",
+        "filter_type": "multiSelect",
+        "values": [
+            {
+                "key": "cotton",
+                "title": "Cotton"
+            }
+        ]
+    },
+    {
+        "filter_name": "price",
+        "filter_type": "range",
+        "min": 700,
+        "max": 7000
+    },
+    {
+        "filter_name": "discount",
+        "filter_type": "multiSelect",
+        "values": [
+            {
+                "key": "0",
+                "title": "0%"
+            },
+            {
+                "key": "10",
+                "title": "10%"
+            },
+            {
+                "key": "50",
+                "title": "50%"
+            }
+        ]
+    },
+]
+
 export const addresses = [
     {
         name: "Sherlock Holmes",
