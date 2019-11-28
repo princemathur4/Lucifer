@@ -7,7 +7,7 @@ import ProductItem from "../ProductItem";
 class ProductList extends React.Component {
     componentDidMount() {
         // this.makeGetResultsApiCall();    
-        // this.makeGetAvailableFiltersApiCall();    
+        // this.makeGetAvailableFiltersApiCall(); 
     }
     
     render() {

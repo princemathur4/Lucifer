@@ -1,6 +1,7 @@
 .filters-container {
     width: 100%;
     background: rgb(255, 255, 255);
+    
     .filters-header{
         display: flex;
         flex-direction: row;
@@ -27,6 +28,21 @@
             .filter-field-content{
                 display: flex;
                 flex-direction: column;
+                .ui.checkbox {
+                    padding: 0.2rem;
+                }
+                .label-container{
+                    display: flex;
+                    .color-label{
+                        .color-box{
+                            width: 1rem;
+                            height: 1rem;
+                            margin-right: 0.5rem;
+                        }
+                        display: flex;
+                        margin-right: 1rem;
+                    }
+                }
             }
         }
     }

@@ -3,8 +3,24 @@ import './style.scss';
 import { Link } from "react-router-dom";
 import { observer } from 'mobx-react';
 import { titleCase } from "../../utils/utilFunctions";
+import { Checkbox } from 'semantic-ui-react';
 
 class Filters extends React.Component {
+    state = {
+
+    }
+
+    handleCheckboxFilter = (e) => {
+        console.log("e",e);
+        let filterState = this.state[e.target.name];
+        if (!filterState || !filterState.length){
+            filterState = []
+        }
+        filterState.push(e.target.value);
+        this.setState({
+            [e.target.name]: filterState
+        })
+    }
 
     render() {
         return (
@@ -31,10 +47,28 @@ class Filters extends React.Component {
                                             obj.filter_type === "multiSelect" &&
                                             obj.values.map((optionObj, idx)=>{
                                                 return (
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" value={optionObj.key}/>
-                                                        {optionObj.title}
-                                                    </label>
+                                                    <Checkbox 
+                                                        name={optionObj.filter_name}
+                                                        value={optionObj.key}
+                                                        label={
+                                                            <div className="label-container">
+                                                            {
+                                                                optionObj.hex 
+                                                                ? 
+                                                                <label className="color-label"><div className="color-box" style={{ background: optionObj.hex }}></div>{optionObj.title}</label>
+                                                                :
+                                                                <label>{optionObj.title}</label>
+                                                            }
+                                                            </div>
+                                                        }
+                                                        checked={this.state[optionObj.filter_name] && this.state[optionObj.filter_name].includes(optionObj.key)}
+                                                        onChange={this.handleCheckboxFilter} 
+                                                    />                                   
+
+                                                    // <label class="checkbox">
+                                                    //     <input type="checkbox" value={optionObj.key}/>
+                                                    //     {optionObj.title}
+                                                    // </label>
                                                 )
                                             })
                                         }

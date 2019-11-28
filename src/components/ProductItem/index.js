@@ -1,9 +1,20 @@
 import React, { Fragment } from 'react';
 import './style.scss';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 class ProductItem extends React.Component {
     componentDidMount() {
+    }
+
+
+    handleWishlistToggle = (e)=>{
+        console.log("wishlist toggle!")
+    }
+
+    handleCartToggle = (e)=>{
+        console.log("cart toggle!")
     }
 
     render() {
@@ -23,17 +34,16 @@ class ProductItem extends React.Component {
                             </div>
                         </div>
 
-
                         <div className="content">
                             <button className="button is-outlined">
                                 <span className="icon">
-                                    <img src="https://i.ibb.co/tQDybQf/small-bookmark.png" className="wishlist-icon"/>
+                                    <FontAwesomeIcon icon="bookmark" className="wishlist-icon"/>
                                 </span>
                                 <span>Save in Wishlist</span>
                             </button>
-                            <button className="button is-outlined">
+                            <button className="button is-outlined" onClick={this.handleCartToggle}>
                                 <span className="icon">
-                                    <img src="https://i.ibb.co/rfBbNmr/add-to-cart.png" />
+                                    <FontAwesomeIcon icon="cart-plus"/>
                                 </span>
                                 <span>Add to Cart</span>
                             </button>

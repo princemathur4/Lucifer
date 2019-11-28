@@ -5,16 +5,19 @@ export const productFilters = [
         "values": [
             {
                 "key": "black",
-                "title": "Black"
+                "title": "Black",
+                "hex": "#000000"
             },
             {
                 "key": "blue",
-                "title": "Blue"
+                "title": "Blue",
+                "hex": " #0000ff"
             },
             {
                 "key": "grey",
-                "title": "Grey"
-            }
+                "title": "Grey",
+                "hex": "#808080"
+            },
         ]
     },
     {
@@ -88,6 +91,16 @@ export const productFilters = [
         ]
     },
 ]
+
+export const defaultFilterTemplate = {
+    color: [],
+    fit: [],
+    size: [],
+    fabric: [],
+    min_price: 0, 
+    max_price: Infinity,
+    discount: []
+}
 
 export const addresses = [
     {

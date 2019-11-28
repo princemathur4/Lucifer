@@ -16,9 +16,13 @@ import './apis/interceptors';
 
 decorate(
     AppStore, {
-        filters: observable
+        filters: observable,
+        filtersBlueprint: observable,
+        setFilters: action,
+        setFilterBlueprint: action,
     }
 )
+
 const store = new AppStore();
 
 class App extends React.Component {
