@@ -92,16 +92,6 @@ export const productFilters = [
     },
 ]
 
-export const defaultFilterTemplate = {
-    color: [],
-    fit: [],
-    size: [],
-    fabric: [],
-    min_price: 0, 
-    max_price: Infinity,
-    discount: []
-}
-
 export const addresses = [
     {
         name: "Sherlock Holmes",

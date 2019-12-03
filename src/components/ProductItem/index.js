@@ -3,7 +3,6 @@ import './style.scss';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
 class ProductItem extends React.Component {
     componentDidMount() {
     }

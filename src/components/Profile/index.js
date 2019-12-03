@@ -15,7 +15,7 @@ class Profile extends Component {
             mode: "view",
             responseMsg: "",
             responseType: "",
-            isLoading: true ,
+            isLoading: true,
             isEditLoading: false
         }
     }
@@ -29,16 +29,16 @@ class Profile extends Component {
         console.log("profile token", session.accessToken.jwtToken);
         try {
             let response = await commonApi.get('profile',
-                { 
+                {
                     params: {},
-                    headers: { Authorization: session.accessToken.jwtToken } 
+                    headers: { Authorization: session.accessToken.jwtToken }
                 }
             );
             console.log("response", response);
             if (response.data && response.data.success) {
                 this.setState({ profileData: response.data.data, isLoading: false });
             } else {
-                this.setState({ profileData: {}, isLoading: false});
+                this.setState({ profileData: {}, isLoading: false });
             }
         }
         catch (e) {
@@ -46,7 +46,7 @@ class Profile extends Component {
             this.setState({ profileData: {}, isLoading: false });
         }
     }
-    
+
     handleSubmit = (e) => {
         let payload = {};
         // let isError = false;
@@ -110,7 +110,7 @@ class Profile extends Component {
         this.setState({ mode: "view" });
     }
 
-    onCloseResponse = () =>{
+    onCloseResponse = () => {
         this.setState({ responseMsg: "" })
     }
 
@@ -153,18 +153,19 @@ class Profile extends Component {
                                             </div>
                                         )
                                     })
-                                    :
-                                    (!this.state.isLoading ? 
-                                    <div className="no-data">
-                                        <div className="has-text-grey is-size-5">
-                                            No Data Available
+                                        :
+                                        (!this.state.isLoading
+                                            ?
+                                            <div className="no-data">
+                                                <div className="has-text-grey is-size-5">
+                                                    No Data Available
                                         </div>
-                                    </div>
-                                    :
-                                    <div className="loader-container">
-                                        <Spinner color="primary" size="medium"/>
-                                    </div>
-                                    )
+                                            </div>
+                                            :
+                                            <div className="loader-container">
+                                                <Spinner color="primary" size="medium" />
+                                            </div>
+                                        )
                                 }
                             </div>
                         </Fragment>
@@ -182,79 +183,79 @@ class Profile extends Component {
                             <div className="profile-body">
                                 <Fragment>
                                     {
-                                    profileEditableFields.map((obj, idx) => {
-                                        return (
-                                            <div className="editable-field" key={idx}>
-                                                <div className="editable-field-label">{obj.title}</div>
-                                                {
-                                                    obj.type === "text" &&
-                                                    <div className={!this.state.errors[obj.name] ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
-                                                        <input
-                                                            className={!this.state.errors[obj.name] ? "input" : "input is-danger"}
-                                                            type="text"
-                                                            defaultValue={this.state.profileData[obj.name]}
-                                                            name={obj.name}
-                                                            onChange={this.onInputChange}
-                                                            disabled={!obj.editable}
-                                                        />
-                                                        {
-                                                            this.state.errors[obj.name] &&
-                                                            <Fragment>
-                                                                <span className="icon is-small is-right">
-                                                                    <FontAwesomeIcon icon="exclamation-triangle" />
-                                                                </span>
-                                                                <p className="help is-danger">
-                                                                    This is a mandatory field
+                                        profileEditableFields.map((obj, idx) => {
+                                            return (
+                                                <div className="editable-field" key={idx}>
+                                                    <div className="editable-field-label">{obj.title}</div>
+                                                    {
+                                                        obj.type === "text" &&
+                                                        <div className={!this.state.errors[obj.name] ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+                                                            <input
+                                                                className={!this.state.errors[obj.name] ? "input" : "input is-danger"}
+                                                                type="text"
+                                                                defaultValue={this.state.profileData[obj.name]}
+                                                                name={obj.name}
+                                                                onChange={this.onInputChange}
+                                                                disabled={!obj.editable}
+                                                            />
+                                                            {
+                                                                this.state.errors[obj.name] &&
+                                                                <Fragment>
+                                                                    <span className="icon is-small is-right">
+                                                                        <FontAwesomeIcon icon="exclamation-triangle" />
+                                                                    </span>
+                                                                    <p className="help is-danger">
+                                                                        This is a mandatory field
                                                                 </p>
-                                                            </Fragment>
-                                                        }
-                                                    </div>
-                                                }
-                                                {
-                                                    obj.type === "radio" &&
-                                                    <div className="control">
-                                                        {
-                                                            obj.options.map((option, idx) => {
-                                                                return (
-                                                                    <label className="radio" key={idx}>
-                                                                        <input type="radio" 
-                                                                            name={obj.name} 
-                                                                            value={option.value} 
-                                                                            onChange={this.onInputChange} 
-                                                                            checked={this.state[obj.name] === option.value}
-                                                                        />
-                                                                        {option.title}
-                                                                    </label>
-                                                                )
-                                                            })
-                                                        }
-                                                        {
-                                                            this.state.errors[obj.name] &&
-                                                            <Fragment>
-                                                                <p className="help is-danger">
-                                                                    This is a mandatory field
+                                                                </Fragment>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    {
+                                                        obj.type === "radio" &&
+                                                        <div className="control">
+                                                            {
+                                                                obj.options.map((option, idx) => {
+                                                                    return (
+                                                                        <label className="radio" key={idx}>
+                                                                            <input type="radio"
+                                                                                name={obj.name}
+                                                                                value={option.value}
+                                                                                onChange={this.onInputChange}
+                                                                                checked={this.state[obj.name] === option.value}
+                                                                            />
+                                                                            {option.title}
+                                                                        </label>
+                                                                    )
+                                                                })
+                                                            }
+                                                            {
+                                                                this.state.errors[obj.name] &&
+                                                                <Fragment>
+                                                                    <p className="help is-danger">
+                                                                        This is a mandatory field
                                                                 </p>
-                                                            </Fragment>
-                                                        }
-                                                    </div>
-                                                }
-                                            </div>
-                                        )
-                                    })
-                                }
-                                <div className="action-buttons">
+                                                                </Fragment>
+                                                            }
+                                                        </div>
+                                                    }
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                    <div className="action-buttons">
                                         <button className={!this.state.isEditLoading ? "button submit-btn" : "button submit-btn is-loading"} onClick={this.handleSubmit}>Submit</button>
-                                    <button className="button cancel-btn" onClick={this.handleCancel}>Cancel</button>
-                                </div>
-                                {
-                                    this.state.responseMsg &&
-                                        <div className={"response-text is-" + this.state.responseType}>
-                                        <span className="response-tag">
-                                            {this.state.responseMsg}
-                                        </span>
-                                        <button className="delete is-small" onClick={this.onCloseResponse} ></button>
+                                        <button className="button cancel-btn" onClick={this.handleCancel}>Cancel</button>
                                     </div>
-                                }
+                                    {
+                                        this.state.responseMsg &&
+                                        <div className={"response-text is-" + this.state.responseType}>
+                                            <span className="response-tag">
+                                                {this.state.responseMsg}
+                                            </span>
+                                            <button className="delete is-small" onClick={this.onCloseResponse} ></button>
+                                        </div>
+                                    }
                                 </Fragment>
                             </div>
                         </Fragment>

@@ -38,7 +38,7 @@ class App extends React.Component {
     routes = [
         {
             path: "/",
-            component: {},
+            component: Home,
             name: "",
             authRequired: false,
             customProps: {

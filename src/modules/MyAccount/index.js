@@ -19,9 +19,9 @@ class MyAccount extends Component {
                 <section className="hero is-black is-light">
                     <div className="hero-body">
                         <div className="container">
-                            <h1 className="title">
+                            <div className="title">
                                 My account
-                            </h1>
+                            </div>
                             {this.props.auth.user &&
                                 <h3 >
                                     {this.props.auth.user.attributes.name}

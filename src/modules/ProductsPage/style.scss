@@ -6,14 +6,12 @@
     min-height: 600px;
 
     .left-container {
-        width: 18%;
-        padding: 1rem;
+        width: 15%;
         display: flex;
         flex-grow: 2;
         // align-items: center;
         justify-content: center;
         background: rgba(255, 255, 255, 0.274);
-        border-right: 1px solid rgb(228, 228, 228);
         .loader-container{
             width: 100%;
             display: flex;
@@ -24,7 +22,7 @@
     }
 
     .right-container {
-        width: 82%;
+        width: 85%;
         display: flex;
         flex-grow: 2;
         flex-direction: column;
@@ -42,14 +40,54 @@
         }
         .results-action-container {
             width: 100%;
-            padding: 1rem;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .dropdown{
+                width: 20%;
+                .dropdown-trigger{
+                    width: 100%;
+                    button{
+                        width: 100%;
+                        .dropdown-header{
+                            width: 100%;
+                            display: flex;
+                            justify-content: space-between;
+                            .dropdown-title{
+                                padding-right: 2rem;
+                            }
+                            .dropdown-value{
+                                font-weight: 600 !important;
+                            }
+                        }
+                    }
+                }
+                .dropdown-menu{
+                    width: 100%;
+                    padding-top: 0 !important;
+                    .dropdown-content{
+                        padding-top: 0 !important;
+                        border-top-left-radius: 0 !important;
+                        border-top-right-radius: 0 !important;
+                        .dropdown-item{
+                            display: flex;
+                            justify-content: center;
+                            cursor: pointer;
+                            &:hover{
+                                background: rgb(0, 119, 167);
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
         }
         .products-list-container {
-            background: rgba(240, 240, 240, 0.37);
             display: flex;
             flex-wrap: wrap;
             flex-grow: 2;
-            padding: 1rem;
+            padding: 1rem 0;
 
         }
     }

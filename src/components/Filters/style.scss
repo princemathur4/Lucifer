@@ -1,29 +1,50 @@
 .filters-container {
     width: 100%;
     background: rgb(255, 255, 255);
-    
+    text-align: center;
     .filters-header{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0.5rem;
-        border-bottom: 1px solid rgba(238, 238, 238, 0.719);
+        padding: 0.5rem 0;
+        // border-bottom: 1px solid rgba(238, 238, 238, 0.719);
+        padding: 1rem;
+
         .filters-title{
             font-weight: 700;
         }
+
         .clear-filters{
-            color: rgba(0, 82, 204, 0.637);
+            color: rgba(0, 54, 204, 0.637);
             font-weight: 500;
             cursor: pointer;
+        }
+    }
+    .apply-button{
+        cursor: pointer;
+        width: 85%;
+        min-height: 2.3rem;
+        font-family: inherit !important;
+        // margin: 0 1rem;
+        background: rgb(0, 173, 185);
+        border: 0px; 
+        color: white;
+        &:hover{
+            background: rgb(0, 143, 153);
+            color: white;
         }
     }
     .filters-body{
         display: flex;
         flex-direction: column;
+        border-right: 1px solid rgb(228, 228, 228);
+        padding: 1rem;
+
         .filter-field{
             .filter-field-title{
                 font-weight: 600;
                 padding: 0.3rem 0;
+                text-align: left;
             }
             .filter-field-content{
                 display: flex;
@@ -33,15 +54,20 @@
                 }
                 .label-container{
                     display: flex;
+                    font-size: 0.85em;
                     .color-label{
+                        display: flex;
+                        margin-right: 1rem;
                         .color-box{
                             width: 1rem;
                             height: 1rem;
                             margin-right: 0.5rem;
                         }
-                        display: flex;
-                        margin-right: 1rem;
                     }
+                }
+                .range-input-container{
+                    display: flex;
+
                 }
             }
         }

@@ -1,17 +1,29 @@
-import { defaultFilterTemplate } from '../constants';
 
 class AppStore {
-    filters = {
-        ...defaultFilterTemplate
-    };
+    filters = {};
     filtersBlueprint = [];
+    productResults = [];
+    filtersLoader = false;
+    productListLoader = false;
 
-    setFilters = (newFitlers) => {
-        this.filters = newFitlers;
+    setFilters = (newFilters) => {
+        this.filters = newFilters;
     }
 
     setFilterBlueprint = (filtersBlueprint) => {
         this.filtersBlueprint = filtersBlueprint;
+    }
+
+    setProductResults = (productResults) => {
+        this.productResults = productResults;
+    }
+
+    setFiltersLoader = (setValue) => {
+        this.filtersLoader = setValue;
+    }
+    
+    setProductListLoader = (setValue) => {
+        this.productListLoader = setValue;
     }
 }
 
