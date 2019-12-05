@@ -16,19 +16,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
+        this.category = '';
+        this.sub_category = '';
         this.state = {
             filtersBlueprint: [],
-            isLoading: false,
+            filtersLoader: true,
+            productResults: [],
+            productListLoader: true,
             sort_by: 'Relevance',
             sort_dropdown_active: false
         }
+        this.node = {};
     }
 
     componentDidMount() {
-        let category = getParameterByName('category', window.location.href);
-        let sub_category = getParameterByName('sub_category', window.location.href);
-        this.makeFetchFiltersApiCall(category, sub_category);
-        this.makeGetProductsApiCall(category, sub_category);
+        this.category = getParameterByName('category', window.location.href);
+        this.sub_category = getParameterByName('sub_category', window.location.href);
+        this.makeFetchFiltersApiCall();
+        this.makeGetProductsApiCall({});
         document.addEventListener('mousedown', this.handleClickOutside, false)
     }
 
@@ -43,66 +48,52 @@ class ProductsPage extends React.Component {
         this.setState({ sort_dropdown_active: false });
     };
 
-    async makeFetchFiltersApiCall(category, sub_category) {
-        console.log("productFilters", productFilters)
-        this.props.store.setProductListLoader(true);
-        this.props.store.setFiltersLoader(true);
-        // let session = await getSession();
-        // console.log("profile token", session.accessToken.jwtToken);
+    async makeFetchFiltersApiCall() {
+        this.setState({ filtersLoader: true });
         try {
             let response = await commonApi.get(`get_filters`,
                 {
                     params: {
-                        category,
-                        sub_category
+                        category: this.category,
+                        sub_category: this.sub_category
                     },
-                    // headers: { Authorization: session.accessToken.jwtToken }
                 }
             );
-            console.log("response", response);
+            console.log("filter response", response);
             if (response.data && response.data.success) {
-                // this.setState({ filtersBlueprint: response.data.filters, isLoading: false });
-                // this.setState({ filtersBlueprint: productFilters, isLoading: false });
-                this.props.store.setFilterBlueprint(response.data.filters);
+                this.setState({ filtersBlueprint: response.data.filters, filtersLoader: false });
             } else {
-                this.props.store.setFilterBlueprint(productFilters);
-                // this.setState({ filtersBlueprint: productFilters,isLoading: false });
+                this.setState({ filtersBlueprint: productFilters, filtersLoader: false });
             }
-            this.props.store.setFiltersLoader(false);
         }
         catch (e) {
             console.log("error", e);
-            this.props.store.setFilterBlueprint(productFilters);
-            this.props.store.setFiltersLoader(false);
-            // this.setState({ filtersBlueprint: productFilters , isLoading: false });
+            this.setState({ filtersBlueprint: productFilters, filtersLoader: false });
         }
     }
 
-    async makeGetProductsApiCall(category, sub_category) {
-        console.log("productFilters", productFilters)
-        this.props.store.setProductListLoader(true);
+    async makeGetProductsApiCall(filters) {
+        this.setState({ productListLoader: true });
         try {
             let response = await commonApi.post(`products`,
                 {
-                    category, 
-                    sub_category 
+                    ...filters,
+                    category: this.category, 
+                    sub_category: this.sub_category 
                 }
             );
-            console.log("response", response);
+            console.log("products response", response);
             if (response.data && response.data.success) {
-                this.props.store.setProductResults(response.data.data);
+                this.setState({ productResults : response.data.data, productListLoader: false });
             } else {
-                this.props.store.setProductResults([]);
+                this.setState({ productResults : [], productListLoader: false });
             }
-            this.props.store.setProductListLoader(false);
         }
         catch (e) {
             console.log("error", e);
-            this.props.store.setProductResults([]);
-            this.props.store.setProductListLoader(false);
+            this.setState({ productResults: [], productListLoader: false });
         }
     }
-
 
     handleSortDropdown = (value) =>{
         this.setState({
@@ -121,26 +112,26 @@ class ProductsPage extends React.Component {
             <Fragment>
                 <div className="product-page">
                     <div className="left-container">
-                        {
-                            toJS(this.props.store.filtersBlueprint).length
-                                ?
-                                <Filters 
-                                // filtersBlueprint={this.state.filtersBlueprint} 
-                                store={this.props.store}/>
-                                :
-                                <div className="loader-container">
-                                    <Spinner color="primary" size="medium" />
-                                </div>
-                        }
+                        <Filters 
+                            {...this.props}
+                            filtersLoader={this.state.filtersLoader}
+                            filtersBlueprint={this.state.filtersBlueprint} 
+                            store={this.props.store}
+                            makeGetProductsApiCall={this.makeGetProductsApiCall.bind(this)}
+                        />
                     </div>
                     <div className="right-container">
                         {
-                            toJS(this.props.store.filtersBlueprint).length
+                            this.state.productListLoader 
                             ?
+                                <div className="loader-container">
+                                    <Spinner color="primary" size="medium" />
+                                </div>
+                            :
                             <Fragment>
                                 <div className="results-action-container">
-                                    <span>Showing <b>{products.data.length}</b> Out of <b>25</b> Results</span>
-                                        <div className={this.state.sort_dropdown_active ? "dropdown is-right is-active" : "dropdown is-right"} 
+                                        <span>Showing <b>{this.state.productResults.length}</b> Out of <b>25</b> Results</span>
+                                        <div className={this.state.sort_dropdown_active   ? "dropdown is-right is-active" : "dropdown is-right"} 
                                             onClick={this.toggleDropdown}
                                             ref={(node) => { this.node = node }}
                                         >
@@ -171,13 +162,20 @@ class ProductsPage extends React.Component {
                                         </div>
                                 </div>
                                 <div className="products-list-container">
-                                    <ProductsList data={products.data} store={this.props.store}/>
+                                    <ProductsList data={this.state.productResults} {...this.props}/>
                                 </div>
+                                    <nav className="pagination is-centered" role="navigation" aria-label="pagination">
+                                        <a className="pagination-previous">Previous</a>
+                                        <a className="pagination-next">Next page</a>
+                                        <ul className="pagination-list">
+                                            <li><a className="pagination-link is-current" aria-label="Goto page 1" aria-current="page">1</a></li>
+                                            <li><a className="pagination-link" aria-label="Goto page 1" >2</a></li>
+                                            <li><a className="pagination-link" aria-label="Goto page 1" >3</a></li>
+                                            <li><span className="pagination-ellipsis">&hellip;</span></li>
+                                            <li><a className="pagination-link" aria-label="Goto page 86">5</a></li>
+                                        </ul>
+                                    </nav>
                             </Fragment>
-                            :
-                            <div className="loader-container">
-                                <Spinner color="primary" size="medium" />
-                            </div>
                         }
                     </div>
                 </div>

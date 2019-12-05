@@ -10,17 +10,17 @@ class Modal extends Component {
         return (
             <div className={!this.props.isActive ? "modal": "modal is-active"}>
                 <div className="modal-background"></div>
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">{this.props.title}</p>
-                        <button class="delete" aria-label="close" onClick={this.props.handleNegativeFeedback}></button>
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                        <p className="modal-card-title">{this.props.title}</p>
+                        <button className="delete" aria-label="close" onClick={this.props.handleNegativeFeedback}></button>
                     </header>
-                    <section class="modal-card-body">
+                    <section className="modal-card-body">
                         {this.props.content}
                     </section>
-                    <footer class="modal-card-foot">
-                        <button class="button is-success" onClick={this.props.handlePositiveFeedback}>{this.props.positiveBtnTitle}</button>
-                        <button class="button is-danger" onClick={this.props.handleNegativeFeedback}>{this.props.negativeBtnTitle}</button>
+                    <footer className="modal-card-foot">
+                        <button className="button is-success" onClick={this.props.handlePositiveFeedback}>{this.props.positiveBtnTitle}</button>
+                        <button className="button is-danger" onClick={this.props.handleNegativeFeedback}>{this.props.negativeBtnTitle}</button>
                     </footer>
                 </div>
             </div>

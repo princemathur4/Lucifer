@@ -3,8 +3,8 @@ class AppStore {
     filters = {};
     filtersBlueprint = [];
     productResults = [];
-    filtersLoader = false;
-    productListLoader = false;
+    filtersLoader = true;
+    productListLoader = true;
 
     setFilters = (newFilters) => {
         this.filters = newFilters;

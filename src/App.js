@@ -18,8 +18,14 @@ decorate(
     AppStore, {
         filters: observable,
         filtersBlueprint: observable,
+        productResults: observable,
+        filtersLoader: observable,
+        productListLoader: observable,
         setFilters: action,
         setFilterBlueprint: action,
+        setProductResults: action,
+        setFiltersLoader: action,
+        setProductListLoader: action
     }
 )
 

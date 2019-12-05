@@ -15,7 +15,7 @@ class Address extends Component {
                     <div className="user-name is-size-6">
                         {this.props.data.name}
                     </div>
-                    <span class="tag is-medium">{titleCase(this.props.data.address_type)}</span>
+                    <span className="tag is-medium">{titleCase(this.props.data.address_type)}</span>
                 </div>
                 <div className="user-address is-size-6">
                     {this.props.data.address}
@@ -32,19 +32,19 @@ class Address extends Component {
                 <div className="user-mobile is-size-6">
                     Mobile - {this.props.data.mobile}
                 </div>
-                <footer class="card-footer">
-                    <div class="field has-addons action-btns">
-                        <p class="control">
-                            <button class="button" onClick={() => { this.props.handleEditBtnClick(this.props.data._id)}}>
-                                <span class="icon is-small">
+                <footer className="card-footer">
+                    <div className="field has-addons action-btns">
+                        <p className="control">
+                            <button className="button" onClick={() => { this.props.handleEditBtnClick(this.props.data._id)}}>
+                                <span className="icon is-small">
                                     <FontAwesomeIcon icon="edit" className="edit-btn-icon" />
                                 </span>
                                 <span>Edit</span>
                             </button>
                         </p>
-                        <p class="control">
-                            <button class="button" onClick={()=>{this.props.onDeleteClick(this.props.data._id)}}>
-                                <span class="icon is-small">
+                        <p className="control">
+                            <button className="button" onClick={()=>{this.props.onDeleteClick(this.props.data._id)}}>
+                                <span className="icon is-small">
                                     <FontAwesomeIcon icon="trash-alt" className="delete-btn-icon" />
                                 </span>
                                 <span>Remove</span>
