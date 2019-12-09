@@ -25,7 +25,7 @@ class Product extends React.Component {
             pincodeCheckLoading: false,
             images: [
                 "https://i.ibb.co/48hHjC8/Plum-01-900x.png",
-                "https://i.ibb.co/48hHjC8/Plum-01-900x.png",
+                "https://i.ibb.co/cCkkQT8/20191109160044-1.png",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ9HVrD9DyMffpCjijjMi8UEANELfqo6u8_3NaQPCB_uEU6vGOS"
             ],
             activeImageindex: 0
@@ -196,9 +196,13 @@ class Product extends React.Component {
 
     changeActiveImage = (input) =>{
         let newIndex = (this.state.activeImageindex + input);
-        if (newIndex < this.state.images.length && newIndex >= 0){
-            this.setState({ activeImageindex: newIndex });
+        if (newIndex === -1){
+            newIndex = this.state.images.length - 1;
         }
+        else if (newIndex === this.state.images.length ){
+            newIndex = 0;
+        }
+        this.setState({ activeImageindex: newIndex });
     }
 
     setActiveImage = (input) =>{

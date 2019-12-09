@@ -3,7 +3,7 @@ import Filters from '../../components/Filters';
 import ProductsList from '../../components/ProductsList';
 import { observer } from 'mobx-react';
 import "./style.scss";
-import { products } from "../../templates/product";
+import { sortByOptions } from "../../templates/product";
 import { getParameterByName } from '../../utils/Browser';
 import { getSession } from "../../utils/AuthUtils";
 import commonApi from "../../apis/common";
@@ -25,7 +25,9 @@ class ProductsPage extends React.Component {
             filteredCount: 0,
             totalCount: 0,
             productListLoader: true,
-            sort_by: 'Relevance',
+            sortBy: { 
+                ...sortByOptions[0]
+            },
             sort_dropdown_active: false
         }
         this.node = {};
@@ -102,9 +104,9 @@ class ProductsPage extends React.Component {
         }
     }
 
-    handleSortDropdown = (value) =>{
+    handleSortDropdown = (obj) =>{
         this.setState({
-            sort_by: value
+            sortBy: { ...obj }
         })
     }
     
@@ -146,7 +148,7 @@ class ProductsPage extends React.Component {
                                                 <button className="button" aria-haspopup="true" aria-controls="dropdown-menu-sort">
                                                     <div className="dropdown-header">
                                                         <span className="dropdown-title">Sort by :</span>
-                                                        <span className="dropdown-value">{this.state.sort_by}</span>
+                                                        <span className="dropdown-value">{this.state.sortBy.title}</span>
                                                     </div>
                                                     <span className="icon is-small">
                                                         <FontAwesomeIcon icon="angle-down"/>
@@ -155,15 +157,15 @@ class ProductsPage extends React.Component {
                                             </div>
                                             <div className="dropdown-menu" id="dropdown-menu-sort" role="menu">
                                                 <div className="dropdown-content">
-                                                    <div className="dropdown-item" onClick={() => { this.handleSortDropdown('popularity') }}>
-                                                        Popularity
-                                                    </div>
-                                                    <div className="dropdown-item" onClick={() =>{ this.handleSortDropdown('price') }}>
-                                                        Price: High to Low
-                                                    </div>
-                                                    <div className="dropdown-item" onClick={() =>{ this.handleSortDropdown('price') }}>
-                                                        Price: Low to High
-                                                    </div>
+                                                    {
+                                                        sortByOptions.map((sortByOption, indx)=>{
+                                                            return(
+                                                                <div className="dropdown-item" onClick={() => { this.handleSortDropdown(sortByOption) }}>
+                                                                    {sortByOption.title}
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

@@ -111,11 +111,11 @@
             font-size: 0.8rem;
             border: 1px solid rgb(212, 212, 212);
             background: white;
-            &.active{
+            &.active {
                 color: white;
-                background: rgb(123, 0, 194);
-                &:hover{
-                    background: rgb(101, 38, 138);
+                background: rgb(10, 112, 160);
+                &:hover {
+                    background: rgb(6, 88, 126);
                 }
             }
             &.disabled{
