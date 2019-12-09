@@ -3,12 +3,13 @@ $navbar-tab-hover-border-bottom-color: black;
 .logo-container {
     display: flex;
     justify-content: center;
-    padding: 0.5rem 7rem 0.7rem 7rem;
+    margin: 0.5vh auto;
+    flex-grow: 2;
 
     .logo-img {
         max-height: 8rem !important;
         height: 6rem;
-        width: auto;
+        min-width: auto;
     }
 }
 

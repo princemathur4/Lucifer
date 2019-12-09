@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from './modules/Home';
 import ProductsPage from './modules/ProductsPage';
+import Product from './modules/Product';
 import Cart from './modules/Cart';
 import MyAccount from './modules/MyAccount';
 import "./App.scss";
@@ -118,6 +119,16 @@ class App extends React.Component {
         {
             path: "/products",
             component: ProductsPage,
+            name: "products",
+            authRequired: false,
+            customProps: {
+                name: "products",
+                store
+            }
+        },
+        {
+            path: "/product",
+            component: Product,
             name: "product",
             authRequired: false,
             customProps: {

@@ -43,7 +43,7 @@ class NavBar extends React.Component {
             <Fragment>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <Link className="logo-container" to="/">
-                        <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="112" height="28" />
+                        <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
                     </Link>
                     <div className="navbar-brand">
                         <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarLabroz">

@@ -3,7 +3,7 @@ import './style.scss';
 import { Link } from "react-router-dom";
 import { observer } from 'mobx-react';
 import { titleCase } from "../../utils/utilFunctions";
-import { Checkbox } from 'semantic-ui-react';
+import { Checkbox, Radio } from 'semantic-ui-react';
 import Spinner from "../../components/Spinner";
 import remove from 'lodash.remove';
 
@@ -28,7 +28,7 @@ class Filters extends React.Component {
                     filters['max_price'] = Number(this.state["max_price"]);
                 }
             }
-        });
+        }) 
         console.log("filters", filters);
         this.props.makeGetProductsApiCall(filters);
     }
@@ -72,6 +72,21 @@ class Filters extends React.Component {
         }
         this.setState({
             [obj.name]: filterState,
+            tagsList
+        })
+    }
+
+    handleRadioFilter = (e, obj) => {
+        let { tagsList } = this.state;
+
+        remove(tagsList, { filter_type: obj.name })
+        tagsList.push({
+            filter_type: obj.name,
+            value: obj.value,
+            title: obj.title
+        });
+        this.setState({
+            [obj.name]: obj.value,
             tagsList
         })
     }
@@ -138,9 +153,33 @@ class Filters extends React.Component {
                                                 return (
                                                     <div className="filter-field" key={idx}>
                                                         <div className="filter-field-title">
-                                                            {titleCase(obj.filter_name)}
+                                                            {titleCase(obj.filter_name).replace(/_/g,' ')}
                                                         </div>
                                                         <div className="filter-field-content">
+                                                            {
+                                                                obj.filter_type === "singleSelect" &&
+                                                                obj.values.map((optionObj, chbx) => {
+                                                                    return (
+                                                                        <Radio
+                                                                            key={chbx}
+                                                                            name={obj.filter_name}
+                                                                            title={optionObj.title}
+                                                                            value={optionObj.key}
+                                                                            checked={!!this.state[obj.filter_name] && this.state[obj.filter_name] === optionObj.key}
+                                                                            onChange={this.handleRadioFilter}
+                                                                            label={
+                                                                                <label className="color-label">
+                                                                                {
+                                                                                    optionObj.key && obj.filter_name.toLowerCase().includes('color') &&
+                                                                                    <div className="color-box" style={{ background: optionObj.key }}></div>
+                                                                                }
+                                                                                {optionObj.title}
+                                                                                </label>
+                                                                            }
+                                                                        />
+                                                                    )
+                                                                })
+                                                            }
                                                             {
                                                                 obj.filter_type === "multiSelect" &&
                                                                 obj.values.map((optionObj, chbx) => {
@@ -155,8 +194,8 @@ class Filters extends React.Component {
                                                                             label={
                                                                                 <label className="color-label">
                                                                                     {
-                                                                                        optionObj.color &&
-                                                                                        <div className="color-box" style={{ background: optionObj.color }}></div>
+                                                                                        optionObj.key && obj.filter_name.toLowerCase().includes('color') &&
+                                                                                        <div className="color-box" style={{ background: optionObj.key }}></div>
                                                                                     }
                                                                                     {optionObj.title}
                                                                                 </label>

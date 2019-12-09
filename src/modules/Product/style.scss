@@ -1,0 +1,214 @@
+.product-container {
+    width: 100%;
+    display: flex;
+    flex-grow: 2;
+    justify-content: center;
+    padding: 3rem 5rem;
+    min-height: 100vh;
+    
+    .loader-container{
+        width: 100%;
+        display: flex;
+        flex-grow: 2;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .left-container {
+        width: 65%;
+        height: 100%;
+        .images-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .arrow-btn{
+                cursor: pointer;
+                width: 4rem;
+                height: 4rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgb(231, 231, 231);
+                border: 0px;
+                &:hover{
+                    background: rgb(218, 218, 218);
+                }
+                &:focus{
+                    outline: rgba(255, 255, 255, 0);
+                }
+            }
+            .mySlides{
+                display: none;
+                &.active{
+                    width: 40vw;
+                    display: block;
+                }
+            }
+
+            .w3-transparent {
+                min-height: 1.1rem;
+                margin: 1rem 0.5rem;
+                border: 50%;
+                border: 0.8px solid rgb(51, 51, 51);
+                background: black !important;
+            }
+            .w3-white {
+                border: 0.8px solid rgb(255, 255, 255) !important;
+                background: white !important;
+            }
+        }
+    }
+    .right-container {
+        width: 35%;
+        padding: 0 3rem;
+        display: flex;
+        flex-grow: 2;
+        flex-direction: column;
+        justify-content: flex-start;
+        .description {
+            font-size: 2.5rem;
+            font-weight: 600;
+            padding-bottom: 0.8rem;
+
+        }
+        .price-container {
+            display: flex;
+            align-items: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgb(224, 224, 224);
+            .price-text {
+                font-size: 1.4rem;
+                font-weight: 600;
+                padding-right: 0.8rem;
+            }
+            .actual-price-text {
+                font-size: 1.3rem;
+                text-decoration: line-through;
+                padding-right: 0.8rem;
+                color: gray;
+            }
+            .discount-text {
+                font-size: 1.3rem;
+                color: rgb(0, 203, 218);
+            }   
+        }
+        .field-container {
+            padding-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            .field-title {
+                font-size: 1rem;
+                font-weight: 600;
+                padding-right: 0.7rem;
+                color: rgb(39, 39, 39);
+            }
+            .sizes-content {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                padding-top: 0.3rem;
+                .size-box-content{
+                    display: flex;
+                    flex-direction: column;
+                    width: 3rem;
+                    
+                    .size-availablity-label{
+                        color: white;
+                        font-size: 0.7rem;
+                        padding: 0.1rem 0.54rem;
+                        &.warning{
+                            border: 1px solid chocolate;
+                            background: chocolate;
+                        }
+                    }
+                    .size-box {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.2rem;
+                        border: 1px solid rgb(212, 212, 212);
+                        background: white;
+                        &.active {
+                            color: white;
+                            background: rgb(105, 10, 160);
+                            &:hover {
+                                background: rgb(101, 38, 138);
+                            }
+                        }
+                        &.disabled {
+                            cursor: not-allowed;
+                            color: rgb(228, 228, 228);
+                        }
+                        &:hover {
+                            background: rgb(245, 245, 245);
+                        }
+                        &:focus {
+                            outline: rgba(255, 255, 255, 0);
+                        }
+                    }
+                }
+            }
+            .colors-content {
+                display: flex;
+                align-content: center;
+                align-items: center;
+                padding-top: 0.3rem;
+                .color-box { 
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    border: 4px solid rgb(240, 240, 240);
+                    padding: 3px;
+                    margin-right: 1rem;
+                }
+            }
+            .check-pincode-input-container{
+                box-sizing: border-box;
+                display: flex;
+                margin-top: 0.3rem;
+                width: 100%;
+                input.input {
+                    width: 100%;
+                    border-radius: 0;
+                    box-shadow: 0 0 0 0;
+                    height: 2.5rem;
+                    font-family: inherit;        
+                    padding-left: 0.5rem;
+                    &:focus{
+                        border-color: #082555;
+                    }
+                }
+                button{
+                    width: 50%;
+                    font-family: inherit;
+                    border: 1px solid rgb(17, 0, 92);
+                    border-radius: 0;
+                    background: rgb(17, 0, 92);
+                    color: white;
+                    &:hover{
+                        border: 1px solid rgb(22, 0, 117);
+                        background: rgb(22, 0, 117);
+                        
+                    }
+                }
+            }
+        }
+        .add-to-cart-btn{
+            font-family: inherit;
+            margin-top: 2rem;
+            border-radius: 0;
+            background: rgb(0, 194, 178);
+            color: white;
+            .icon{
+                padding-right: 1.5rem;
+            }
+        }
+        .select-size-error{
+            font-size: 0.9rem;
+            color: red;
+            text-align: center;
+        }
+    }
+}

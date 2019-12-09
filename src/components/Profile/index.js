@@ -145,7 +145,7 @@ class Profile extends Component {
                                         return (
                                             <div key={idx} className="field">
                                                 <div className="field-title is-size-6">
-                                                    {titleCase(key).replace('_', ' ')}
+                                                    {titleCase(key)}
                                                 </div>
                                                 <div className="field-value is-size-6">
                                                     {this.state.profileData[key]}
@@ -206,7 +206,7 @@ class Profile extends Component {
                                                                     </span>
                                                                     <p className="help is-danger">
                                                                         This is a mandatory field
-                                                                </p>
+                                                                    </p>
                                                                 </Fragment>
                                                             }
                                                         </div>

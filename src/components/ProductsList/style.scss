@@ -8,7 +8,7 @@
         max-width: 425px;
         padding: 1rem;
         background: rgb(238, 238, 238);
-        color: rgb(0, 97, 84);
+        color: rgb(39, 39, 39);
         .login-modal-header{
             display: flex;
             justify-content: space-between;
@@ -20,7 +20,7 @@
             }
         }
         .login-modal-body{
-            padding: 2rem;
+            padding: 1rem 2rem;
             .buttons-container{
                 width: 100%;
                 display: flex;
@@ -35,8 +35,8 @@
                     border-radius: 50%;
                     padding: 0.3rem 0.4rem;
                     font-size: 0.8rem;
-                    background: #25b3ac;
-                    color: white;
+                    background: #3e3e3e;
+                    color: rgb(255, 255, 255);
                 }
             }
         }

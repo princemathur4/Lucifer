@@ -22,6 +22,8 @@ class ProductsPage extends React.Component {
             filtersBlueprint: [],
             filtersLoader: true,
             productResults: [],
+            filteredCount: 0,
+            totalCount: 0,
             productListLoader: true,
             sort_by: 'Relevance',
             sort_dropdown_active: false
@@ -84,7 +86,12 @@ class ProductsPage extends React.Component {
             );
             console.log("products response", response);
             if (response.data && response.data.success) {
-                this.setState({ productResults : response.data.data, productListLoader: false });
+                this.setState({ 
+                    productResults: response.data.data.products, 
+                    totalCount: response.data.data.total_count, 
+                    filteredCount: response.data.data.filtered_count, 
+                    productListLoader: false 
+                });
             } else {
                 this.setState({ productResults : [], productListLoader: false });
             }
@@ -130,7 +137,7 @@ class ProductsPage extends React.Component {
                             :
                             <Fragment>
                                 <div className="results-action-container">
-                                        <span>Showing <b>{this.state.productResults.length}</b> Out of <b>25</b> Results</span>
+                                    <span>Showing <b>{this.state.filteredCount}</b> Out of <b>{this.state.totalCount}</b> Results</span>
                                         <div className={this.state.sort_dropdown_active   ? "dropdown is-right is-active" : "dropdown is-right"} 
                                             onClick={this.toggleDropdown}
                                             ref={(node) => { this.node = node }}

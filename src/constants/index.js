@@ -90,6 +90,24 @@ export const productFilters = [
             }
         ]
     },
+    {
+        "filter_name": "sort_by",
+        "filter_type": "dropdown",
+        "values": [
+            {
+                "key": "price_high_to_low",
+                "title": "Price High to Low"
+            },
+            {
+                "key": "price_low_to_high",
+                "title": "Price Low to High"
+            },
+            {
+                "key": "Popularity",
+                "title": "popularity"
+            }
+        ]
+    },
 ]
 
 export const addresses = [

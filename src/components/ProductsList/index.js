@@ -33,9 +33,9 @@ class ProductList extends React.Component {
                             </div>
                             <div className="login-modal-body">
                                 <div className="buttons-container">
-                                    <button className="button is-dark"><Link to="/login">Login</Link></button>
+                                    <button className="button is-link"><Link to="/login">Login</Link></button>
                                     <div className="or-text">OR</div>
-                                    <button className="button is-dark"><Link to="/signup">Signup</Link></button>
+                                    <button className="button is-link"><Link to="/signup">Signup</Link></button>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@ class ProductList extends React.Component {
                     this.props.data.map((obj, idx)=>{
                         return (
                             <ProductItem 
-                                auth={this.props.auth}
+                                {...this.props}
                                 key={idx} 
                                 productData={obj}
                                 handleLoginWarning={this.handleLoginWarning}

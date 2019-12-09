@@ -13,12 +13,17 @@
     .product-image {
         object-fit: cover;
     }
-    
+    .card-image{
+        cursor: pointer;
+    }
     .card-content{
         padding: 0.4rem !important;
         .media{
             padding: 0.4rem !important;
-            // margin: 0.5rem !important;
+            .select-size-error{
+                font-size: 0.85rem;
+                color: rgb(204, 10, 10);
+            }
         }
     }
 
@@ -61,6 +66,7 @@
     }
 
     .product-description{
+        cursor: pointer;
         font-size: 1.1rem;
         font-weight: 600;
         padding-bottom: 0.2rem;
@@ -108,6 +114,13 @@
             &.active{
                 color: white;
                 background: rgb(123, 0, 194);
+                &:hover{
+                    background: rgb(101, 38, 138);
+                }
+            }
+            &.disabled{
+                cursor: not-allowed;
+                color: rgb(228, 228, 228);
             }
             &:hover{
                 background: rgb(245, 245, 245);

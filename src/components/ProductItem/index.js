@@ -19,7 +19,8 @@ class ProductItem extends React.Component {
     componentDidMount() {
     }
     
-    async handleWishlistToggle (){
+    async handleWishlistToggle (e){
+        e.stopPropagation();
         if(!this.props.auth.isAuthenticated){
             this.props.handleLoginWarning();
             return;
@@ -45,15 +46,22 @@ class ProductItem extends React.Component {
     }
 
     async handleCartToggle (e){
+        e.stopPropagation();
+
         if (!this.props.auth.isAuthenticated) {
             this.props.handleLoginWarning();
             return;
         }
-        this.setState({ isAddingToCartLoading: true });
+        if (!this.state.activeSize){
+            this.setState({ sizeSelectWarning: true });
+            return;
+        }
+        this.setState({ isAddingToCartLoading: true, sizeSelectWarning: false });
         let session = await getSession();
+        let product_id = this.props.productData.variants[this.state.activeSize]._id;
         try {
             let response = await commonApi.post(`update_cart`,
-                { product_id: this.props.productData._id, count: 1 },
+                { product_id: product_id, count: 1 },
                 { headers: { "Authorization": session.accessToken.jwtToken } }
             );
             console.log("wishlist response", response);
@@ -97,21 +105,47 @@ class ProductItem extends React.Component {
         )
     }
 
-    toggleHover = () =>{
+    getSizes = () => {
+        let allSizes = this.props.productData.available_sizes;
+        return (
+            allSizes.map((size, idx)=>{
+                return (
+                    <button 
+                        className={
+                            this.state.activeSize === size ? 
+                            "size-box active" : 
+                            (this.props.productData.variants[size].stock === 0 ? "size-box disabled" : "size-box")
+                        }
+                        disabled={this.props.productData.variants[size].stock === 0} 
+                        onClick={() => { this.handleSizeSelect(size) }}
+                    >
+                        {size}
+                    </button>
+                )
+            })
+        )
+    }
+
+    toggleHover = () => {
         this.setState({
             hover: !this.state.hover
         })
+    }
+
+    handleProductSelect = () => {
+        let product_id = this.props.productData._id;
+        this.props.history.push(`/product?id=${product_id}`);
     }
 
     render() {
         return (
             <Fragment>
                 <div className="card product-item-card" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
-                    <div className="card-image">
-                        <figure className="image is-4by5">
+                    <div className="card-image" onClick={this.handleProductSelect}>
+                        <figure className="image is-4by5" >
                             <img 
                                 // src={this.props.productData.image[0]} 
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ9HVrD9DyMffpCjijjMi8UEANELfqo6u8_3NaQPCB_uEU6vGOS" 
+                                src="https://i.ibb.co/48hHjC8/Plum-01-900x.png" 
                                 alt="Placeholder image" 
                                 className="product-image"
                             />
@@ -149,7 +183,7 @@ class ProductItem extends React.Component {
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">
-                                <p className="product-description">{this.props.productData.description}</p>
+                                <p className="product-description" onClick={this.handleProductSelect}>{this.props.productData.description}</p>
                                 {this.getPriceHtml()}
                                 {
                                     this.state.sizeSelectWarning &&
@@ -159,17 +193,7 @@ class ProductItem extends React.Component {
                                 }
                                 <div className="sizes-container">
                                     <div className="size-title">Sizes:</div>
-                                    {
-                                        this.props.productData.available_sizes.map((size)=>{
-                                            return(
-                                                <button className={this.state.activeSize === size ? "size-box active" : "size-box"} 
-                                                    onClick={()=>{this.handleSizeSelect(size)}}
-                                                >
-                                                    {size}
-                                                </button>
-                                            )
-                                        })
-                                    }
+                                    {this.getSizes()}
                                 </div>
                             </div>
                         </div>
