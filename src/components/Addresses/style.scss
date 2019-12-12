@@ -1,40 +1,50 @@
-.addresses-container{
+.addresses-container {
     width: 100%;
     height: 100%;
-    .addresses-header{
+
+    .addresses-header {
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding-bottom: 1rem;
         border-bottom: 1px solid rgb(223, 223, 223);
-        
-        .add-btn{
+
+        .add-btn {
             font-weight: 600;
             color: rgb(2, 59, 145);
             background: white;
             border: 1px solid rgb(2, 59, 145);
-            &:hover{
+
+            &:hover {
                 color: white;
                 background: rgb(2, 59, 145);
             }
-            span{
+
+            span {
                 margin-right: 0.5rem !important;
             }
         }
     }
-    .addresses-body{
+
+    .addresses-editable-body {
+        padding: 0.5rem 0;
+        height: 100%;
+    }
+
+    .addresses-body {
         padding: 0.5rem 0;
         height: 100%;
 
-        .no-data{
+        .no-data {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            
+
         }
-        .loader-container{
+
+        .loader-container {
             width: 100%;
             height: 100%;
             display: flex;
@@ -42,69 +52,83 @@
             align-items: center;
             justify-content: center;
         }
-        .field{
+
+        .field {
             width: 70%;
             display: flex;
             align-items: center;
             justify-content: space-between;
             align-items: center;
-            .field-title{
+
+            .field-title {
                 text-align: left;
                 font-weight: 600;
                 width: 20%;
                 vertical-align: middle;
             }
-            .field-value{
+
+            .field-value {
                 text-align: left;
                 width: 80%;
                 vertical-align: middle;
             }
         }
-        .editable-field{
+
+        .editable-field {
             font-family: inherit;
-            margin-bottom: 1rem; 
+            margin-bottom: 1rem;
             width: 70%;
 
-            .editable-field-label{
+            .editable-field-label {
                 text-align: left;
                 font-weight: 600;
                 padding: 0 0 0.3rem 0;
             }
-            input.input{
+
+            input.input {
                 border-radius: 0;
                 box-shadow: 0 0 0 0;
                 height: 2.5rem;
-                font-family: inherit;        
+                font-family: inherit;
                 padding-left: calc(0.75em - 1px);
-                &:focus{
-                border-color: #082555;
+
+                &:focus {
+                    border-color: #082555;
                 }
             }
-            label{
+
+            label {
                 margin-right: 0.5rem;
-                input[type="checkbox"], input[type="radio"] {
+
+                input[type="checkbox"],
+                input[type="radio"] {
                     margin-right: 0.5rem !important;
                 }
             }
         }
-        .action-buttons{
-            button{
+
+        .action-buttons {
+            button {
                 margin-right: 0.5rem;
-                &.submit-btn{
+
+                &.submit-btn {
                     background: rgb(255, 255, 255);
                     color: rgb(12, 175, 180);
                     border: 1px solid rgb(12, 175, 180);
-                    &:hover{
+
+                    &:hover {
                         background: rgb(12, 175, 180);
                         color: rgb(255, 255, 255);
                         border: 1px solid rgb(12, 175, 180);
                     }
                 }
-                &.cancel-btn{
+
+                &.cancel-btn {
                     background: rgb(255, 255, 255);
                     color: rgb(180, 23, 12);
                     border: 1px solid rgb(180, 23, 12);
-                    &:hover{
+
+                    &:hover {
                         background: rgb(180, 23, 12);
                         color: rgb(255, 255, 255);
                         border: 1px solid rgb(180, 23, 12);
@@ -112,7 +136,8 @@
                 }
             }
         }
-        .response-text{
+
+        .response-text {
             text-align: center;
             margin: 0.5rem 0;
             display: flex;
@@ -122,15 +147,18 @@
             min-height: 2em;
             padding: 0.75em;
             margin-top: 1rem;
-            &.is-error{
+
+            &.is-error {
                 color: #cc0f35;
                 background-color: #feecf0;
             }
-            &.is-success{
+
+            &.is-success {
                 color: #1b79b0;
                 background: #e2f5ff;
             }
-            .response-tag{
+
+            .response-tag {
                 display: flex;
                 align-items: center;
                 justify-content: center;

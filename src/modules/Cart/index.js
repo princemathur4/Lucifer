@@ -4,26 +4,38 @@ import { getSession } from "../../utils/AuthUtils";
 import './style.scss';
 import Spinner from "../../components/Spinner";
 import findindex from "lodash.findindex";
+import Addresses from '../../components/Addresses';
+import Address from '../../components/Address';
+import CartItem from '../../components/CartItem';
 
 class Cart extends React.Component {
 
     state = {
+        mode: "review",
+        actionBtntext: "Checkout",
         isCartLoading: true,
         cartProducts: [],
-        cartTotal: 0,
-        total: 0
+        addresses: [],
+        actualCartTotal: 0,
+        discountedTotal: 0,
+        order_id: "",
+        productLoader: { product_id: '' },
+        removeBtnLoader: { product_id: '' },
+        addressLoader: false
     }
 
     componentDidMount() {
-        this.fetchCartItems()
+        this.fetchCartItems();
     }
 
-    async fetchCartItems() {
+    async fetchCartItems(isUpdate) {
         if (!this.props.auth.isAuthenticated) {
             this.props.handleLoginWarning();
             return;
         }
-        this.setState({ isCartLoading: true });
+        if (!isUpdate) {
+            this.setState({ isCartLoading: true });
+        }
         let session = await getSession();
         try {
             let response = await commonApi.get(`cart`,
@@ -39,16 +51,65 @@ class Cart extends React.Component {
             } else {
                 this.setState({ isCartLoading: false });
             }
+            if (isUpdate) {
+                this.setState({ removeBtnLoader: { product_id: "" }, productLoader: { product_id: "" } });
+            }
         }
         catch (e) {
             console.log("error", e);
             this.setState({ isCartLoading: false });
+            if (isUpdate) {
+                this.setState({ removeBtnLoader: { product_id: "" }, productLoader: { product_id: "" } });
+            }
         }
     }
 
-    async updateCart(product_id, count){
+    async fetchAddresses() {
+        let session = await getSession();
+        console.log("addresses token", session.accessToken.jwtToken);
+        this.setState({ addressLoader: true });
+        try {
+            let response = await commonApi.get('get_addresses',
+                {
+                    params: {},
+                    headers: { Authorization: session.accessToken.jwtToken }
+                }
+            );
+            console.log("response", response);
+            if (response.data && response.data.success) {
+                this.setState({ addresses: response.data.data, addressLoader: false });
+            } else {
+                this.setState({ addresses: [], isLoading: false });
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+            this.setState({ addresses: [], addressLoader: false });
+        }
+    }
 
-        this.setState({ isCartLoading: true });
+    async makeCheckoutApiCall() {
+        let session = await getSession();
+        let address_id = this.state.addressSelected;
+        try {
+            let response = await commonApi.post(`checkout`,
+                { address_id },
+                { headers: { "Authorization": session.accessToken.jwtToken } }
+            );
+            console.log("post checkout response", response);
+            if (response.data && response.data.success) {
+                this.order_id = response.data.data.orderId;
+                // this.calculateTotal();
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+        }
+    }
+
+    async updateCart(product_id, count) {
+
+        // this.setState({ isCartLoading: true });
         let session = await getSession();
         try {
             let response = await commonApi.post(`update_cart`,
@@ -57,56 +118,96 @@ class Cart extends React.Component {
             );
             console.log("cart update response", response);
             if (response.data && response.data.success) {
-                this.setState({ isCartLoading: false });
-                this.fetchCartItems();
+                // this.setState({ isCartLoading: false });
+                this.fetchCartItems(true);
             } else {
-                this.setState({ isCartLoading: false });
+                // this.setState({ isCartLoading: false });
             }
         }
         catch (e) {
             console.log("error", e);
-            this.setState({ isCartLoading: false });
+            // this.setState({ isCartLoading: false });
         }
     }
 
     handleQuantityChange = (product_id, input) => {
-        let objIdx = findindex(this.state.cartProducts, { product_id: product_id});
+        let objIdx = findindex(this.state.cartProducts, { product_id: product_id });
         let cartProducts = [...this.state.cartProducts]
-        let obj = { ...this.state.cartProducts[objIdx]};
+        let obj = { ...this.state.cartProducts[objIdx] };
         obj.count += input;
 
         // TODO: show validation messages
-        if(obj.count === 0) {
+        if (obj.count === 0) {
             return;
-        } else if(obj.count > 10) {
+        } else if (obj.count > 10) {
             return;
-        } else if(obj.count > obj.stock){
+        } else if (obj.count > obj.stock) {
             return;
         }
         cartProducts[objIdx] = obj;
-        this.setState({ cartProducts: cartProducts });
+        this.setState({
+            // cartProducts: cartProducts, 
+            productLoader: { product_id }
+        });
         this.calculateTotal();
-        // this.updateCart(product_id, obj.count);
+        this.updateCart(product_id, obj.count);
     }
 
-    handleRemoveProduct = (product_id) => {
-        this.updateCart(product_id, 0);   
+    async handleRemoveProduct(product_id) {
+        this.setState({ removeBtnLoader: { product_id } });
+        this.updateCart(product_id, 0);
     }
 
     handleCheckout = () => {
-        this.updateCart(product_id, 0);   
+        if(this.state.mode === "review"){
+            this.setState({ mode: "address", actionBtntext: "Proceed to Payment" });
+        }else{
+            this.makeCheckoutApiCall();
+            // this.setState({ mode: "address", actionBtntext: "Proceed to Payment" });
+        }
+        // this.fetchAddresses();
+        // this.makeCheckoutApiCall();
+    }
+
+    handlePayNow = () => {
+
+        var options = {
+            "key": "rzp_test_we3gJ1CG1NucG3", // Enter the Key ID generated from the Dashboard
+            "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise or INR 500.
+            "currency": "INR",
+            "name": "Acme Corp",
+            "description": "A Wild Sheep Chase is the third novel by Japanese author  Haruki Murakami",
+            "image": "https://example.com/your_logo",
+            "order_id": this.order_id,//This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
+            "handler": function (response) {
+                console.log("razorpay response: ", response);
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "note value"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
     }
 
     calculateTotal = () => {
-        let cartTotal = 0;
+        let actualCartTotal = 0;
         let totalDiscount = 0;
-        let total = 0;
+        let discountedTotal = 0;
         this.state.cartProducts.forEach((productObj, idx) => {
-            cartTotal += (productObj.price * productObj.count);
-            total += (productObj.effective_price * productObj.count);
-            totalDiscount += ((productObj.price * productObj.count) - (productObj.effective_price * productObj.count));
+            actualCartTotal += (productObj.price * productObj.count);
+            discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+            totalDiscount += ((productObj.price * productObj.count) * (productObj.discount / 100));
         })
-        this.setState({ cartTotal, totalDiscount, total });
+        this.setState({ actualCartTotal, totalDiscount, discountedTotal });
     }
 
     getBillingDetails = () => {
@@ -116,7 +217,7 @@ class Cart extends React.Component {
                 <div className="field-content">
                     <div className="field-item">
                         <div className="field-item-key">Cart Total</div>
-                        <div className="field-item-value">₹ {this.state.cartTotal}</div>
+                        <div className="field-item-value">₹ {this.state.actualCartTotal}</div>
                     </div>
                     <div className="field-item">
                         <div className="field-item-key">Total Discount</div>
@@ -129,64 +230,16 @@ class Cart extends React.Component {
                     <div className="line-border"></div>
                     <div className="field-item">
                         <div className="field-item-key">Total</div>
-                        <div className="field-item-value">₹ {this.state.total}</div>
+                        <div className="field-item-value">₹ {this.state.discountedTotal}</div>
                     </div>
                 </div>
             </div>
         )
     }
 
-    getProductCard = (productObj) => {
-        let price = productObj.count > 1 ?
-            `₹ ${productObj.effective_price} x ${productObj.count}`:
-            `₹ ${productObj.effective_price}`;
-
-        let actualPrice = productObj.count > 1 ?
-            `₹ ${productObj.price} x ${productObj.count}`:
-            `₹ ${productObj.price}`;
-        let leftCount = productObj.stock <= 10 ? productObj.stock : 0;
-        return(
-            <div className="product-card">
-                <div className="product-thumbnail-container">
-                    <img src="https://i.ibb.co/48hHjC8/Plum-01-900x.png" className="product-thumbnail-image" />
-                </div>
-                <div className="product-details">
-                    <div className="first-row">
-                        <div className="product-name">{productObj.description ? productObj.description : "Product Description"}</div>
-                        <div className="price">{price}</div>
-                    </div>
-                    <div className="second-row">
-                        <div className="actual-price">
-                            {actualPrice}
-                        </div>
-                    </div>
-                    <div className="third-row">
-                        <div className="size">Size: <b>{productObj.size}</b></div>
-                    </div>
-                    <div className="fourth-row">
-                        <div className="quantity"> Quantity:  </div>
-                        <button className="button is-light is-info is-small"
-                            onClick={() => { this.handleQuantityChange(productObj.product_id, -1) }}
-                        >－</button>
-                        <div className="count">{productObj.count}</div>
-                        <button className="button is-light is-info is-small"
-                            onClick={() => { this.handleQuantityChange(productObj.product_id, 1) }}
-                        >＋</button>
-                        {
-                            !!leftCount &&
-                            <div className="size-available-warning">
-                                <span class="tag is-danger is-light">{leftCount} Left</span>
-                            </div>
-                        }
-                    </div>
-                    <div className="bottom-container">
-                        <button className="button remove-btn"
-                            onClick={()=>{this.handleRemoveProduct(productObj.product_id)}}
-                        >Remove</button>
-                    </div>
-                </div>
-            </div>
-        )
+    handleRadioChange = (e, obj) =>{
+        console.log(e, obj);
+        this.setState({ addressSelected: obj.value })
     }
 
     render() {
@@ -200,45 +253,79 @@ class Cart extends React.Component {
                         </div>
                         :
                         <div className="cart-container">
-                            <div class="breadcrumbs">
-                                <div className="item is-active">Review Cart</div>
+                            <div className="breadcrumbs">
+                                <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
                                 <div className="item"> ▶</div>
-                                <div className="item"> Address</div>
+                                <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
                                 <div className="item"> ▶</div>
-                                <div className="item"> Payment</div>
+                                <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
                             </div>
                             <div className="cart-content">
-                                <div className="left-container">
-                                    <div className="header">
-                                        <div className="items">
-                                            {this.state.cartProducts.length} Items in Cart
-                                </div>
-                                        <div className="total">
-                                            Total Payable: ₹ {this.state.total}
+                                {this.state.cartProducts.length ?
+                                    <Fragment>
+                                        <div className="left-container">
+                                            {this.state.mode === "review" &&
+                                                <Fragment>
+                                                    <div className="header">
+                                                        <div className="items">
+                                                            {this.state.cartProducts.length} Items in Cart
+                                                        </div>
+                                                        <div className="total">
+                                                            Total Payable: ₹ {this.state.discountedTotal}
+                                                        </div>
+                                                    </div>
+                                                    <div className="products-summary-container">
+                                                        {this.state.cartProducts.map((productObj, idx) => {
+                                                            return (
+                                                                <CartItem 
+                                                                    productObj={productObj} 
+                                                                    loader={this.state.productLoader}
+                                                                    key={idx}
+                                                                    handleQuantityChange={this.handleQuantityChange.bind(this)}  
+                                                                    handleRemoveProduct={this.handleRemoveProduct.bind(this)}
+                                                                    removeBtnLoader={this.state.removeBtnLoader}
+                                                                />
+                                                            )
+                                                        })
+                                                        }
+                                                    </div>
+                                                </Fragment>
+                                            }
+                                            {this.state.mode === "address" &&
+                                            (
+                                                this.state.addressLoader ?
+                                                    <div className="loader-container">
+                                                        <Spinner color="primary" size="medium" />
+                                                    </div>
+                                                    :
+                                                    <Addresses 
+                                                        {...this.props}
+                                                        addBtnPosition="card"
+                                                        radio={{
+                                                            name: "address",
+                                                            selected: this.state.addressSelected,
+                                                            handleRadioChange: this.handleRadioChange,
+                                                            title: "Select Address for delivery"
+                                                        }}
+                                                    />
+                                            )
+                                            }
                                         </div>
+                                        <div className="right-container">
+                                            <button className="button is-link is-fullwidth cart-btn"
+                                                onClick={this.handleCheckout}
+                                            >{this.state.actionBtntext}</button>
+                                            {/* <button className="button is-link is-fullwidth cart-btn"
+                                                onClick={this.handlePayNow}
+                                            >Pay Now!</button> */}
+                                            {this.getBillingDetails()}
+                                        </div>
+                                    </Fragment>
+                                    :
+                                    <div className="no-cart-items">
+                                        No items present in cart
                                     </div>
-                                    {
-                                        this.state.cartProducts.length ?
-                                            <Fragment>
-                                                <div className="products-summary-container">
-                                                    {this.state.cartProducts.map((productObj, idx) => {
-                                                        return(this.getProductCard(productObj, idx))
-                                                    })
-                                                    }
-                                                </div>
-                                            </Fragment>
-                                            :
-                                            <div className="no-cart-items">
-                                                No items present in cart
-                                            </div>
-                                    }
-                                </div>
-                                <div className="right-container">
-                                    <button className="button is-link is-fullwidth cart-btn"
-                                        onClick={this.handleCheckout}
-                                    >Checkout</button>
-                                    {this.getBillingDetails()}
-                                </div>
+                                }
                             </div>
                         </div>
                 }

@@ -115,7 +115,7 @@ class NavBar extends React.Component {
                                                 <Link to="/profile">Personal Info</Link>
                                             </div>
                                             <div className="dropdown-item">
-                                                <Link to="/wishlist">Addresses</Link>
+                                                <Link to="/addresses">Addresses</Link>
                                             </div>
                                             <div className="dropdown-item">
                                                 <Link to="/wishlist">Wishlist</Link>

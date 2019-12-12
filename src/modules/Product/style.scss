@@ -37,26 +37,43 @@
                     outline: rgba(255, 255, 255, 0);
                 }
             }
-            .mySlides{
-                display: none;
-                &.active{
-                    width: 30vw;
-                    display: block;
-                    object-fit: cover;
-                    height: 75vh;
+            .w3-content.w3-display-container{
+                overflow: hidden;
+                .mySlides{
+                    display: none;
+                    &.active{
+                        width: 30vw;
+                        display: block;
+                        object-fit: cover;
+                        height: 75vh;
+                        -webkit-transition: -webkit-transform 0.4s;
+                        transition: -webkit-transform 0.4s;
+                        -o-transition: -o-transform 0.4s;
+                        -moz-transition: transform 0.4s, -moz-transform 0.4s;
+                        transition: transform .4s;
+                        transition: transform 0.4s, -webkit-transform 0.4s, -moz-transform 0.4s, -o-transform 0.4s;
+                        &:hover{
+                            -webkit-transform: scale(1.04);
+                            -moz-transform: scale(1.04);
+                            -ms-transform: scale(1.04);
+                            -o-transform: scale(1.04);
+                            transform: scale(1.04);
+                        }
+                    }
                 }
             }
-
             .w3-transparent {
-                min-height: 1.1rem;
-                margin: 1rem 0.5rem;
+                height: 0.8rem;
+                width: 0.8rem;
+                padding: 0 !important;
+                margin: 0.3rem 0.5rem;
                 border: 50%;
-                border: 0.8px solid rgba(51, 51, 51, 0.514);
+                border: 0.8px solid rgba(51, 51, 51, 0);
                 background: rgba(0, 0, 0, 0.541) !important;
             }
             .w3-white {
                 border: 0.8px solid rgba(255, 255, 255, 0) !important;
-                background: white !important;
+                background: rgba(214, 214, 214, 0.555) !important;
             }
         }
     }

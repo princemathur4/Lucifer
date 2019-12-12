@@ -13,6 +13,7 @@ import { decorate, observable, action, computed } from 'mobx';
 import AppStore from './AppStore';
 import Auth from '@aws-amplify/auth';
 import MainLoginPage from "./components/MainLoginPage";
+import Specials from "./modules/Specials";
 import './apis/interceptors';
 
 decorate(
@@ -133,6 +134,16 @@ class App extends React.Component {
             authRequired: false,
             customProps: {
                 name: "product",
+                store
+            }
+        },
+        {
+            path: "/specials",
+            component: Specials,
+            name: "specials",
+            authRequired: false,
+            customProps: {
+                name: "specials",
                 store
             }
         },

@@ -15,6 +15,7 @@ $navbar-tab-hover-border-bottom-color: black;
 
 .navbar-menu {
     justify-content: center;
+    align-items: center;
 }
 
 .navbar {
@@ -117,11 +118,12 @@ $navbar-tab-hover-border-bottom-color: black;
         justify-content: space-evenly;
 
         .action-btn {
+            cursor: pointer;
             margin: 0.5rem;
             max-width: 3em;
-            padding: 0.7em 0.9em;
-            cursor: pointer;
-
+            padding: 0.9em;
+            display: flex;
+            flex-grow: 2;
             &:hover {
                 border-radius: 25px;
                 background: rgba(235, 235, 235, 0.596);

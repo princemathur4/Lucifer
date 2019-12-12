@@ -7,6 +7,10 @@
         box-shadow: 0 0 0 0;
         border: 1px solid rgb(219, 219, 219);
         font-size: 0.9rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
         .user-header{
             display: flex;
             justify-content: space-between;

@@ -59,7 +59,7 @@ class MyAccount extends Component {
                             <Profile {...this.props} />
                         }
                         {this.state.activeTab === "addresses" &&
-                            <Addresses {...this.props} />
+                            <Addresses {...this.props} addBtnPosition="header"/>
                         }
                     </div>
                 </div>

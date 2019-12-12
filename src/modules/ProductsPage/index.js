@@ -30,7 +30,7 @@ class ProductsPage extends React.Component {
             },
             sort_dropdown_active: false
         }
-        this.node = {};
+        this.node = null;
     }
 
     componentDidMount() {
@@ -46,7 +46,7 @@ class ProductsPage extends React.Component {
     }
 
     handleClickOutside = (e) => {
-        if (this.node.contains(e.target)) {
+        if (this.node && this.node.contains(e.target)) {
             return;
         }
         this.setState({ sort_dropdown_active: false });
@@ -95,7 +95,7 @@ class ProductsPage extends React.Component {
                     productListLoader: false 
                 });
             } else {
-                this.setState({ productResults : [], productListLoader: false });
+                this.setState({ productResults: [], productListLoader: false });
             }
         }
         catch (e) {

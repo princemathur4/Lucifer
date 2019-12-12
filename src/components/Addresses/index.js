@@ -164,7 +164,7 @@ class Addresses extends Component {
         this.clearErrorStates();
         this.current_address_id = _id;
         let editableObj = find(this.state.addresses, function (addressObj) { return addressObj._id === _id });
-        console.log("editableObj",editableObj)
+        console.log("editableObj",editableObj);
         this.updateEditableFieldStates(editableObj);
         this.setState({
             mode: "edit",
@@ -208,12 +208,15 @@ class Addresses extends Component {
                                 <div className="header-text is-size-5">
                                     Your Saved Addresses
                                 </div>
-                                <button className="button add-btn" onClick={this.handleAddBtnClick}>
-                                    <span className="icon is-small">
-                                        <FontAwesomeIcon icon="plus" />
-                                    </span>
-                                    Add New Address
-                                </button>
+                                {
+                                    this.props.addBtnPosition === "header" &&
+                                    <button className="button add-btn" onClick={this.handleAddBtnClick}>
+                                        <span className="icon is-small">
+                                            <FontAwesomeIcon icon="plus" />
+                                        </span>
+                                        Add New Address
+                                    </button>
+                                }
                             </div>
                             <Modal 
                                 isActive={this.state.isModalActive} 
@@ -226,6 +229,17 @@ class Addresses extends Component {
                             />
                             <div className="addresses-body">
                                 {
+                                    !this.state.isLoading && this.props.addBtnPosition === "card" && 
+                                    <div className="add-address-card">
+                                        <button className="button add-btn" onClick={this.handleAddBtnClick}>
+                                            <span className="icon is-small">
+                                                <FontAwesomeIcon icon="plus" />
+                                            </span>
+                                        </button>
+                                        Add New Address
+                                    </div>
+                                }
+                                {
                                     !this.state.isLoading && !!Object.keys(this.state.addresses).length ?
                                         Object.keys(this.state.addresses).map((key, idx) => {
                                             return (
@@ -234,6 +248,7 @@ class Addresses extends Component {
                                                     data={this.state.addresses[key]} 
                                                     handleEditBtnClick={this.handleEditBtnClick}
                                                     onDeleteClick={this.onDeleteClick.bind(this)}
+                                                    radio={this.props.radio}
                                                 />
                                             )
                                         })
@@ -242,8 +257,7 @@ class Addresses extends Component {
                                             <div className="no-data">
                                                 <div className="has-text-grey is-size-5">
                                                     No Saved Addresses
-                                        </div>
-                                                
+                                                </div>
                                             </div>
                                             :
                                             <div className="loader-container">
@@ -265,7 +279,7 @@ class Addresses extends Component {
                                 <div className="btn-container">
                                 </div>
                             </div>
-                            <div className="addresses-body">
+                            <div className="addresses-editable-body">
                                 <Fragment>
                                     {
                                         addressEditableFields.map((obj, idx) => {
