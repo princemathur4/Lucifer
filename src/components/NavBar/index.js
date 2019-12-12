@@ -107,30 +107,27 @@ class NavBar extends React.Component {
                                     <div className="dropdown-menu" id="dropdown-profile" role="menu">
                                         {this.props.auth.isAuthenticated ?
                                         <div className="dropdown-content">
-                                            <div className="dropdown-item">
+                                            <div className="">
                                                 <Link to="/myaccount">My Account</Link>
                                             </div>
                                             <hr className="dropdown-divider"/>
-                                            <div className="dropdown-item">
+                                            <div className="">
                                                 <Link to="/profile">Personal Info</Link>
                                             </div>
-                                            <div className="dropdown-item">
+                                            <div className="">
                                                 <Link to="/addresses">Addresses</Link>
                                             </div>
-                                            <div className="dropdown-item">
+                                            <div className="">
                                                 <Link to="/wishlist">Wishlist</Link>
                                             </div>
-                                            <div className="dropdown-item">
+                                            <div className="">
                                                 <Link to="/orders">Orders & Returns</Link>
                                             </div>
                                             <hr className="dropdown-divider"/>
-                                            <div className="dropdown-item">
-                                                    <button className="button is-small has-text-grey-darker	 is-light is-fullwidth" onClick={this.handleLogout}>
-                                                    <span className="icon is-small">
-                                                        <FontAwesomeIcon icon="sign-out-alt"/>
-                                                    </span>
-                                                    <span>Logout</span>
-                                                </button>
+                                            <div className="" onClick={this.handleLogout}>
+                                                <div className="logout-btn selectable">
+                                                    Logout
+                                                </div>
                                             </div>
                                         </div>
                                         :

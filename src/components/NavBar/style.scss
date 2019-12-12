@@ -79,39 +79,51 @@ $navbar-tab-hover-border-bottom-color: black;
         border-color: #ffffff73;
         box-shadow: 0 0 0 0.125em rgba(189, 189, 189, 0.4);
     }
+
     .navbar-dropdown {
         padding: 0 !important;
-        .dropdown-container{
+
+        .dropdown-container {
             display: flex;
             flex-direction: row;
+
             // padding: 0.3rem 1.2rem;
-            .links-container{
-                &.odd-column{
+            .links-container {
+                &.odd-column {
                     background: rgba(221, 221, 221, 0.210);
                     padding: 0.3rem 1.2rem;
                 }
-                &.even-column{
+
+                &.even-column {
                     background: rgba(235, 235, 235, 0.210);
                 }
+
                 display: flex;
                 flex-direction: column;
-                padding: 0.3rem 1rem;
-                .title-link{
+                padding: 0.5rem 0;
+
+                .title-link {
                     font-weight: 650;
                     color: rgba(0, 96, 126, 0.822);
-                    padding: 1rem 0 0.3rem 0;
+                    padding: 1rem 0.5rem 0.3rem 0.5rem;
+                    padding: 0.8rem 2rem;
                     // border-bottom: 1px solid rgb(223, 223, 223); 
                 }
-                .sub-link{
+
+                .sub-link {
                     color: rgba(0, 0, 0, 0.822);
-                    padding: 1rem 0 0.3rem 0;
-                    &:hover{
+                    // padding: 1rem 0.5rem 0.3rem 0.5rem;
+                    padding: 0.8rem 2rem;
+
+                    &:hover {
                         font-weight: 600;
+                        background: rgba(226, 226, 226, 0.21);
                     }
                 }
             }
         }
     }
+
     .action-buttons {
         display: flex;
         align-items: center;
@@ -124,6 +136,30 @@ $navbar-tab-hover-border-bottom-color: black;
             padding: 0.9em;
             display: flex;
             flex-grow: 2;
+
+            a {
+                @extend .selectable;
+            }
+
+            .selectable {
+                display: flex;
+                flex-grow: 2;
+                width: 100%;
+                font-weight: 500;
+                color: #4a4a4a;
+                font-size: 0.875rem;
+                line-height: 1.5;
+                padding: 0.375rem 1rem;
+                position: relative;
+                transition: 0.2s ease;
+
+                &:hover {
+                    color: black !important;
+                    font-weight: 600;
+                    background: rgba(235, 235, 235, 0.596);
+                }
+            }
+
             &:hover {
                 border-radius: 25px;
                 background: rgba(235, 235, 235, 0.596);
@@ -133,15 +169,19 @@ $navbar-tab-hover-border-bottom-color: black;
                 width: 1.5em;
             }
         }
-        .login-signup-container{
+
+        .login-signup-container {
             display: flex;
             align-items: center;
-            .login-btn{
+
+            .login-btn {
                 margin: 0 1rem;
-            }   
-            .signup-btn{
+            }
+
+            .signup-btn {
                 margin: 0 1rem;
-            }   
+            }
         }
     }
+
 }

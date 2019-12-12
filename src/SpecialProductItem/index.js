@@ -155,8 +155,8 @@ class SpecialProductItem extends React.Component {
                         <div className="action-buttons">
                             <button 
                                 className={this.state.isAddingToCartLoading ? 
-                                    "button is-outlined is-loading add-to-cart-btn":
-                                    "button is-outlined add-to-cart-btn"
+                                    "button is-outlined is-loading add-to-cart-btn-special":
+                                    "button is-outlined add-to-cart-btn-special"
                                 }
                                 onClick={this.handleCartToggle.bind(this)}
                             >
