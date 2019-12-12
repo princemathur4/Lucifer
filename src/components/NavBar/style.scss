@@ -86,8 +86,6 @@ $navbar-tab-hover-border-bottom-color: black;
         .dropdown-container {
             display: flex;
             flex-direction: row;
-
-            // padding: 0.3rem 1.2rem;
             .links-container {
                 &.odd-column {
                     background: rgba(221, 221, 221, 0.210);
@@ -95,7 +93,7 @@ $navbar-tab-hover-border-bottom-color: black;
                 }
 
                 &.even-column {
-                    background: rgba(235, 235, 235, 0.210);
+                    background: rgba(235, 235, 235, 0.116);
                 }
 
                 display: flex;
@@ -107,17 +105,16 @@ $navbar-tab-hover-border-bottom-color: black;
                     color: rgba(0, 96, 126, 0.822);
                     padding: 1rem 0.5rem 0.3rem 0.5rem;
                     padding: 0.8rem 2rem;
-                    // border-bottom: 1px solid rgb(223, 223, 223); 
                 }
 
                 .sub-link {
                     color: rgba(0, 0, 0, 0.822);
-                    // padding: 1rem 0.5rem 0.3rem 0.5rem;
                     padding: 0.8rem 2rem;
+                    transition: 0.2s ease;
 
                     &:hover {
                         font-weight: 600;
-                        background: rgba(226, 226, 226, 0.21);
+                        background: rgba(216, 216, 216, 0.274);
                     }
                 }
             }
