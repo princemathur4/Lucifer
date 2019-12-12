@@ -21,7 +21,7 @@ class Address extends Component {
                                 name={this.props.radio.name}
                                 value={this.props.data._id}
                                 checked={this.props.radio.selected === this.props.data._id}
-                                onChange={this.props.radio.handleRadioChange}
+                                onChange={()=>{this.props.radio.handleRadioChange(this.props.data)}}
                                 label={
                                     <label className="address-radio-label">
                                         {this.props.radio.title}

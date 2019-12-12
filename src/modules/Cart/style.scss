@@ -81,6 +81,7 @@
                     margin: 0.5rem 0;
                     width: 100%;
                     height: 100%;
+                    box-shadow: 0 0 4px rgba(40, 44, 63, .08);
 
                     &:hover {
                         box-shadow: 0 2px 8px #bbb;
@@ -92,6 +93,7 @@
                     }
 
                     .product-thumbnail-container {
+                        cursor: pointer;
                         img {
                             width: 10vw;
                             height: 28vh;
@@ -111,8 +113,12 @@
                             align-items: center;
 
                             .product-name {
+                                cursor: pointer;
                                 font-weight: 600;
                                 font-size: 1.3rem;
+                                &:hover{
+                                    text-decoration: underline;
+                                }
                             }
 
                             .price {
@@ -196,6 +202,7 @@
 
             .addresses-container {
                 margin: 1rem 0;
+
                 .addresses-body {
                     display: flex;
                     flex-wrap: wrap;
@@ -214,11 +221,13 @@
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
+                        box-shadow: 0 0 4px rgba(40, 44, 63, .08);
                     }
 
                     .card {
                         width: 48%;
                         margin: 1em 0;
+                        box-shadow: 0 0 4px rgba(40, 44, 63, .08);
 
                         .radio-container {
                             padding: 1rem 0;
@@ -234,54 +243,54 @@
             }
         }
 
-            .right-container {
-                width: 35%;
-                height: 100%;
-                padding: 2rem;
+        .right-container {
+            width: 35%;
+            height: 100%;
+            padding: 2rem;
 
-                .cart-btn {
-                    font-family: inherit;
-                    border-radius: 0;
+            .cart-btn {
+                font-family: inherit;
+                border-radius: 0;
+            }
+
+            .field-container {
+                padding: 2rem 0;
+                color: black;
+
+                .field-title {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    padding-bottom: 0.3rem;
                 }
 
-                .field-container {
-                    padding: 2rem 0;
-                    color: black;
+                .field-content {
+                    .field-item {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 0.4rem 0;
 
-                    .field-title {
-                        font-size: 0.9rem;
-                        font-weight: 600;
-                        padding-bottom: 0.3rem;
-                    }
+                        .field-item-key {}
 
-                    .field-content {
-                        .field-item {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            padding: 0.4rem 0;
-
-                            .field-item-key {}
-
-                            .field-item-value {
-                                &.discount {
-                                    color: rgb(2, 173, 102);
-                                }
-
-                                &.delivery-charge {
-                                    color: rgb(173, 133, 2);
-                                }
+                        .field-item-value {
+                            &.discount {
+                                color: rgb(2, 173, 102);
                             }
 
+                            &.delivery-charge {
+                                color: rgb(173, 133, 2);
+                            }
                         }
 
-                        .line-border {
-                            width: 100%;
-                            padding: 0.3rem 0;
-                            border-bottom: 1px solid rgb(226, 226, 226);
-                        }
+                    }
+
+                    .line-border {
+                        width: 100%;
+                        padding: 0.3rem 0;
+                        border-bottom: 1px solid rgb(226, 226, 226);
                     }
                 }
             }
         }
     }
+}

@@ -53,6 +53,10 @@ class Specials extends React.Component {
         return (
             <Fragment>
                 <div className="specials-container">
+                    <div className="image-container">
+                        <img src="https://i.ibb.co/8gxGDMw/download.png"/>
+                        <div className="title">Created with Love 💖</div>
+                    </div>
                     <div className="specials-products-container">
                     
                     {
@@ -62,7 +66,7 @@ class Specials extends React.Component {
                             </div>
                         :
                         this.state.products.map((productObj,idx )=>{
-                            return (<SpecialProductItem productData={productObj}/>)
+                            return (<SpecialProductItem productData={productObj} {...this.props}/>)
                         })
                     }
                     </div>

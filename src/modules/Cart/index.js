@@ -12,13 +12,12 @@ class Cart extends React.Component {
 
     state = {
         mode: "review",
-        actionBtntext: "Checkout",
-        isCartLoading: true,
         cartProducts: [],
-        addresses: [],
         actualCartTotal: 0,
         discountedTotal: 0,
         order_id: "",
+        addressSelected: {},
+        isCartLoading: true,
         productLoader: { product_id: '' },
         removeBtnLoader: { product_id: '' },
         addressLoader: false
@@ -64,30 +63,6 @@ class Cart extends React.Component {
         }
     }
 
-    async fetchAddresses() {
-        let session = await getSession();
-        console.log("addresses token", session.accessToken.jwtToken);
-        this.setState({ addressLoader: true });
-        try {
-            let response = await commonApi.get('get_addresses',
-                {
-                    params: {},
-                    headers: { Authorization: session.accessToken.jwtToken }
-                }
-            );
-            console.log("response", response);
-            if (response.data && response.data.success) {
-                this.setState({ addresses: response.data.data, addressLoader: false });
-            } else {
-                this.setState({ addresses: [], isLoading: false });
-            }
-        }
-        catch (e) {
-            console.log("error", e);
-            this.setState({ addresses: [], addressLoader: false });
-        }
-    }
-
     async makeCheckoutApiCall() {
         let session = await getSession();
         let address_id = this.state.addressSelected;
@@ -99,6 +74,7 @@ class Cart extends React.Component {
             console.log("post checkout response", response);
             if (response.data && response.data.success) {
                 this.order_id = response.data.data.orderId;
+                this.payNow();
                 // this.calculateTotal();
             }
         }
@@ -108,8 +84,6 @@ class Cart extends React.Component {
     }
 
     async updateCart(product_id, count) {
-
-        // this.setState({ isCartLoading: true });
         let session = await getSession();
         try {
             let response = await commonApi.post(`update_cart`,
@@ -118,15 +92,28 @@ class Cart extends React.Component {
             );
             console.log("cart update response", response);
             if (response.data && response.data.success) {
-                // this.setState({ isCartLoading: false });
                 this.fetchCartItems(true);
-            } else {
-                // this.setState({ isCartLoading: false });
             }
         }
         catch (e) {
             console.log("error", e);
-            // this.setState({ isCartLoading: false });
+        }
+    }
+
+    async verifyPayment(razorpay_order_id, razorpay_payment_id, razorpay_signature) {
+        let session = await getSession();
+        try {
+            let response = await commonApi.post(`verify_payment`,
+                { razorpay_order_id, razorpay_payment_id, razorpay_signature },
+                { headers: { "Authorization": session.accessToken.jwtToken } }
+            );
+            console.log("cart update response", response);
+            if (response.data && response.data.success) {
+                this.fetchCartItems(true);
+            }
+        }
+        catch (e) {
+            console.log("error", e);
         }
     }
 
@@ -160,38 +147,33 @@ class Cart extends React.Component {
 
     handleCheckout = () => {
         if(this.state.mode === "review"){
-            this.setState({ mode: "address", actionBtntext: "Proceed to Payment" });
-        }else{
+            this.setState({ mode: "address" });
+        } else {
             this.makeCheckoutApiCall();
-            // this.setState({ mode: "address", actionBtntext: "Proceed to Payment" });
+            // this.setState({ mode: "address" });
         }
-        // this.fetchAddresses();
-        // this.makeCheckoutApiCall();
     }
 
-    handlePayNow = () => {
+    payNow = () => {
 
         var options = {
-            "key": "rzp_test_we3gJ1CG1NucG3", // Enter the Key ID generated from the Dashboard
-            "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise or INR 500.
+            "key": "rzp_test_we3gJ1CG1NucG3", // TODO: (get from config) Enter the Key ID generated from the Dashboard
+            "amount": this.state.discountedTotal,
             "currency": "INR",
-            "name": "Acme Corp",
-            "description": "A Wild Sheep Chase is the third novel by Japanese author  Haruki Murakami",
-            "image": "https://example.com/your_logo",
-            "order_id": this.order_id,//This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
+            "name": "Labroz Denim",
+            "description": "",
+            "image": "https://i.ibb.co/WyZrjkf/larboz-logo.png",
+            "order_id": this.order_id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
             "handler": function (response) {
                 console.log("razorpay response: ", response);
+                this.verifyPayment(response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature );
             },
             "prefill": {
-                "name": "Gaurav Kumar",
-                "email": "gaurav.kumar@example.com",
-                "contact": "9999999999"
-            },
-            "notes": {
-                "address": "note value"
+                "name": this.state.addressSelected.name,
+                "contact": this.state.addressSelected.mobile
             },
             "theme": {
-                "color": "#F37254"
+                "color": "#007b8b"
             }
         };
         var rzp1 = new Razorpay(options);
@@ -237,9 +219,13 @@ class Cart extends React.Component {
         )
     }
 
-    handleRadioChange = (e, obj) =>{
-        console.log(e, obj);
-        this.setState({ addressSelected: obj.value })
+    handleRadioChange = (obj) =>{
+        console.log(obj);
+        this.setState({ addressSelected: obj });
+    }
+
+    changeMode = (mode)=>{
+        this.setState({ mode });
     }
 
     render() {
@@ -254,11 +240,11 @@ class Cart extends React.Component {
                         :
                         <div className="cart-container">
                             <div className="breadcrumbs">
-                                <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
+                                <div className={this.state.mode === "review" ? "item is-active" : "item"} onClick={()=>{this.changeMode('review')}}>Review Cart</div>
                                 <div className="item"> ▶</div>
-                                <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
+                                <div className={this.state.mode === "address" ? "item is-active" : "item"} onClick={() => { this.changeMode('address') }}> Address</div>
                                 <div className="item"> ▶</div>
-                                <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
+                                <div className={this.state.mode === "payment" ? "item is-active" : "item"} onClick={() => { this.changeMode('payment') }}> Payment</div>
                             </div>
                             <div className="cart-content">
                                 {this.state.cartProducts.length ?
@@ -278,6 +264,7 @@ class Cart extends React.Component {
                                                         {this.state.cartProducts.map((productObj, idx) => {
                                                             return (
                                                                 <CartItem 
+                                                                    {...this.props}
                                                                     productObj={productObj} 
                                                                     loader={this.state.productLoader}
                                                                     key={idx}
@@ -303,7 +290,7 @@ class Cart extends React.Component {
                                                         addBtnPosition="card"
                                                         radio={{
                                                             name: "address",
-                                                            selected: this.state.addressSelected,
+                                                            selected: this.state.addressSelected.value,
                                                             handleRadioChange: this.handleRadioChange,
                                                             title: "Select Address for delivery"
                                                         }}
@@ -312,12 +299,25 @@ class Cart extends React.Component {
                                             }
                                         </div>
                                         <div className="right-container">
-                                            <button className="button is-link is-fullwidth cart-btn"
-                                                onClick={this.handleCheckout}
-                                            >{this.state.actionBtntext}</button>
-                                            {/* <button className="button is-link is-fullwidth cart-btn"
-                                                onClick={this.handlePayNow}
-                                            >Pay Now!</button> */}
+                                            {
+                                                this.state.mode === "review" &&
+                                                <button className="button is-link is-fullwidth cart-btn"
+                                                    onClick={this.handleCheckout}
+                                                >Checkout</button>
+                                            }
+                                            {
+                                                this.state.mode === "address" &&
+                                                <button className="button is-link is-fullwidth cart-btn"
+                                                    disabled={!this.state.addressSelected._id}
+                                                    onClick={this.handleCheckout}
+                                                >Proceed to Payment</button>
+                                            }
+                                            {
+                                                this.state.mode === "payment" &&
+                                                <button className="button is-link is-fullwidth cart-btn"
+                                                    onClick={this.handlePayNow}
+                                                >Pay Now!</button>
+                                            }
                                             {this.getBillingDetails()}
                                         </div>
                                     </Fragment>

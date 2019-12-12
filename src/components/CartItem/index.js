@@ -6,6 +6,11 @@ export default class CartItem extends Component {
         super(props)
     }
 
+    handleProductImageClick = ()=>{
+        let product_id = this.props.productObj.product_id.split(`_${this.props.productObj.size}`)[0];
+        this.props.history.push(`/product?id=${product_id}`);
+    }
+
     render () {
         let data = this.props.productObj;
         let actualPrice = data.count > 1 ?
@@ -26,12 +31,12 @@ export default class CartItem extends Component {
                     </div>
                     :
                     <Fragment>
-                        <div className="product-thumbnail-container">
+                        <div className="product-thumbnail-container" onClick={this.handleProductImageClick}>
                             <img src="https://i.ibb.co/48hHjC8/Plum-01-900x.png" className="product-thumbnail-image" />
                         </div>
                         <div className="product-details">
                             <div className="first-row">
-                                <div className="product-name">{data.description ? data.description : "Product Description"}</div>
+                                <div className="product-name" onClick={this.handleProductImageClick}>{data.description ? data.description : "Product Description"}</div>
                                 <div className="price">{calculatedPrice}</div>
                             </div>
                             <div className="second-row">

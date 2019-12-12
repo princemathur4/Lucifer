@@ -145,7 +145,7 @@ class SpecialProductItem extends React.Component {
                         <figure className="image is-4by5" >
                             <img 
                                 // src={this.props.productData.image[0]} 
-                                src="https://i.ibb.co/48hHjC8/Plum-01-900x.png" 
+                                src="https://i.ibb.co/jJnVpGx/TBC-01-900x.png" 
                                 alt="Placeholder image" 
                                 className="product-image"
                             />
@@ -153,18 +153,6 @@ class SpecialProductItem extends React.Component {
                     {
                         this.state.hover &&
                         <div className="action-buttons">
-                            <button 
-                                className={this.state.isWishListToggleLoading ? 
-                                    "button is-outlined is-loading wishlist-btn" : 
-                                    "button is-outlined wishlist-btn"
-                                } 
-                                onClick={this.handleWishlistToggle.bind(this)}
-                            >
-                                <span className="icon">
-                                    <FontAwesomeIcon icon="bookmark" className="wishlist-icon" />
-                                </span>
-                                <span>{this.props.productData.is_wishlisted || this.state.isWishlisted ? "Wishlisted": "Save in Wishlist"}</span>
-                            </button>
                             <button 
                                 className={this.state.isAddingToCartLoading ? 
                                     "button is-outlined is-loading add-to-cart-btn":
