@@ -290,7 +290,7 @@ class Cart extends React.Component {
                                                         addBtnPosition="card"
                                                         radio={{
                                                             name: "address",
-                                                            selected: this.state.addressSelected.value,
+                                                            selected: this.state.addressSelected._id,
                                                             handleRadioChange: this.handleRadioChange,
                                                             title: "Select Address for delivery"
                                                         }}
