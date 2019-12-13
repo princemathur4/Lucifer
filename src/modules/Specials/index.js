@@ -55,7 +55,7 @@ class Specials extends React.Component {
                 <div className="specials-container">
                     <div className="image-container">
                         <img src="https://i.ibb.co/8gxGDMw/download.png"/>
-                        <div className="title">Created with Love 💖</div>
+                        <div className="title">Created with Love ❤️</div>
                     </div>
                     <div className="specials-products-container">
                     

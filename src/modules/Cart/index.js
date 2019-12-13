@@ -20,7 +20,8 @@ class Cart extends React.Component {
         isCartLoading: true,
         productLoader: { product_id: '' },
         removeBtnLoader: { product_id: '' },
-        addressLoader: false
+        addressLoader: false,
+        proceedToPaymentLoader: false
     }
 
     componentDidMount() {
@@ -74,6 +75,7 @@ class Cart extends React.Component {
             console.log("post checkout response", response);
             if (response.data && response.data.success) {
                 this.order_id = response.data.data.orderId;
+                this.setState({ proceedToPaymentLoader: false });
                 this.payNow();
                 // this.calculateTotal();
             }
@@ -149,13 +151,14 @@ class Cart extends React.Component {
         if(this.state.mode === "review"){
             this.setState({ mode: "address" });
         } else {
+            this.setState({ proceedToPaymentLoader: true });
             this.makeCheckoutApiCall();
             // this.setState({ mode: "address" });
         }
     }
 
     payNow = () => {
-
+        let self = this;
         var options = {
             "key": "rzp_test_we3gJ1CG1NucG3", // TODO: (get from config) Enter the Key ID generated from the Dashboard
             "amount": this.state.discountedTotal,
@@ -163,10 +166,10 @@ class Cart extends React.Component {
             "name": "Labroz Denim",
             "description": "",
             "image": "https://i.ibb.co/WyZrjkf/larboz-logo.png",
-            "order_id": this.order_id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
+            "order_id": self.order_id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
             "handler": function (response) {
                 console.log("razorpay response: ", response);
-                this.verifyPayment(response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature );
+                self.verifyPayment(response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
             },
             "prefill": {
                 "name": this.state.addressSelected.name,
@@ -240,11 +243,11 @@ class Cart extends React.Component {
                         :
                         <div className="cart-container">
                             <div className="breadcrumbs">
-                                <div className={this.state.mode === "review" ? "item is-active" : "item"} onClick={()=>{this.changeMode('review')}}>Review Cart</div>
+                                <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
                                 <div className="item"> ▶</div>
-                                <div className={this.state.mode === "address" ? "item is-active" : "item"} onClick={() => { this.changeMode('address') }}> Address</div>
+                                <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
                                 <div className="item"> ▶</div>
-                                <div className={this.state.mode === "payment" ? "item is-active" : "item"} onClick={() => { this.changeMode('payment') }}> Payment</div>
+                                <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
                             </div>
                             <div className="cart-content">
                                 {this.state.cartProducts.length ?
@@ -307,16 +310,10 @@ class Cart extends React.Component {
                                             }
                                             {
                                                 this.state.mode === "address" &&
-                                                <button className="button is-link is-fullwidth cart-btn"
+                                                <button className={this.state.proceedToPaymentLoader ? "button is-link is-fullwidth cart-btn is-loading" : "button is-link is-fullwidth cart-btn" }
                                                     disabled={!this.state.addressSelected._id}
                                                     onClick={this.handleCheckout}
                                                 >Proceed to Payment</button>
-                                            }
-                                            {
-                                                this.state.mode === "payment" &&
-                                                <button className="button is-link is-fullwidth cart-btn"
-                                                    onClick={this.handlePayNow}
-                                                >Pay Now!</button>
                                             }
                                             {this.getBillingDetails()}
                                         </div>

@@ -5,6 +5,7 @@ import Auth from '@aws-amplify/auth';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FacebookButton from "../../components/FacebookButton";
+import GoogleButton from "../../components/GoogleButton";
 import commonApi from "../../apis/common";
 
 class Login extends Component {
@@ -144,17 +145,10 @@ class Login extends Component {
 				</div>
                 <div className="field has-addons" style={{ display: "flex", justifyContent: "center" }}>
                     <p className="control">
-                        <button className="button">
-                            <span className="icon" style={{ height: "1rem" }}>
-                                <FontAwesomeIcon icon={['fab', 'google']} style={{ color: "#cb0808" }} />
-                            </span>
-                            <span>Google</span>
-                        </button>
+                        <GoogleButton {...this.props} />
                     </p>
                     <p className="control">
-                        <FacebookButton
-                            {...this.props}
-                        />
+                        <FacebookButton {...this.props} />
                     </p>
                 </div>
                 <div className="or-text-container">

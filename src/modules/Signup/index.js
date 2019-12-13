@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FacebookButton from "../../components/FacebookButton";
 import commonApi from "../../apis/common";
+import GoogleButton from '../../components/GoogleButton';
 
 class Signup extends Component {
 	state = {
@@ -113,17 +114,10 @@ class Signup extends Component {
 				</div>
 				<div className="field has-addons" style={{ display: "flex", justifyContent: "center" }}>
 					<p className="control">
-						<button className="button">
-							<span className="icon is-small" style={{ height: "1rem" }}>
-								<FontAwesomeIcon icon={['fab', 'google']} style={{ color: "#cb0808" }} />
-							</span>
-							<span>Google</span>
-						</button>
+						<GoogleButton {...this.props}/>
 					</p>
 					<p className="control">
-						<FacebookButton
-							{...this.props}
-						/>
+						<FacebookButton {...this.props}/>
 					</p>
 				</div>
 				<div className="or-text-container">

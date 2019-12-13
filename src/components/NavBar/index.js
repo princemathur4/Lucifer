@@ -135,14 +135,14 @@ class NavBar extends React.Component {
                                             <div className="dropdown-item">
                                                 <div className="login-signup-container">
                                                     <button 
-                                                        className="button is-info is-rounded is-small login-btn"
+                                                        className="login-btn"
                                                         onClick={()=>{this.props.history.push('/login')}}
                                                     >
                                                         Login
                                                     </button>
                                                     <p>OR</p>
                                                     <button 
-                                                        className="button is-info is-rounded is-small signup-btn"
+                                                        className="login-btn"
                                                         onClick={()=>{this.props.history.push('/signup')}}
                                                     >
                                                         Signup
