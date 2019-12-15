@@ -15,6 +15,7 @@ import Auth from '@aws-amplify/auth';
 import MainLoginPage from "./components/MainLoginPage";
 import Specials from "./modules/Specials";
 import './apis/interceptors';
+import ComingSoonPage from './modules/ComingSoonPage';
 
 decorate(
     AppStore, {
@@ -204,6 +205,16 @@ class App extends React.Component {
             authRequired: true,
             customProps: {
                 name: "orders",
+                store
+            }
+        },
+        {
+            path: "/blog",
+            component: ComingSoonPage,
+            name: "blog",
+            authRequired: true,
+            customProps: {
+                name: "blog",
                 store
             }
         },
