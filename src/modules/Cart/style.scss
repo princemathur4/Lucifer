@@ -241,6 +241,24 @@
                     }
                 }
             }
+            .payment-mode-container{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                
+                .payment-mode-title{
+                    font-size: 1.5rem;
+                    color: rgb(0, 101, 126);
+                    padding: 1rem 0;
+                } 
+                .ui.checkbox{
+                    margin: 2rem;
+                }
+                .payment-mode-label{
+                    font-size: 1.2rem;
+                }
+            }
         }
 
         .right-container {
@@ -291,6 +309,21 @@
                     }
                 }
             }
+        }
+    }
+}
+.order-response-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .title{
+        margin-top: 2rem;
+    }
+    .view-order-btn{
+        margin-top: 2rem;
+        &:hover{
+            text-decoration: underline;
         }
     }
 }

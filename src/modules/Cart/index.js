@@ -5,8 +5,9 @@ import './style.scss';
 import Spinner from "../../components/Spinner";
 import findindex from "lodash.findindex";
 import Addresses from '../../components/Addresses';
-import Address from '../../components/Address';
 import CartItem from '../../components/CartItem';
+import { Radio } from 'semantic-ui-react';
+import VerifyMobile from '../../components/VerifyMobile';
 
 class Cart extends React.Component {
 
@@ -21,7 +22,11 @@ class Cart extends React.Component {
         productLoader: { product_id: '' },
         removeBtnLoader: { product_id: '' },
         addressLoader: false,
-        proceedToPaymentLoader: false
+        proceedLoader: false,
+        paymentMode: "",
+        mobile: "",
+        otpVerified: false,
+        orderResponse: {order_id: "12324"},
     }
 
     componentDidMount() {
@@ -64,27 +69,6 @@ class Cart extends React.Component {
         }
     }
 
-    async makeCheckoutApiCall() {
-        let session = await getSession();
-        let address_id = this.state.addressSelected;
-        try {
-            let response = await commonApi.post(`checkout`,
-                { address_id },
-                { headers: { "Authorization": session.accessToken.jwtToken } }
-            );
-            console.log("post checkout response", response);
-            if (response.data && response.data.success) {
-                this.order_id = response.data.data.orderId;
-                this.setState({ proceedToPaymentLoader: false });
-                this.payNow();
-                // this.calculateTotal();
-            }
-        }
-        catch (e) {
-            console.log("error", e);
-        }
-    }
-
     async updateCart(product_id, count) {
         let session = await getSession();
         try {
@@ -102,16 +86,46 @@ class Cart extends React.Component {
         }
     }
 
-    async verifyPayment(razorpay_order_id, razorpay_payment_id, razorpay_signature) {
+    async makeCheckoutApiCall() {
+        let session = await getSession();
+        let address_id = this.state.addressSelected;
+        let payment_mode = this.state.paymentMode;
+        try {
+            let response = await commonApi.post(`checkout`,
+                { address_id , payment_mode },
+                { headers: { "Authorization": session.accessToken.jwtToken } }
+            );
+            console.log("checkout response", response);
+            if (response.data && response.data.success) {
+                this.order_id = response.data.data.orderId;
+                if(payment_mode === "COD"){
+                    this.setState({ mode: "COD", proceedLoader: false });
+                } else {
+                    this.setState({ proceedLoader: false });
+                    this.payNow();
+                }
+            } else {
+                this.setState({ proceedLoader: false });
+                // TODO: show popup message in this case 
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+            this.setState({ proceedLoader: false });
+            // TODO: show popup message in this case
+        }
+    }
+
+    async verifyPayment(payload) {
         let session = await getSession();
         try {
             let response = await commonApi.post(`verify_payment`,
-                { razorpay_order_id, razorpay_payment_id, razorpay_signature },
+                { ...payload },
                 { headers: { "Authorization": session.accessToken.jwtToken } }
             );
-            console.log("cart update response", response);
+            console.log("verify payment response", response);
             if (response.data && response.data.success) {
-                this.fetchCartItems(true);
+                this.setState({ orderResponse: response.data.data });
             }
         }
         catch (e) {
@@ -148,12 +162,21 @@ class Cart extends React.Component {
     }
 
     handleCheckout = () => {
-        if (this.state.mode === "review") {
+        let mode = this.state.mode;
+        if (mode === "review") {
             this.setState({ mode: "address" });
-        } else {
-            this.setState({ proceedToPaymentLoader: true });
-            this.makeCheckoutApiCall();
-            // this.setState({ mode: "address" });
+        }
+        else if (mode === "address") {
+            this.setState({ mode: 'payment' });
+        }
+        else if (mode === "payment") {
+            if (this.state.paymentMode) {
+                this.setState({ proceedLoader: true });
+                this.makeCheckoutApiCall();
+            }
+        }
+        else if(mode === "COD"){
+            
         }
     }
 
@@ -169,7 +192,12 @@ class Cart extends React.Component {
             "order_id": self.order_id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
             "handler": function (response) {
                 console.log("razorpay response: ", response);
-                self.verifyPayment(response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
+                let payload = { 
+                    razorpay_order_id: response.razorpay_order_id, 
+                    razorpay_payment_id: response.razorpay_payment_id, 
+                    razorpay_signature: response.razorpay_signature 
+                }
+                self.verifyPayment(payload);
             },
             "prefill": {
                 "name": this.state.addressSelected.name,
@@ -222,13 +250,17 @@ class Cart extends React.Component {
         )
     }
 
-    handleRadioChange = (obj) => {
+    onPaymentModeSelect = (e, obj) => {
+        this.setState({ [obj.name]: obj.value });
+    }
+
+    handleAddressChange = (obj) => {
         console.log(obj);
         this.setState({ addressSelected: obj });
     }
 
-    changeMode = (mode) => {
-        this.setState({ mode });
+    handleVerificationResult = (otpVerified, mobile) =>{
+        this.setState({ otpVerified, mobile  });
     }
 
     render() {
@@ -242,6 +274,7 @@ class Cart extends React.Component {
                                 <Spinner color="primary" size="medium" />
                             </div>
                             :
+                            (!Object.keys(this.state.orderResponse).length ?
                             <Fragment>
                                 <div className="breadcrumbs">
                                     <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
@@ -283,23 +316,47 @@ class Cart extends React.Component {
                                                     </Fragment>
                                                 }
                                                 {this.state.mode === "address" &&
-                                                    (
-                                                        this.state.addressLoader ?
-                                                            <div className="loader-container">
-                                                                <Spinner color="primary" size="medium" />
-                                                            </div>
-                                                            :
-                                                            <Addresses
-                                                                {...this.props}
-                                                                addBtnPosition="card"
-                                                                radio={{
-                                                                    name: "address",
-                                                                    selected: this.state.addressSelected._id,
-                                                                    handleRadioChange: this.handleRadioChange,
-                                                                    title: "Select Address for delivery"
-                                                                }}
+                                                    <Addresses
+                                                        {...this.props}
+                                                        addBtnPosition="card"
+                                                        radio={{
+                                                            name: "address",
+                                                            selected: this.state.addressSelected._id,
+                                                            handleRadioChange: this.handleAddressChange,
+                                                            title: "Select Address for delivery"
+                                                        }}
+                                                    />
+                                                }
+                                                {this.state.mode === "payment" &&
+                                                    <div className="payment-mode-container">
+                                                        <div className="payment-mode-title">How would you like to pay?</div>
+                                                        <div className="payment-mode-content">
+                                                            <Radio
+                                                                name="paymentMode"
+                                                                value="RAZORPAY"
+                                                                checked={this.state.paymentMode === "RAZORPAY"}
+                                                                onChange={this.onPaymentModeSelect}
+                                                                label={
+                                                                    <label className="payment-mode-label">Secure Online Payment</label>
+                                                                }
                                                             />
-                                                    )
+                                                            <Radio
+                                                                name="paymentMode"
+                                                                value="COD"
+                                                                checked={this.state.paymentMode === "COD"}
+                                                                onChange={this.onPaymentModeSelect}
+                                                                label={
+                                                                    <label className="payment-mode-label">Cash On Delivery</label>
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                }
+                                                {this.state.mode === "COD" &&
+                                                    <VerifyMobile 
+                                                        {...this.props}
+                                                        onVerificationResult={this.handleVerificationResult}
+                                                    />
                                                 }
                                             </div>
                                             <div className="right-container">
@@ -311,10 +368,24 @@ class Cart extends React.Component {
                                                 }
                                                 {
                                                     this.state.mode === "address" &&
-                                                    <button className={this.state.proceedToPaymentLoader ? "button is-link is-fullwidth cart-btn is-loading" : "button is-link is-fullwidth cart-btn"}
+                                                    <button className="button is-link is-fullwidth cart-btn"
                                                         disabled={!this.state.addressSelected._id}
                                                         onClick={this.handleCheckout}
                                                     >Proceed to Payment</button>
+                                                }
+                                                {
+                                                    this.state.mode === "payment" &&
+                                                    <button className={this.state.proceedLoader ? "button is-link is-fullwidth cart-btn is-loading" : "button is-link is-fullwidth cart-btn"}
+                                                        disabled={!this.state.paymentMode}
+                                                        onClick={this.handleCheckout}
+                                                    >Proceed</button>
+                                                }
+                                                {
+                                                    this.state.mode === "COD" &&
+                                                    <button className={this.state.codLoader ? "button is-link is-fullwidth cart-btn is-loading" : "button is-link is-fullwidth cart-btn"}
+                                                        disabled={!this.state.otpVerified}
+                                                        onClick={this.handleCheckout}
+                                                    >Place Order</button>
                                                 }
                                                 {this.getBillingDetails()}
                                             </div>
@@ -326,6 +397,15 @@ class Cart extends React.Component {
                                     }
                                 </div>
                             </Fragment>
+                            :
+                            <div className="order-response-container">
+                                <img src="https://i.ibb.co/0GR5fXj/payment-successful.png" />
+                                <div className="title">Thank you. We got your order.</div>
+                                <div className="order-number-text">Your Order ID is: <b>{this.state.orderResponse.order_id}</b></div>
+                                <div className="order-subtext">We're processing your order and will also be sending you with an email confirmation shortly.</div>
+                                <button className="button view-order-btn is-info is-light">View Order Details</button>
+                            </div>
+                            )
                     }
                 </div>
             </Fragment>
