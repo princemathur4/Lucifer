@@ -27,10 +27,6 @@
         }
     }
 
-    .addresses-editable-body {
-        padding: 0.5rem 0;
-        height: 100%;
-    }
 
     .addresses-body {
         padding: 0.5rem 0;
@@ -46,7 +42,7 @@
 
         .loader-container {
             width: 100%;
-            height: 100%;
+            min-height: 50vh;
             display: flex;
             flex-grow: 2;
             align-items: center;
@@ -73,6 +69,11 @@
                 vertical-align: middle;
             }
         }
+    }
+
+    .addresses-editable-body {
+        padding: 0.5rem 0;
+        height: 100%;
 
         .editable-field {
             font-family: inherit;
@@ -170,5 +171,6 @@
                 padding-right: 0.75em;
             }
         }
+
     }
 }

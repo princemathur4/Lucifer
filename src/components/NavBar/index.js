@@ -110,7 +110,6 @@ class NavBar extends React.Component {
                                             <div className="">
                                                 <Link to="/myaccount">My Account</Link>
                                             </div>
-                                            <hr className="dropdown-divider"/>
                                             <div className="">
                                                 <Link to="/profile">Personal Info</Link>
                                             </div>

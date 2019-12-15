@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Address from "../Address";
 import Spinner from "../Spinner";
 import find from "lodash.find";
-import Modal from "../Modal";
+import ConfirmationModal from "../ConfirmationModal";
 
 class Addresses extends Component {
     constructor(props) {
@@ -218,8 +218,9 @@ class Addresses extends Component {
                                     </button>
                                 }
                             </div>
-                            <Modal 
+                            <ConfirmationModal 
                                 isActive={this.state.isModalActive} 
+                                isSuccessLoading={this.state.removeLoader}
                                 title="Delete Confirmation"
                                 content="Are you sure you want to delete this address?"
                                 positiveBtnTitle="Yes"

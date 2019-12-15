@@ -148,7 +148,7 @@ class Cart extends React.Component {
     }
 
     handleCheckout = () => {
-        if(this.state.mode === "review"){
+        if (this.state.mode === "review") {
             this.setState({ mode: "address" });
         } else {
             this.setState({ proceedToPaymentLoader: true });
@@ -222,110 +222,112 @@ class Cart extends React.Component {
         )
     }
 
-    handleRadioChange = (obj) =>{
+    handleRadioChange = (obj) => {
         console.log(obj);
         this.setState({ addressSelected: obj });
     }
 
-    changeMode = (mode)=>{
+    changeMode = (mode) => {
         this.setState({ mode });
     }
 
     render() {
         return (
             <Fragment>
-                {
-                    this.state.isCartLoading
-                        ?
-                        <div className="loader-container">
-                            <Spinner color="primary" size="medium" />
-                        </div>
-                        :
-                        <div className="cart-container">
-                            <div className="breadcrumbs">
-                                <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
-                                <div className="item"> ▶</div>
-                                <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
-                                <div className="item"> ▶</div>
-                                <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
+                <div className="cart-container">
+                    {
+                        this.state.isCartLoading
+                            ?
+                            <div className="loader-container">
+                                <Spinner color="primary" size="medium" />
                             </div>
-                            <div className="cart-content">
-                                {this.state.cartProducts.length ?
-                                    <Fragment>
-                                        <div className="left-container">
-                                            {this.state.mode === "review" &&
-                                                <Fragment>
-                                                    <div className="header">
-                                                        <div className="items">
-                                                            {this.state.cartProducts.length} Items in Cart
+                            :
+                            <Fragment>
+                                <div className="breadcrumbs">
+                                    <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
+                                    <div className="item"> ▶</div>
+                                    <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
+                                    <div className="item"> ▶</div>
+                                    <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
+                                </div>
+                                <div className="cart-content">
+                                    {this.state.cartProducts.length ?
+                                        <Fragment>
+                                            <div className="left-container">
+                                                {this.state.mode === "review" &&
+                                                    <Fragment>
+                                                        <div className="header">
+                                                            <div className="items">
+                                                                {this.state.cartProducts.length} Items in Cart
                                                         </div>
-                                                        <div className="total">
-                                                            Total Payable: ₹ {this.state.discountedTotal}
+                                                            <div className="total">
+                                                                Total Payable: ₹ {this.state.discountedTotal}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="products-summary-container">
-                                                        {this.state.cartProducts.map((productObj, idx) => {
-                                                            return (
-                                                                <CartItem 
-                                                                    {...this.props}
-                                                                    productObj={productObj} 
-                                                                    loader={this.state.productLoader}
-                                                                    key={idx}
-                                                                    handleQuantityChange={this.handleQuantityChange.bind(this)}  
-                                                                    handleRemoveProduct={this.handleRemoveProduct.bind(this)}
-                                                                    removeBtnLoader={this.state.removeBtnLoader}
-                                                                />
-                                                            )
-                                                        })
-                                                        }
-                                                    </div>
-                                                </Fragment>
-                                            }
-                                            {this.state.mode === "address" &&
-                                            (
-                                                this.state.addressLoader ?
-                                                    <div className="loader-container">
-                                                        <Spinner color="primary" size="medium" />
-                                                    </div>
-                                                    :
-                                                    <Addresses 
-                                                        {...this.props}
-                                                        addBtnPosition="card"
-                                                        radio={{
-                                                            name: "address",
-                                                            selected: this.state.addressSelected._id,
-                                                            handleRadioChange: this.handleRadioChange,
-                                                            title: "Select Address for delivery"
-                                                        }}
-                                                    />
-                                            )
-                                            }
-                                        </div>
-                                        <div className="right-container">
-                                            {
-                                                this.state.mode === "review" &&
-                                                <button className="button is-link is-fullwidth cart-btn"
-                                                    onClick={this.handleCheckout}
-                                                >Checkout</button>
-                                            }
-                                            {
-                                                this.state.mode === "address" &&
-                                                <button className={this.state.proceedToPaymentLoader ? "button is-link is-fullwidth cart-btn is-loading" : "button is-link is-fullwidth cart-btn" }
-                                                    disabled={!this.state.addressSelected._id}
-                                                    onClick={this.handleCheckout}
-                                                >Proceed to Payment</button>
-                                            }
-                                            {this.getBillingDetails()}
-                                        </div>
-                                    </Fragment>
-                                    :
-                                    <div className="no-cart-items">
-                                        No items present in cart
+                                                        <div className="products-summary-container">
+                                                            {this.state.cartProducts.map((productObj, idx) => {
+                                                                return (
+                                                                    <CartItem
+                                                                        {...this.props}
+                                                                        productObj={productObj}
+                                                                        loader={this.state.productLoader}
+                                                                        key={idx}
+                                                                        handleQuantityChange={this.handleQuantityChange.bind(this)}
+                                                                        handleRemoveProduct={this.handleRemoveProduct.bind(this)}
+                                                                        removeBtnLoader={this.state.removeBtnLoader}
+                                                                    />
+                                                                )
+                                                            })
+                                                            }
+                                                        </div>
+                                                    </Fragment>
+                                                }
+                                                {this.state.mode === "address" &&
+                                                    (
+                                                        this.state.addressLoader ?
+                                                            <div className="loader-container">
+                                                                <Spinner color="primary" size="medium" />
+                                                            </div>
+                                                            :
+                                                            <Addresses
+                                                                {...this.props}
+                                                                addBtnPosition="card"
+                                                                radio={{
+                                                                    name: "address",
+                                                                    selected: this.state.addressSelected._id,
+                                                                    handleRadioChange: this.handleRadioChange,
+                                                                    title: "Select Address for delivery"
+                                                                }}
+                                                            />
+                                                    )
+                                                }
+                                            </div>
+                                            <div className="right-container">
+                                                {
+                                                    this.state.mode === "review" &&
+                                                    <button className="button is-link is-fullwidth cart-btn"
+                                                        onClick={this.handleCheckout}
+                                                    >Checkout</button>
+                                                }
+                                                {
+                                                    this.state.mode === "address" &&
+                                                    <button className={this.state.proceedToPaymentLoader ? "button is-link is-fullwidth cart-btn is-loading" : "button is-link is-fullwidth cart-btn"}
+                                                        disabled={!this.state.addressSelected._id}
+                                                        onClick={this.handleCheckout}
+                                                    >Proceed to Payment</button>
+                                                }
+                                                {this.getBillingDetails()}
+                                            </div>
+                                        </Fragment>
+                                        :
+                                        <div className="no-cart-items">
+                                            No items present in cart
                                     </div>
-                                }
-                            </div>
-                        </div>
-                }
+                                    }
+                                </div>
+                            </Fragment>
+                    }
+                </div>
             </Fragment>
         )
     }

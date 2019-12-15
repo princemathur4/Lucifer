@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import "./style.scss"
 
-class Modal extends Component {
+export default class ConfirmationModal extends Component {
     constructor(props){
         super(props)
     }
@@ -19,7 +19,7 @@ class Modal extends Component {
                         {this.props.content}
                     </section>
                     <footer className="modal-card-foot">
-                        <button className="button is-success" onClick={this.props.handlePositiveFeedback}>{this.props.positiveBtnTitle}</button>
+                        <button className={this.props.isSuccessLoading ? "button is-success is-loading" : "button is-success"} onClick={this.props.handlePositiveFeedback}>{this.props.positiveBtnTitle}</button>
                         <button className="button is-danger" onClick={this.props.handleNegativeFeedback}>{this.props.negativeBtnTitle}</button>
                     </footer>
                 </div>
@@ -27,5 +27,3 @@ class Modal extends Component {
         )
     }
 }
-
-export default Modal;
