@@ -26,7 +26,7 @@ export default class Cart extends React.Component {
         paymentMode: "",
         mobile: "",
         otpVerified: false,
-        orderResponse: {order_id: "12324"},
+        orderResponse: {},
     }
 
     componentDidMount() {
@@ -392,8 +392,9 @@ export default class Cart extends React.Component {
                                         </Fragment>
                                         :
                                         <div className="no-cart-items">
+                                            <img src="https://i.ibb.co/pjfqTYW/cart-512.png" className="no-items-img"/>
                                             No items present in cart
-                                    </div>
+                                        </div>
                                     }
                                 </div>
                             </Fragment>

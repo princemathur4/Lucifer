@@ -46,8 +46,12 @@
             flex-direction: column;
             flex-grow: 2;
             align-items: center;
-            justify-content: space-evenly;
+            justify-content: center;
             font-size: 1.5rem;
+            .no-items-img{
+                height: 11vh;
+                margin-bottom: 1rem;
+            }
         }
 
         .left-container {

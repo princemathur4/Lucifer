@@ -54,12 +54,19 @@ class ProductsPage extends React.Component {
 
     async makeFetchFiltersApiCall() {
         this.setState({ filtersLoader: true });
+        let payload = {};
+        if(this.category && this.sub_category){
+            payload = {
+                category: this.category,
+                sub_category: this.sub_category
+            }
+        }
+
         try {
             let response = await commonApi.get(`get_filters`,
                 {
                     params: {
-                        category: this.category,
-                        sub_category: this.sub_category
+                        ...payload     
                     },
                 }
             );
@@ -78,13 +85,16 @@ class ProductsPage extends React.Component {
 
     async makeGetProductsApiCall(filters) {
         this.setState({ productListLoader: true });
+        let payload = {...filters};
+        if(this.category && this.sub_category){
+            payload = {
+                category: this.category,
+                sub_category: this.sub_category
+            }
+        }
         try {
             let response = await commonApi.post(`products`,
-                {
-                    ...filters,
-                    category: this.category, 
-                    sub_category: this.sub_category 
-                }
+                {...payload}
             );
             console.log("products response", response);
             if (response.data && response.data.success) {
