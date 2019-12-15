@@ -9,7 +9,7 @@ import CartItem from '../../components/CartItem';
 import { Radio } from 'semantic-ui-react';
 import VerifyMobile from '../../components/VerifyMobile';
 
-class Cart extends React.Component {
+export default class Cart extends React.Component {
 
     state = {
         mode: "review",
@@ -412,4 +412,3 @@ class Cart extends React.Component {
         )
     }
 }
-export default Cart;
