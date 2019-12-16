@@ -19,9 +19,21 @@ module.exports = merge(common,
             publicPath: '/',
         },
         optimization: {
-            minimizer: [new UglifyJsPlugin({
-                test: /\.js(\?.*)?$/i,
-              })],
+            minimizer: [
+                new UglifyJsPlugin({
+                    test: /\.js(\?.*)?$/i,
+                }),
+                new HtmlWebpackPlugin({
+                    template: "./public/index.html",
+                    filename: 'index.html',
+                    inject: true,
+                    minify: {
+                        removeAttributeQuotes: true,
+                        collapseWhitespace: true,
+                        removeComments: true
+                    }
+                })
+            ],
         },
         plugins: [
             new Dotenv({
