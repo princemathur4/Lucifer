@@ -6,9 +6,7 @@ const common = require('./webpack.common');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
-
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = merge(common,
     {
@@ -20,9 +18,7 @@ module.exports = merge(common,
         },
         optimization: {
             minimizer: [
-                new UglifyJsPlugin({
-                    test: /\.js(\?.*)?$/i,
-                }),
+                new TerserPlugin(),
                 new HtmlWebpackPlugin({
                     template: "./public/index.html",
                     filename: 'index.html',
