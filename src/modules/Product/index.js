@@ -269,6 +269,10 @@ class Product extends React.Component {
                             </div>
                         </div>
                             <div className="right-container">
+                                <div className="product-title">
+                                    {/* {this.state.productData.title} */}
+                                    Mens Navy Blue tshirt
+                                </div>
                                 <div className="description">
                                     {this.state.productData.description}
                                 </div>

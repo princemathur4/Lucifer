@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 class HomeContent extends Component {
     render() {
@@ -9,17 +10,17 @@ class HomeContent extends Component {
                     <div className="tile is-ancestor">
                         <div className="tile is-vertical is-6">
                             <div className="tile image-container">
-                                <img src="https://i.ibb.co/K2PrZrL/women-pink.png" className="img-element"/>
+                                <img src="https://i.ibb.co/WxCBJrS/menandfashion14.jpg" className="img-element"/>
                                 <div className="left-overlay">
-                                    <a className="text">◀ Women </a>
+                                    <Link to="/products?category=bottomwear&sub_category=jeans" className="text">◀ Jeans </Link>
                                 </div>
                             </div>
                         </div>
                         <div className="tile is-vertical is-6">
                             <div className="tile image-container">
-                                <img src="https://i.ibb.co/NShzLZm/men-4.png" className="img-element"/>
+                                <img src="https://i.ibb.co/WBSKW1Z/menandfashion12.jpg" className="img-element"/>
                                 <div className="right-overlay">
-                                    <a className="text">Men ▶</a>
+                                    <Link to="/products?category=bottomwear&sub_category=chinos" className="text">Chinos ▶</Link>
                                 </div>
                             </div>
                         </div>
@@ -27,9 +28,9 @@ class HomeContent extends Component {
                     <div className="tile is-ancestor">
                     <div className="tile is-vertical is-8">
                         <div className="tile image-container">
-                            <img src="https://i.ibb.co/T0P5bjk/COVER.png" className="img-element"/>
+                            <img src="https://i.ibb.co/NShzLZm/men-4.png" className="img-element"/>
                             <div className="right-overlay">
-                                <a className="text">◀ Shoes and Accessories</a>
+                                <Link to="/" className="text">◀ Latest Collections</Link>
                             </div>
                         </div>
                     </div>
@@ -37,7 +38,7 @@ class HomeContent extends Component {
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/48Tqx7T/men-3.png" className="img-element"/>
                             <div className="right-overlay">
-                                <a className="text">Winter Collections ▶</a>
+                                <Link to="/" className="text">Winter Collections ▶</Link>
                             </div>
                         </div>
                     </div>
