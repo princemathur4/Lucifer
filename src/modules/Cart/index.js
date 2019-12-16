@@ -183,7 +183,7 @@ export default class Cart extends React.Component {
     payNow = () => {
         let self = this;
         var options = {
-            "key": "rzp_test_we3gJ1CG1NucG3", // TODO: (get from config) Enter the Key ID generated from the Dashboard
+            "key": process.env.RAZORPAY_API_KEY, // TODO: (get from config) Enter the Key ID generated from the Dashboard
             "amount": this.state.discountedTotal,
             "currency": "INR",
             "name": "Labroz Denim",

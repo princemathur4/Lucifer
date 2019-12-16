@@ -1,6 +1,3 @@
 node_modules
 package-lock.json
-dist/main.js.map
-dist/index.html
-dist/main.js
-dist/e01feecc5bd039b7c04297fbbffd1e20.png
+dist/
