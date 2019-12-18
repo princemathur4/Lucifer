@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SpecialProductItem from '../../SpecialProductItem';
 import { Link } from "react-router-dom";
 
-class Specials extends React.Component {
+class Latest extends React.Component {
     constructor(props) {
         super(props);
         this.category = '';
@@ -83,8 +83,8 @@ class Specials extends React.Component {
                 </div>
                 <div className="specials-container">
                     <div className="image-container">
-                        <img src="https://i.ibb.co/8gxGDMw/download.png"/>
-                        <div className="title">Created with Love ❤️</div>
+                        {/* <img src="https://i.ibb.co/8gxGDMw/download.png"/> */}
+                        <div className="title">Latest Collections✨</div>
                     </div>
                     <div className="specials-products-container">
                     
@@ -109,4 +109,4 @@ class Specials extends React.Component {
     }
 }
 
-export default observer(Specials);
+export default observer(Latest);

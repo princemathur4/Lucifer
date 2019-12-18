@@ -19,32 +19,6 @@ class SpecialProductItem extends React.Component {
     componentDidMount() {
     }
     
-    async handleWishlistToggle (e){
-        e.stopPropagation();
-        if(!this.props.auth.isAuthenticated){
-            this.props.handleLoginWarning();
-            return;
-        }
-        this.setState({ isWishListToggleLoading: true });
-        let session = await getSession();
-        try {
-            let response = await commonApi.post(`add_to_wishlist`,
-                { product_id: this.props.productData._id },
-                { headers: { "Authorization": session.accessToken.jwtToken } }
-            );
-            console.log("wishlist response", response);
-            if (response.data && response.data.success) {
-                this.setState({ isWishListToggleLoading: false, isWishlisted: true });
-            } else {
-                this.setState({ isWishListToggleLoading: false, isWishlisted: false });
-            }
-        }
-        catch (e) {
-            console.log("error", e);
-            this.setState({ isWishListToggleLoading: false, isWishlisted: false });
-        }
-    }
-
     async handleCartToggle (e){
         e.stopPropagation();
 
@@ -108,7 +82,7 @@ class SpecialProductItem extends React.Component {
     getSizes = () => {
         let allSizes = this.props.productData.available_sizes;
         return (
-            allSizes.map((size, idx)=>{
+            allSizes.map((size, idx) => {
                 return (
                     <button 
                         className={
@@ -144,8 +118,8 @@ class SpecialProductItem extends React.Component {
                     <div className="card-image" onClick={this.handleProductSelect}>
                         <figure className="image is-4by5" >
                             <img 
-                                // src={this.props.productData.image[0]} 
-                                src="https://i.ibb.co/jJnVpGx/TBC-01-900x.png" 
+                                src={this.props.productData.images[0]} 
+                                // src="https://i.ibb.co/jJnVpGx/TBC-01-900x.png" 
                                 alt="Placeholder image" 
                                 className="product-image"
                             />

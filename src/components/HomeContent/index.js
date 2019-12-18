@@ -3,6 +3,7 @@ import './style.scss';
 import { Link } from 'react-router-dom';
 
 class HomeContent extends Component {
+    
     render() {
         return (
             <Fragment>
@@ -30,7 +31,7 @@ class HomeContent extends Component {
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/NShzLZm/men-4.png" className="img-element"/>
                             <div className="right-overlay">
-                                <Link to="/" className="text">◀ Latest Collections</Link>
+                                <Link to="/latest" className="text">◀ Latest Collections</Link>
                             </div>
                         </div>
                     </div>
@@ -38,7 +39,7 @@ class HomeContent extends Component {
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/48Tqx7T/men-3.png" className="img-element"/>
                             <div className="right-overlay">
-                                <Link to="/" className="text">Winter Collections ▶</Link>
+                                <Link to="/specials" className="text">Specials ▶</Link>
                             </div>
                         </div>
                     </div>

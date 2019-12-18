@@ -1,0 +1,29 @@
+.specials-container {
+    .image-container {
+        width: 100%;
+        display: flex;
+        flex-grow: 2;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .title {
+            padding: 2rem;
+            font-size: 2rem;
+        }
+    }
+
+    .specials-products-container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 4vw;
+        padding-top: 0;
+        .loader-container{
+            display: flex;
+            flex-grow: 2;
+            min-height: 50vh;
+            justify-content: center;
+
+        }
+    }
+}

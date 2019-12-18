@@ -6,13 +6,12 @@
 
     .login-modal-content{
         max-width: 425px;
-        padding: 1rem;
+        padding: 2rem;
         background: rgb(238, 238, 238);
         color: rgb(39, 39, 39);
         .login-modal-header{
             display: flex;
             justify-content: space-between;
-            align-items: center;
             .login-modal-title{
                 font-weight: 600;
                 font-size: 1.2rem;

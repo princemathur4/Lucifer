@@ -25,7 +25,7 @@ class ProductsPage extends React.Component {
             filteredCount: 0,
             totalCount: 0,
             productListLoader: true,
-            sortBy: { 
+            orderby: { 
                 ...sortByOptions[0]
             },
             sort_dropdown_active: false
@@ -37,7 +37,7 @@ class ProductsPage extends React.Component {
         this.category = getParameterByName('category', window.location.href);
         this.sub_category = getParameterByName('sub_category', window.location.href);
         this.makeFetchFiltersApiCall();
-        this.makeGetProductsApiCall({});
+        this.makeGetProductsApiCall({ orderby: this.orderby });
         document.addEventListener('mousedown', this.handleClickOutside, false)
     }
 
@@ -74,12 +74,12 @@ class ProductsPage extends React.Component {
             if (response.data && response.data.success) {
                 this.setState({ filtersBlueprint: response.data.filters, filtersLoader: false });
             } else {
-                this.setState({ filtersBlueprint: productFilters, filtersLoader: false });
+                this.setState({ filtersBlueprint: [], filtersLoader: false });
             }
         }
         catch (e) {
             console.log("error", e);
-            this.setState({ filtersBlueprint: productFilters, filtersLoader: false });
+            this.setState({ filtersBlueprint: [], filtersLoader: false });
         }
     }
 
@@ -94,7 +94,7 @@ class ProductsPage extends React.Component {
         }
         try {
             let response = await commonApi.post(`products`,
-                {...payload}
+                {...payload, orderby: this.state.orderby.value}
             );
             console.log("products response", response);
             if (response.data && response.data.success) {
@@ -116,7 +116,7 @@ class ProductsPage extends React.Component {
 
     handleSortDropdown = (obj) =>{
         this.setState({
-            sortBy: { ...obj }
+            orderby: { ...obj }
         })
     }
     
@@ -150,7 +150,7 @@ class ProductsPage extends React.Component {
                             <Fragment>
                                 <div className="results-action-container">
                                     <span>Showing <b>{this.state.filteredCount}</b> Out of <b>{this.state.totalCount}</b> Results</span>
-                                        <div className={this.state.sort_dropdown_active   ? "dropdown is-right is-active" : "dropdown is-right"} 
+                                        <div className={this.state.sort_dropdown_active ? "dropdown is-right is-active" : "dropdown is-right"} 
                                             onClick={this.toggleDropdown}
                                             ref={(node) => { this.node = node }}
                                         >
@@ -158,7 +158,7 @@ class ProductsPage extends React.Component {
                                                 <button className="button" aria-haspopup="true" aria-controls="dropdown-menu-sort">
                                                     <div className="dropdown-header">
                                                         <span className="dropdown-title">Sort by :</span>
-                                                        <span className="dropdown-value">{this.state.sortBy.title}</span>
+                                                        <span className="dropdown-value">{this.state.orderby.title}</span>
                                                     </div>
                                                     <span className="icon is-small">
                                                         <FontAwesomeIcon icon="angle-down"/>

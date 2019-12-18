@@ -16,6 +16,7 @@ import MainLoginPage from "./components/MainLoginPage";
 import Specials from "./modules/Specials";
 import './apis/interceptors';
 import ComingSoonPage from './modules/ComingSoonPage';
+import Latest from './modules/Latest';
 
 decorate(
     AppStore, {
@@ -145,6 +146,16 @@ class App extends React.Component {
             authRequired: false,
             customProps: {
                 name: "specials",
+                store
+            }
+        },
+        {
+            path: "/latest",
+            component: Latest,
+            name: "latest",
+            authRequired: false,
+            customProps: {
+                name: "latest",
                 store
             }
         },

@@ -144,8 +144,7 @@ class ProductItem extends React.Component {
                     <div className="card-image" onClick={this.handleProductSelect}>
                         <figure className="image is-4by5" >
                             <img 
-                                // src={this.props.productData.image[0]} 
-                                src="https://i.ibb.co/48hHjC8/Plum-01-900x.png" 
+                                src={this.props.productData.images[0]} 
                                 alt="Placeholder image" 
                                 className="product-image"
                             />
@@ -153,7 +152,7 @@ class ProductItem extends React.Component {
                     {
                         this.state.hover &&
                         <div className="action-buttons">
-                            <button 
+                            {/* <button 
                                 className={this.state.isWishListToggleLoading ? 
                                     "button is-outlined is-loading wishlist-btn" : 
                                     "button is-outlined wishlist-btn"
@@ -164,11 +163,11 @@ class ProductItem extends React.Component {
                                     <FontAwesomeIcon icon="bookmark" className="wishlist-icon" />
                                 </span>
                                 <span>{this.props.productData.is_wishlisted || this.state.isWishlisted ? "Wishlisted": "Save in Wishlist"}</span>
-                            </button>
+                            </button> */}
                             <button 
                                 className={this.state.isAddingToCartLoading ? 
-                                    "button is-outlined is-loading add-to-cart-btn":
-                                    "button is-outlined add-to-cart-btn"
+                                    "button is-outlined is-fullwidth is-loading add-to-cart-btn":
+                                    "button is-outlined is-fullwidth add-to-cart-btn"
                                 }
                                 onClick={this.handleCartToggle.bind(this)}
                             >
@@ -183,7 +182,7 @@ class ProductItem extends React.Component {
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">
-                                <p className="product-description" onClick={this.handleProductSelect}>{this.props.productData.description}</p>
+                                <p className="product-description" onClick={this.handleProductSelect}>{this.props.productData.title}</p>
                                 {this.getPriceHtml()}
                                 {
                                     this.state.sizeSelectWarning &&

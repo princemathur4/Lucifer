@@ -140,7 +140,7 @@ class Login extends Component {
                         <button className="delete is-small" onClick={this.onCloseResponse} ></button>
                     </div>
                 }
-                <div className="sign-up-using-text">
+                {/* <div className="sign-up-using-text">
                     Sign in using
 				</div>
                 <div className="field has-addons" style={{ display: "flex", justifyContent: "center" }}>
@@ -153,7 +153,7 @@ class Login extends Component {
                 </div>
                 <div className="or-text-container">
                     <b>OR</b>
-                </div>
+                </div> */}
                 <div className="field">
                     <div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
                         <input

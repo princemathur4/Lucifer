@@ -32,7 +32,8 @@ export default class CartItem extends Component {
                     :
                     <Fragment>
                         <div className="product-thumbnail-container" onClick={this.handleProductImageClick}>
-                            <img src="https://i.ibb.co/48hHjC8/Plum-01-900x.png" className="product-thumbnail-image" />
+                            <img src={ data.product_image ? data.product_image : "https://i.ibb.co/48hHjC8/Plum-01-900x.png"} 
+                                className="product-thumbnail-image" />
                         </div>
                         <div className="product-details">
                             <div className="first-row">
