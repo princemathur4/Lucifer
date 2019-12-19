@@ -28,13 +28,22 @@ class Product extends React.Component {
                 "https://i.ibb.co/cCkkQT8/20191109160044-1.png",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ9HVrD9DyMffpCjijjMi8UEANELfqo6u8_3NaQPCB_uEU6vGOS"
             ],
-            activeImageindex: 0
+            activeImageindex: 0,
+            loginModalActive: false
         }
     }
 
     componentDidMount() {
         this.product_id = getParameterByName('id', window.location.href);
         this.makeGetProductApiCall(this.product_id);
+    }
+
+    handleLoginWarning = () =>{
+        this.setState({ loginModalActive: true });
+    }
+
+    handleCloseModal = () => {
+        this.setState({ loginModalActive: false });
     }
 
     async makeGetProductApiCall() {
@@ -62,7 +71,7 @@ class Product extends React.Component {
         e.stopPropagation();
 
         if (!this.props.auth.isAuthenticated) {
-            this.props.handleLoginWarning();
+            this.handleLoginWarning();
             return;
         }
         if (!this.state.activeSize) {
@@ -94,7 +103,7 @@ class Product extends React.Component {
         e.stopPropagation();
 
         if (!this.props.auth.isAuthenticated) {
-            this.props.handleLoginWarning();
+            this.handleLoginWarning();
             return;
         }
         if (!this.state.pincode || this.state.pincode.length !== 6 ) {
@@ -212,6 +221,26 @@ class Product extends React.Component {
     render(){
         return(
             <div className="product-container">
+                <div className={this.state.loginModalActive ? "modal is-active": "modal"}>
+                    <div className="modal-background"></div>
+                    <div className="modal-content">
+                        <div className="login-modal-content">
+                            <div className="login-modal-header">
+                                <div className="login-modal-title">You need to be logged in to Add products to Cart
+                                {/* /Wishlist */}
+                                </div>
+                                <button onClick={this.handleCloseModal} className="delete" aria-label="close"></button>
+                            </div>
+                            <div className="login-modal-body">
+                                <div className="buttons-container">
+                                    <button className="button is-link"><Link to="/login">Login</Link></button>
+                                    <div className="or-text">OR</div>
+                                    <button className="button is-link"><Link to="/signup">Signup</Link></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {
                     this.state.productLoaderActive 
                     ? 
