@@ -49,23 +49,27 @@ class Profile extends Component {
 
     handleSubmit = (e) => {
         let payload = {};
-        // let isError = false;
-        // let errors = {...this.state.errors};
-        // profileEditableFields.forEach((obj, idx)=>{
-        //     console.log(this.state[obj.name])
-        //     if (!this.state[obj.name]){
-        //         errors[obj.name] = true;
-        //         isError = true;
-        //         return;
-        //     }
-        //     payload[obj.name] = this.state[obj.name];
-        // })
-        // if(isError){
-        //     this.setState({
-        //         errors: errors
-        //     })
-        //     return;
-        // }
+        let isError = false;
+        let errors = {...this.state.errors};
+        profileEditableFields.forEach((obj, idx)=>{
+            console.log(this.state[obj.name])
+            // if (!this.state[obj.name]){
+            //     errors[obj.name] = true;
+            //     isError = true;
+            //     return;
+            // }
+            if(['name', 'email'].includes(obj.name)){
+                return;
+            }
+            payload[obj.name] = this.state[obj.name];
+        })
+
+        if(isError){
+            this.setState({
+                errors: errors
+            })
+            return;
+        }
         this.makeUpdateApiCall(payload);
     }
 

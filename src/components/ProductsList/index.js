@@ -28,7 +28,9 @@ class ProductList extends React.Component {
                     <div className="modal-content">
                         <div className="login-modal-content">
                             <div className="login-modal-header">
-                                <div className="login-modal-title">You need to be logged in to Add products to Cart/Wishlist</div>
+                                <div className="login-modal-title">You need to be logged in to Add products to Cart
+                                {/* /Wishlist */}
+                                </div>
                                 <button onClick={this.handleCloseModal} className="delete" aria-label="close"></button>
                             </div>
                             <div className="login-modal-body">

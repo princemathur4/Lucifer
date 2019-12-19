@@ -109,7 +109,11 @@
           background: #29d5cc;
         }
       }
-
+      .resend-link-container{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 1rem;
+      }
       .main-link{
         cursor: pointer;
         color: #1a9296;

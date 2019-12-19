@@ -5,19 +5,25 @@ $navbar-tab-hover-border-bottom-color: black;
     justify-content: center;
     margin: 0.5vh auto;
     flex-grow: 2;
-
+    
     .logo-img {
         max-height: 8rem !important;
         height: 6rem;
         min-width: auto;
     }
 }
-
-.navbar-menu {
-    justify-content: center;
-    align-items: center;
+.navbar{
+    display: flex;
+    justify-content: space-around;
 }
-
+.navbar-menu {
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 2;
+}
+.main-nav-container{
+    display: flex;
+}
 .navbar {
     position: sticky !important;
     top: 0;
@@ -126,7 +132,7 @@ $navbar-tab-hover-border-bottom-color: black;
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-
+        margin-left: 3rem;
         .action-btn {
             cursor: pointer;
             margin: 0.5rem;

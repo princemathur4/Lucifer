@@ -30,16 +30,13 @@ class Latest extends React.Component {
         try {
             let response = await commonApi.post(`products`,
                 { 
-                    category: 'bottomwear',
-                    sub_category: "jeans"
+                    orderby: 'latest'
                 }
             );
-            console.log("products response", response);
+            console.log("latest response", response);
             if (response.data && response.data.success) {
                 this.setState({ 
-                     products: response.data.data.products, 
                     products: response.data.data.products, 
-                     products: response.data.data.products, 
                     productListLoader: false 
                 });
             } else {
@@ -68,7 +65,9 @@ class Latest extends React.Component {
                     <div className="modal-content">
                         <div className="login-modal-content">
                             <div className="login-modal-header">
-                                <div className="login-modal-title">You need to be logged in to Add products to Cart/Wishlist</div>
+                                <div className="login-modal-title">You need to be logged in to Add products to Cart
+                                {/* /Wishlist */}
+                                </div>
                                 <button onClick={this.handleCloseModal} className="delete" aria-label="close"></button>
                             </div>
                             <div className="login-modal-body">

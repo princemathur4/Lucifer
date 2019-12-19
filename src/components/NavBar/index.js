@@ -54,6 +54,7 @@ class NavBar extends React.Component {
                     </div>
 
                     <div id="navbarLabroz" className="navbar-menu">
+                        <div class="main-nav-container">
                         {
                             this.props.location.pathname !== "/home" &&
                             <Link className="navbar-item" to="/home">
@@ -90,15 +91,15 @@ class NavBar extends React.Component {
                         <Link to="/blog" className="navbar-item">
                             Blog
                         </Link>
-
-                        <div className="field search-container">
+                        </div>
+                        {/* <div className="field search-container">
                             <p className="control has-icons-left has-icons-right">
                                 <input className="input is-rounded" type="text" placeholder="Find a product" />
                                 <span className="icon is-small is-right">
                                     <img src="https://i.ibb.co/sV93MZG/magnifying-glass.png" className="search-icon" width="112" height="28" />
                                 </span>
                             </p>
-                        </div>
+                        </div> */}
 
                         <div className="action-buttons">
                             <div className="dropdown is-right is-hoverable">
@@ -116,9 +117,9 @@ class NavBar extends React.Component {
                                             <div className="">
                                                 <Link to="/addresses">Addresses</Link>
                                             </div>
-                                            <div className="">
+                                            {/* <div className="">
                                                 <Link to="/wishlist">Wishlist</Link>
-                                            </div>
+                                            </div> */}
                                             <div className="">
                                                 <Link to="/orders">Orders & Returns</Link>
                                             </div>

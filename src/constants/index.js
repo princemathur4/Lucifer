@@ -184,7 +184,7 @@ export const addressEditableFields = [
 ]
 
 export const myAccountTabs = {
-    "Profile and Security": [
+    "Profile": [
         {
             title: "Personal Info",
             name: "profile",
@@ -195,6 +195,8 @@ export const myAccountTabs = {
             name: "addresses",
             url: "/addresses"
         },
+    ],
+    "Security": [
         {
             title: "Passwords",
             name: "passwords",

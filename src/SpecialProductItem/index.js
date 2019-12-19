@@ -38,7 +38,7 @@ class SpecialProductItem extends React.Component {
                 { product_id: product_id, count: 1 },
                 { headers: { "Authorization": session.accessToken.jwtToken } }
             );
-            console.log("wishlist response", response);
+            console.log("cart response", response);
             if (response.data && response.data.success) {
                 this.setState({ isAddingToCartLoading: false });
             } else {

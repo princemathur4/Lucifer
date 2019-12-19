@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FacebookButton from "../../components/FacebookButton";
 import GoogleButton from "../../components/GoogleButton";
 import commonApi from "../../apis/common";
+import ReactHtmlParser from 'react-html-parser';
+
 
 class Login extends Component {
     state = {
@@ -81,7 +83,8 @@ class Login extends Component {
         } catch (err) {
             let responseText = 'Something went wrong, Please try again later!';
             if (err.code === 'UserNotConfirmedException') {
-                responseText = "Seems like you didn't finish the email verification. Please try signing up with us again to login.";
+                responseText = "Seems like you didn't finish the email verification. Please click on the link below to resend verification mail.";
+                this.setState({ resendLinkActive: true })
                 // The error happens if the user didn't finish the confirmation step when signing up
                 // In this case you need to resend the code and confirm the user
                 // About how to resend the code and confirm the user, please check the signUp part
@@ -138,6 +141,12 @@ class Login extends Component {
                             {this.state.errors.responseText}
                         </span>
                         <button className="delete is-small" onClick={this.onCloseResponse} ></button>
+                    </div>
+                }
+                {
+                    this.state.resendLinkActive && 
+                    <div className="resend-link-container">
+                        <Link to="resend_mail" className="main-link">Resend Link</Link>
                     </div>
                 }
                 {/* <div className="sign-up-using-text">
