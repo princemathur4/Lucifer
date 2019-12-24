@@ -8,7 +8,7 @@ import { getParameterByName } from '../../utils/Browser';
 import { getSession } from "../../utils/AuthUtils";
 import commonApi from "../../apis/common";
 import Spinner from "../../components/Spinner";
-import { productFilters, defaultFilterTemplate } from "../../constants";
+import { productFilters, defaultFilterTemplate, products } from "../../constants";
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -18,13 +18,19 @@ class ProductsPage extends React.Component {
         super(props);
         this.category = '';
         this.sub_category = '';
+        this.pageSize = 10;
+        this.filters = {};
+        this.lastOrderby = '';
+        this.lastPaginationValue = '';
         this.state = {
             filtersBlueprint: [],
             filtersLoader: true,
             productResults: [],
-            filteredCount: 0,
             totalCount: 0,
+            pageCount: 0,
             productListLoader: true,
+            currentPage: 1,
+            totalPages: 0,
             orderby: { 
                 ...sortByOptions[0]
             },
@@ -37,12 +43,24 @@ class ProductsPage extends React.Component {
         this.category = getParameterByName('category', window.location.href);
         this.sub_category = getParameterByName('sub_category', window.location.href);
         this.makeFetchFiltersApiCall();
-        this.makeGetProductsApiCall({ orderby: this.orderby });
+        this.makeGetProductsApiCall();
         document.addEventListener('mousedown', this.handleClickOutside, false)
     }
-
+    
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside, false)
+    }
+    
+    componentDidUpdate(prevProps, prevState){
+        console.log(prevProps);
+        let prevCategory = getParameterByName('category', prevProps.location.search);
+        let prevSubCategory = getParameterByName('sub_category', prevProps.location.search);
+        this.category = getParameterByName('category', window.location.href);
+        this.sub_category = getParameterByName('sub_category', window.location.href);
+        if(prevCategory !== this.category || prevSubCategory !== this.sub_category){
+            this.makeFetchFiltersApiCall();
+            this.makeGetProductsApiCall();
+        }
     }
 
     handleClickOutside = (e) => {
@@ -76,48 +94,128 @@ class ProductsPage extends React.Component {
             } else {
                 this.setState({ filtersBlueprint: [], filtersLoader: false });
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.log("error", e);
-            this.setState({ filtersBlueprint: [], filtersLoader: false });
+            this.setState({ filtersBlueprint: productFilters, filtersLoader: false });
         }
     }
 
-    async makeGetProductsApiCall(filters) {
+    async makeGetProductsApiCall() {
         this.setState({ productListLoader: true });
-        let payload = {...filters};
-        if(this.category && this.sub_category){
-            payload = {
-                category: this.category,
-                sub_category: this.sub_category
-            }
+        let payload = { 
+            ...this.filters, 
+            category: this.category, 
+            sub_category: this.sub_category,
         }
+        
         try {
-            let response = await commonApi.post(`products`,
-                {...payload, orderby: this.state.orderby.value}
+            let response = await commonApi.post(
+                `products?pg=${this.props.store.currentPage}&r=${this.pageSize}&orderby=${this.props.store.orderby.value}`,
+                {...payload}
             );
             console.log("products response", response);
             if (response.data && response.data.success) {
+                let totalPages = Math.ceil(response.data.data.filtered_count / this.pageSize); 
                 this.setState({ 
                     productResults: response.data.data.products, 
-                    totalCount: response.data.data.total_count, 
-                    filteredCount: response.data.data.filtered_count, 
+                    totalCount: response.data.data.filtered_count, 
+                    totalPages,
+                    pageCount: response.data.data.products.length,
                     productListLoader: false 
                 });
+                this.lastOrderby = "";
+                this.lastPaginationValue = "";
             } else {
-                this.setState({ productResults: [], productListLoader: false });
+                this.callOnGetProductsError();
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.log("error", e);
-            this.setState({ productResults: [], productListLoader: false });
+            this.callOnGetProductsError();
+            // this.setState({ productResults: products, totalCount: 50, totalPages: Math.ceil(50 / 20), productListLoader: false });
         }
     }
 
+    callOnGetProductsError = () => { 
+        if(this.lastOrderby){
+            // this.setState({ orderby: this.lastOrderby });
+            this.props.store.orderby = this.lastOrderby;
+            this.lastOrderby = "";
+        }
+        if(this.lastPaginationValue){
+            // this.setState({ currentPage: this.lastPaginationValue });
+            this.store.currentPage = this.lastPaginationValue;
+            this.lastPaginationValue = "";
+        }
+        this.setState({ 
+            productResults: [], productListLoader: false,
+        });
+    }
+
+    handlePagination = (mode, value) => {
+        this.lastPaginationValue = this.props.store.currentPage;
+        if(mode === "byValue"){
+            // this.setState({ currentPage: value });
+            this.props.store.currentPage = value;
+        } else {
+            // this.setState({ currentPage: this.state.currentPage + value })
+            this.props.store.currentPage = this.state.currentPage + value;
+        }
+        this.makeGetProductsApiCall();
+    }
+
+    getPaginationJsx = () => {
+        let pageArray = []
+        for(let i=1; i<=this.state.totalPages; i++){
+            pageArray.push(i);
+        }
+        return (
+            <nav className="pagination is-centered" role="navigation" aria-label="pagination">
+                <button 
+                    className="button pagination-previous" 
+                    disabled={this.props.store.currentPage === 1}
+                    onClick={()=>{this.handlePagination('decrement', -1)}}
+                >Previous</button>
+                <button 
+                    className="button pagination-next" 
+                    disabled={this.props.store.currentPage === this.state.totalPages}
+                    onClick={()=>{this.handlePagination('increment', +1)}}
+                >Next</button>
+                <ul className="pagination-list">
+                    {
+                        pageArray.map((pageNum)=>{
+                            return (
+                                <li>
+                                    <button className={this.props.store.currentPage === pageNum? "button pagination-link is-current": "button pagination-link"} 
+                                        aria-label={`Goto page ${pageNum}`} 
+                                        aria-current={this.props.store.currentPage === pageNum ? "page": false}
+                                        onClick={()=>{this.handlePagination('byValue', pageNum)}}
+                                    >{pageNum}</button>
+                                </li>
+                            )
+                        })
+                    }
+                    {/* {
+                        this.state.totalPages > 4 && this.state.currentPage !== this.state.totalPages
+                        <li><span className="pagination-ellipsis">&hellip;</span></li>
+                        <li><a className="pagination-link" aria-label="Goto page 86">{}</a></li>
+                    } */}
+                </ul>
+            </nav>
+        )
+    }
+
+    handleFiltersChange = (filters) =>{
+        this.filters = filters;
+        this.makeGetProductsApiCall();
+    }
+
     handleSortDropdown = (obj) =>{
-        this.setState({
-            orderby: { ...obj }
-        })
+        this.lastOrderby = this.props.store.orderby;
+        // this.setState({
+        //     orderby: { ...obj }
+        // })
+        this.props.store.orderby = {...obj};
+        this.makeGetProductsApiCall();
     }
     
     toggleDropdown = () => {
@@ -130,73 +228,82 @@ class ProductsPage extends React.Component {
         return (
             <Fragment>
                 <div className="product-page">
-                    <div className="left-container">
-                        <Filters 
-                            {...this.props}
-                            filtersLoader={this.state.filtersLoader}
-                            filtersBlueprint={this.state.filtersBlueprint} 
-                            store={this.props.store}
-                            makeGetProductsApiCall={this.makeGetProductsApiCall.bind(this)}
-                        />
-                    </div>
-                    <div className="right-container">
-                        {
-                            this.state.productListLoader 
-                            ?
-                                <div className="loader-container">
-                                    <Spinner color="primary" size="medium" />
-                                </div>
+                    {
+                        this.state.filtersLoader ?
+                        <div className="loader-container">
+                            <Spinner color="primary" size="medium" />
+                        </div>
+                        :
+                        (
+                            !this.state.filtersBlueprint.length ?
+                            <div className="no-products-data">
+                                No products available at the moment
+                            </div>
                             :
                             <Fragment>
-                                <div className="results-action-container">
-                                    <span>Showing <b>{this.state.filteredCount}</b> Out of <b>{this.state.totalCount}</b> Results</span>
-                                        <div className={this.state.sort_dropdown_active ? "dropdown is-right is-active" : "dropdown is-right"} 
-                                            onClick={this.toggleDropdown}
-                                            ref={(node) => { this.node = node }}
-                                        >
-                                            <div className="dropdown-trigger">
-                                                <button className="button" aria-haspopup="true" aria-controls="dropdown-menu-sort">
-                                                    <div className="dropdown-header">
-                                                        <span className="dropdown-title">Sort by :</span>
-                                                        <span className="dropdown-value">{this.state.orderby.title}</span>
-                                                    </div>
-                                                    <span className="icon is-small">
-                                                        <FontAwesomeIcon icon="angle-down"/>
-                                                    </span>
-                                                </button>
+                                <div className="left-container">
+                                    <Filters 
+                                        {...this.props}
+                                        filtersBlueprint={this.state.filtersBlueprint} 
+                                        store={this.props.store}
+                                        handleFiltersChange={this.handleFiltersChange.bind(this)}
+                                    />
+                                </div>
+                                <div className="right-container">
+                                    {
+                                        this.state.productListLoader 
+                                        ?
+                                            <div className="loader-container">
+                                                <Spinner color="primary" size="medium" />
                                             </div>
-                                            <div className="dropdown-menu" id="dropdown-menu-sort" role="menu">
-                                                <div className="dropdown-content">
-                                                    {
-                                                        sortByOptions.map((sortByOption, indx)=>{
-                                                            return(
-                                                                <div className="dropdown-item" onClick={() => { this.handleSortDropdown(sortByOption) }}>
-                                                                    {sortByOption.title}
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
+                                        :
+                                        <Fragment>
+                                            <div className="results-action-container">
+                                                <span>Showing <b>{this.state.pageCount}</b> Out of <b>{this.state.totalCount}</b> Results</span>
+                                                <div className={this.state.sort_dropdown_active ? "dropdown is-right is-active" : "dropdown is-right"} 
+                                                    onClick={this.toggleDropdown}
+                                                    ref={(node) => { this.node = node }}
+                                                >
+                                                    <div className="dropdown-trigger">
+                                                        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu-sort">
+                                                            <div className="dropdown-header">
+                                                                <span className="dropdown-title">Sort by :</span>
+                                                                {/* <span className="dropdown-value">{this.state.orderby.title}</span> */}
+                                                                <span className="dropdown-value">{this.props.store.orderby.title}</span>
+                                                            </div>
+                                                            <span className="icon is-small">
+                                                                <FontAwesomeIcon icon="angle-down"/>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="dropdown-menu" id="dropdown-menu-sort" role="menu">
+                                                        <div className="dropdown-content">
+                                                            {
+                                                                sortByOptions.map((sortByOption, indx)=>{
+                                                                    return(
+                                                                        <div className="dropdown-item" onClick={() => { this.handleSortDropdown(sortByOption) }}>
+                                                                            {sortByOption.title}
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div className="products-list-container">
+                                                <ProductsList data={this.state.productResults} {...this.props}/>
+                                            </div>
+                                            {
+                                                this.getPaginationJsx()
+                                            }
+                                                
+                                        </Fragment>
+                                    }
                                 </div>
-                                <div className="products-list-container">
-                                    <ProductsList data={this.state.productResults} {...this.props}/>
-                                </div>
-                                    <nav className="pagination is-centered" role="navigation" aria-label="pagination">
-                                        <a className="pagination-previous">Previous</a>
-                                        <a className="pagination-next">Next page</a>
-                                        <ul className="pagination-list">
-                                            <li><a className="pagination-link is-current" aria-label="Goto page 1" aria-current="page">1</a></li>
-                                            <li><a className="pagination-link" aria-label="Goto page 1" >2</a></li>
-                                            <li><a className="pagination-link" aria-label="Goto page 1" >3</a></li>
-                                            <li><span className="pagination-ellipsis">&hellip;</span></li>
-                                            <li><a className="pagination-link" aria-label="Goto page 86">5</a></li>
-                                        </ul>
-                                    </nav>
                             </Fragment>
-                        }
-                    </div>
+                        )
+                    }
                 </div>
             </Fragment>
         )

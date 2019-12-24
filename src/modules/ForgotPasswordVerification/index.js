@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router-dom';
 
 class ForgotPasswordVerification extends Component {
+	contextRef = React.createRef();
 	state = {
 		code: '',
 		newPassword: '',
@@ -48,7 +49,7 @@ class ForgotPasswordVerification extends Component {
 		// AWS Cognito integration here
 		try {
 			await Auth.forgotPasswordSubmit(
-				this.props.email,
+				"+91" + this.props.mobile,
 				this.state.code,
 				this.state.newPassword
 			);
@@ -78,6 +79,10 @@ class ForgotPasswordVerification extends Component {
 		}
 	};
 
+	changeFocus = (state) => {
+		this.setState({ focus: state });
+	}
+
 	onInputChange = event => {
 		this.setState({
 			[event.target.name]: event.target.value
@@ -93,7 +98,9 @@ class ForgotPasswordVerification extends Component {
 
 	onCloseResponse = () => {
 		this.setState({
-			errors: { ...this.state.errors, responseText: "" }
+			responseText: "",
+			responseType: "",
+			errors: { ...this.state.errors }
 		})
 	}
 
@@ -101,24 +108,14 @@ class ForgotPasswordVerification extends Component {
 		return (
 			<Fragment>
 				{
-					this.state.errors.responseText &&
-					<div className="response-text">
-						<span className="response-tag">
-							{this.state.errors.responseText}
-						</span>
-						<button className="delete is-small" onClick={this.onCloseResponse} ></button>
-					</div>
-				}
-				{
-					!this.state.errors.responseText &&
-					this.state.infoMessage &&
-					<div className="response-text is-info">
-						<span className="response-tag">
-							{this.state.infoMessage}
-						</span>
-						<button className="delete is-small" onClick={() => { this.setState({ infoMessage: "" }) }} ></button>
-					</div>
-				}
+                    this.state.responseText &&
+					<div className={`response-text is-${this.state.responseType}`}>
+                        <span className="response-tag">
+                            {this.state.responseText}
+                        </span>
+                        <button className="delete is-small" onClick={this.onCloseResponse} ></button>
+                    </div>
+                }
 				<div className="field">
 					<div className={!this.state.errors.codeInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input
@@ -145,13 +142,22 @@ class ForgotPasswordVerification extends Component {
 						}
 					</div>
 				</div>
+				<Popup
+					context={this.contextRef}
+					content='Password must be atleast 8 characters, contain atleast one alphabet, one Number and one Special character.'
+					position='right center'
+					open={this.state.focus}
+				/>
 				<div className="field">
 					<div className={!this.state.errors.newPasswordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input 
 							className={!this.state.errors.newPasswordInvalid ? "input" : "input is-danger"}
 							type="password"
+							ref={this.contextRef}
 							placeholder="Enter new password"
 							name="newPassword"
+							onFocus={()=>{this.changeFocus(true)}}
+							onBlur={()=>{this.changeFocus(false)}}
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
 						/>

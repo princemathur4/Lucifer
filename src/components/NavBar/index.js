@@ -19,7 +19,7 @@ class NavBar extends React.Component {
                     ); // clear all params from url
                     this.props.auth.setAuthStatus(false);
                     this.props.auth.setUser(null);
-                    this.props.history.push("/");
+                    // this.props.history.push(window.location.href);
                     break;
 
                 default:
@@ -54,7 +54,7 @@ class NavBar extends React.Component {
                     </div>
 
                     <div id="navbarLabroz" className="navbar-menu">
-                        <div class="main-nav-container">
+                        <div className="main-nav-container">
                         {
                             this.props.location.pathname !== "/home" &&
                             <Link className="navbar-item" to="/home">
@@ -62,29 +62,15 @@ class NavBar extends React.Component {
                             </Link>
                         }
 
-                        <div className="navbar-item has-dropdown is-hoverable">
-                            <Link className="navbar-link" to="/men">
-                                Men
-                            </Link>
-                            <div className="navbar-dropdown">
-                                <div className="dropdown-container">
-                                    <div className="links-container even-column">
-                                        <div className="title-link">
-                                            Bottomwear
-                                        </div>
-                                        <Link className="sub-link" to="/products?category=bottomwear&sub_category=jeans">
-                                            Jeans
-                                        </Link>
-                                        <Link className="sub-link" to="/products?category=bottomwear&sub_category=chinos">
-                                            Chinos
-                                        </Link>
-                                        <Link className="sub-link" to="/products?category=bottomwear&sub_category=shorts">
-                                            Shorts
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <Link className="navbar-item" to="/products?category=bottomwear&sub_category=jeans">
+                            Jeans
+                        </Link>
+                        <Link className="navbar-item" to="/products?category=bottomwear&sub_category=chinos">
+                            Chinos
+                        </Link>
+                        <Link className="navbar-item" to="/products?category=bottomwear&sub_category=shorts">
+                            Shorts
+                        </Link>
                         <Link to="/specials" className="navbar-item">
                             Specials
                         </Link>
@@ -113,6 +99,9 @@ class NavBar extends React.Component {
                                             </div>
                                             <div className="">
                                                 <Link to="/profile">Personal Info</Link>
+                                            </div>
+                                            <div className="">
+                                                <Link to="/passwords">Passwords</Link>
                                             </div>
                                             <div className="">
                                                 <Link to="/addresses">Addresses</Link>

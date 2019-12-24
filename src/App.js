@@ -81,6 +81,7 @@ class App extends React.Component {
             name: "login",
             authRequired: false,
             customProps: {
+                authComponent: true,
                 name: "login",
                 title: "Login",
                 store
@@ -92,6 +93,7 @@ class App extends React.Component {
             name: "signUp",
             authRequired: false,
             customProps: {
+                authComponent: true,
                 name: "signUp",
                 title: "Sign Up",
                 store
@@ -103,19 +105,21 @@ class App extends React.Component {
             name: 'forgotPassword',
             authRequired: false,
             customProps: {
+                authComponent: true,
                 title: 'Request new password',
                 name: 'forgotPassword',
                 store
             }
         },
         {
-            path: '/resend_mail',
+            path: '/resend_verification_code',
             component: MainLoginPage,
-            name: 'resendMail',
+            name: 'resendVerificationCode',
             authRequired: false,
             customProps: {
+                authComponent: true,
                 title: 'Resend Verification Code',
-                name: 'resendMail',
+                name: 'resendVerificationCode',
                 store
             }
         },
@@ -270,6 +274,22 @@ class App extends React.Component {
         }
     }
 
+    setRedirectUrl = () => {
+        if(store.redirectRoute === ""){
+            store.setRedirectRoute(window.location.href.split(window.location.origin)[1]);
+            console.log("set redirect url", window.location.href.split(window.location.origin)[1])
+        }
+        return true;
+    }
+
+    clearRedirectUrl = (customProps) =>{ 
+        if(!customProps.authComponent && store.redirectRoute){
+           store.setRedirectRoute('');
+           console.log("clear redirect url")
+        }
+        return true;
+    }
+ 
     render() {
         const authProps = {
             isAuthenticated: this.state.isAuthenticated,
@@ -294,12 +314,14 @@ class App extends React.Component {
                                                 {
                                                     ((authRequired && this.state.isAuthenticated) || !authRequired) 
                                                     ? 
+                                                    this.clearRedirectUrl(customProps) &&
                                                     <C
                                                         {...props}
                                                         {...customProps}
                                                         auth={authProps}
                                                     /> 
                                                     :
+                                                    this.setRedirectUrl() &&
                                                     <Redirect to="/login" />
                                                 }
                                                 <Footer {...props} auth={authProps}/>

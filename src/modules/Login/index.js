@@ -12,14 +12,16 @@ import ReactHtmlParser from 'react-html-parser';
 
 class Login extends Component {
     state = {
-        email: '',
+        mobile: '',
+        mobile: '',
         password: '',
         isLoading: false,
         isAuthenticated: false,
         user: null,
+        responseText: "",
         errors: {
-            responseText: "",
-            emailInvalid: false,
+            mobileInvalid: false,
+            mobileInvalid: false,
             passwordInvalid: false,
         },
         isSubmitted: false
@@ -27,9 +29,10 @@ class Login extends Component {
 
     clearErrorState = () => {
         this.setState({
+            responseText: "",
             errors: {
-                responseText: "",
-                emailInvalid: false,
+                mobileInvalid: false,
+                mobileInvalid: false,
                 passwordInvalid: false,
             }
         });
@@ -54,7 +57,7 @@ class Login extends Component {
 
             // AWS Cognito integration here
             const { password } = this.state;
-            const username = this.state.email;
+            const username = "+91" + this.state.mobile;
             const user = await Auth.signIn(username, password);
 
             if (user.hasOwnProperty("challengeName") && user.challengeName === 'NEW_PASSWORD_REQUIRED') {
@@ -65,7 +68,7 @@ class Login extends Component {
                 //         text: "Resend link",
                 //         className: ""
                 //     }
-                // this.props.store.emailFromPreviousScreen = this.state.email;
+                // this.props.store.mobileFromPreviousScreen = this.state.mobile;
                 return;
             }
             
@@ -79,11 +82,12 @@ class Login extends Component {
             this.setState({ isLoading: false });
             this.props.auth.setAuthStatus(true);
             this.props.auth.setUser(user);
-            this.props.history.push("/");
+            let redirectUrl = this.props.store.redirectRoute ? this.props.store.redirectRoute : "/";
+            this.props.history.push(redirectUrl);
         } catch (err) {
             let responseText = 'Something went wrong, Please try again later!';
             if (err.code === 'UserNotConfirmedException') {
-                responseText = "Seems like you didn't finish the email verification. Please click on the link below to resend verification mail.";
+                responseText = "Seems like you didn't finish the mobile verification. Please click on the link below to resend verification mail.";
                 this.setState({ resendLinkActive: true })
                 // The error happens if the user didn't finish the confirmation step when signing up
                 // In this case you need to resend the code and confirm the user
@@ -94,18 +98,18 @@ class Login extends Component {
                 // In this case you need to call forgotPassword to reset the password
                 // Please check the Forgot Password part.
             } else if (err.code === 'NotAuthorizedException') {
-                responseText = "Incorrect Email or Password";
+                responseText = "Incorrect phone number or password";
                 // The error happens when the incorrect password is provided
             } else if (err.code === 'UserNotFoundException') {
                 responseText = "User does not exist. Please try signing up with us first to login.";
-                // The error happens when the supplied username/email does not exist in the Cognito user pool
+                // The error happens when the supplied username/mobile does not exist in the Cognito user pool
             } else {
                 console.log(err);
             }
             this.setState({
+                responseText,
                 errors: {
                     ...this.state.errors,
-                    responseText
                 },
                 isLoading: false
             });
@@ -115,7 +119,8 @@ class Login extends Component {
     onCloseResponse = () => {
         let { errors } = this.state;  
         this.setState({
-            errors: { ...errors, responseText: '' }
+            responseText: '',
+            errors: { ...errors }
         })
     }
 
@@ -135,10 +140,10 @@ class Login extends Component {
         return (
             <Fragment>
                 {
-                    this.state.errors.responseText &&
+                    this.state.responseText &&
                     <div className="response-text is-error">
                         <span className="response-tag">
-                            {this.state.errors.responseText}
+                            {this.state.responseText}
                         </span>
                         <button className="delete is-small" onClick={this.onCloseResponse} ></button>
                     </div>
@@ -146,7 +151,7 @@ class Login extends Component {
                 {
                     this.state.resendLinkActive && 
                     <div className="resend-link-container">
-                        <Link to="resend_mail" className="main-link">Resend Link</Link>
+                        <Link to="resend_verification_code" className="main-link">Resend Link</Link>
                     </div>
                 }
                 {/* <div className="sign-up-using-text">
@@ -164,25 +169,25 @@ class Login extends Component {
                     <b>OR</b>
                 </div> */}
                 <div className="field">
-                    <div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+                    <div className={!this.state.errors.mobileInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
                         <input
-                            className={!this.state.errors.emailInvalid ? "input" : "input is-danger"}
+                            className={!this.state.errors.mobileInvalid ? "input" : "input is-danger"}
                             type="text"
-                            placeholder="Your Email-ID"
-                            name="email"
+                            placeholder="Enter your Phone number"
+                            name="mobile"
                             onChange={this.onInputChange}
                             onKeyPress={this.onKeyPress}
                         />
                         <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon="envelope" />
+                            <FontAwesomeIcon icon="mobile-alt" />
                         </span>
                         {
-                            this.state.errors.emailInvalid &&
+                            this.state.errors.mobileInvalid &&
                             <Fragment>
                                 <span className="icon is-small is-right">
                                     <FontAwesomeIcon icon="exclamation-triangle" />
                                 </span>
-                                <p className="help is-danger">Please enter your registered E-mail here</p>
+                                <p className="help is-danger">Please enter your registered phone number here</p>
                             </Fragment>
                         }
                     </div>

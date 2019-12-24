@@ -1,11 +1,21 @@
 
+import { sortByOptions } from "../templates/product";
+
 class AppStore {
+    redirectRoute = "";
     filters = {};
     filtersBlueprint = [];
     productResults = [];
     filtersLoader = true;
     productListLoader = true;
+    orderby = { ...sortByOptions[0] };
+    currentPage = 1;
+    totalPages = 0;
 
+    setRedirectRoute = (route) => {
+        this.redirectRoute = route;
+    }
+    
     setFilters = (newFilters) => {
         this.filters = newFilters;
     }

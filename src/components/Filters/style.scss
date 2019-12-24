@@ -20,7 +20,7 @@
 
         .clear-filters{
             cursor: pointer;
-            color: rgba(0, 62, 197, 0.637);
+            color: rgba(197, 0, 92, 0.637);
             font-weight: 500;
             &:hover{
                 color: rgba(197, 0, 76, 0.637);
@@ -68,6 +68,9 @@
             .filter-field-content{
                 display: flex;
                 flex-direction: column;
+                .ui.radio.checkbox{
+                    margin-left: 0;
+                }
                 .ui.checkbox {
                     padding: 0.2rem;
                     label{

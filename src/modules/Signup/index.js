@@ -7,31 +7,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FacebookButton from "../../components/FacebookButton";
 import commonApi from "../../apis/common";
 import GoogleButton from '../../components/GoogleButton';
+import { Popup } from "semantic-ui-react";
 
 class Signup extends Component {
+	contextRef = React.createRef();
 	state = {
+		focus: false,
 		name: "",
 		email: '',
+		mobile: '',
 		newPassword: '',
 		confirmPassword: '',
 		isLoading: false,
+		responseText: '',
 		errors: {
 			nameInvalid: false,
 			emailInvalid: false,
+			mobileInvalid: false,
 			newPasswordInvalid: false,
 			confirmPasswordInvalid: false,
-			responseText: ''
 		}
 	};
 	
 	clearErrorState = () => {
 		this.setState({
+			responseText: '',
 			errors: {
 				nameInvalid: false,
+				mobileInvalid: false,
 				emailInvalid: false,
 				newPasswordInvalid: false,
 				confirmPasswordInvalid: false,
-				responseText: ''
 			}
 		})
 	};
@@ -50,8 +56,8 @@ class Signup extends Component {
 			});
 			return;
 		}
-		const { name } = this.state;
-		const username = this.state.email;
+		const { name, email } = this.state;
+		const username = "+91" + this.state.mobile ;
 		const password = this.state.newPassword;
 		let self = this;
 		// AWS Cognito integration here
@@ -60,29 +66,38 @@ class Signup extends Component {
 				username,
 				password,
 				attributes:{
-					name
+					name,
+					email
 				}
 			})
 			console.log(response);
-			this.props.setEmail(this.state.email);
+			this.props.setMobile(this.state.mobile);
 			self.props.changeScreen('confirmSignup');
 		}catch(error){
 			console.error(error);
 			let responseText = "";
 			if (error.hasOwnProperty("code") && error.hasOwnProperty("message")) { //"CodeDeliveryFailureException"/"LimitExceededException"
-				responseText = error.message;
+				if(error.code === "UsernameExistsException"){
+					responseText = "An Account already exists with the given phone number/Email.";
+				} else {
+					responseText = error.message;
+				}
 			} else if (typeof error === "String") {
 				responseText = error;
 			}
 			this.setState({
+				responseText,
 				errors: {
 					...this.state.errors,
-					responseText
 				},
+				isLoading: false
 			})
 		}
-		this.setState({ isLoading: false });
 	};
+
+	changeFocus = (state) => {
+		this.setState({ focus: state });
+	}
 
 	onInputChange = event => {
 		this.setState({
@@ -101,10 +116,10 @@ class Signup extends Component {
 		return (
 			<Fragment>
 				{
-					this.state.errors.responseText &&
-					<div className="response-text">
+					this.state.responseText &&
+					<div className="response-text is-error">
 						<span className="response-tag">
-							{this.state.errors.responseText}
+							{this.state.responseText}
 						</span>
 						<button className="delete is-small" onClick={this.onCloseResponse} ></button>
 					</div>
@@ -150,17 +165,41 @@ class Signup extends Component {
 					</div>
 				</div>
 				<div className="field">
+					<div className={!this.state.errors.mobileInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+						<input
+							className={!this.state.errors.mobileInvalid ? "input" : "input is-danger"}
+							type="text"
+							placeholder="Enter your phone number"
+							name="mobile"
+							onChange={this.onInputChange}
+							onKeyPress={this.onKeyPress}
+						/>
+						<span className="icon is-small is-left">
+							<FontAwesomeIcon icon="mobile-alt" />
+						</span>
+						{
+							this.state.errors.mobileInvalid &&
+							<Fragment>
+								<span className="icon is-small is-right">
+									<FontAwesomeIcon icon="exclamation-triangle" />
+								</span>
+								<p className="help is-danger">Phone number must be ten digits</p>
+							</Fragment>
+						}
+					</div>
+				</div>
+				<div className="field">
 					<div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input
 							className={!this.state.errors.emailInvalid ? "input" : "input is-danger"}
 							type="text"
-							placeholder="Your Email-ID"
+							placeholder="Enter your Email (Optional)"
 							name="email"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
 						/>
 						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="envelope" />
+							<FontAwesomeIcon icon="mobile-alt" />
 						</span>
 						{
 							this.state.errors.emailInvalid &&
@@ -173,13 +212,22 @@ class Signup extends Component {
 						}
 					</div>
 				</div>
+				<Popup
+					context={this.contextRef}
+					content='Password must be atleast 8 characters, contain atleast one alphabet, one Number and one Special character.'
+					position='right center'
+					open={this.state.focus}
+				/>
 				<div className="field">
 					<div className={!this.state.errors.newPasswordInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input 
 							className={!this.state.errors.newPasswordInvalid ? "input" : "input is-danger"}
 							type="password"
+							ref={this.contextRef}
 							placeholder="Enter New Password"
 							name="newPassword"
+							onFocus={()=>{this.changeFocus(true)}}
+							onBlur={()=>{this.changeFocus(false)}}
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
 						/>
@@ -233,7 +281,7 @@ class Signup extends Component {
                 </button>
 				<div className="links-container">
 					<Link className="back-to-login-link" to="/login"> Go back to Sign In </Link>
-					<Link className="forgot-password-link" to="/resend_mail"> Resend Mail! </Link>
+					<Link className="forgot-password-link" to="/resend_verification_code"> Resend Code! </Link>
 				</div>
 			</Fragment>
 		);

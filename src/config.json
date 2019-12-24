@@ -1,17 +1,7 @@
 {
     "cognito": {
         "REGION": "ap-south-1",
-        "USER_POOL_ID": "ap-south-1_myvbhDWLC",
-        "APP_CLIENT_ID": "50fkbu6rkh3r3tpve0jf91ld31",
-        "IDENTITY_POOL_ID": "ap-south-1:50a73af2-6108-4e8b-9e40-614d203c1ed9"
-    },
-    "social": {
-        "FB": "517136788871267"
-    },
-    "oauth": {
-        "domain": "https://labroz-denim.auth.ap-south-1.amazoncognito.com",
-        "redirectSignIn": "http://localhost:8080/home",
-        "redirectSignOut": "http://localhost:8080/home",
-        "responseType": "code"
+        "USER_POOL_ID": "ap-south-1_iQH2KYatG",
+        "APP_CLIENT_ID": "it76hptiugtkcb4oqbq1mtr3j"
     }
 }

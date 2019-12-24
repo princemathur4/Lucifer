@@ -5,7 +5,7 @@ import RequestVerificationCode from '../RequestVerificationCode';
 
 class ForgotPasswordController extends Component {
 	state = {
-		email: '',
+		mobile: '',
 		// screen: 'requestVerificationCode'
 		screen: 'requestVerificationCode'
 	};
@@ -14,8 +14,8 @@ class ForgotPasswordController extends Component {
 		this.setState({ screen });
 	};
 
-	setEmail = (email) => { 
-		this.setState({ email });
+	setMobile = (mobile) => { 
+		this.setState({ mobile });
 	};
 
 	render() {
@@ -25,13 +25,13 @@ class ForgotPasswordController extends Component {
 					<RequestVerificationCode
 						{ ...this.props }
 						changeScreen={this.changeScreen}
-						setEmail={this.setEmail}
+						setMobile={this.setMobile}
 					/>
 				)}
 				{this.state.screen=== 'forgotPasswordVerification' &&(
 					<ForgotPasswordVerification
 						{...this.props}
-						email={this.state.email}
+						mobile={this.state.mobile}
 					/>
 			)}
 			</Fragment>

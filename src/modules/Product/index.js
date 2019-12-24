@@ -23,11 +23,6 @@ class Product extends React.Component {
             pincodeValidationMsg: "",
             pincodeValidationStatus: "",
             pincodeCheckLoading: false,
-            images: [
-                "https://i.ibb.co/48hHjC8/Plum-01-900x.png",
-                "https://i.ibb.co/cCkkQT8/20191109160044-1.png",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ9HVrD9DyMffpCjijjMi8UEANELfqo6u8_3NaQPCB_uEU6vGOS"
-            ],
             activeImageindex: 0,
             loginModalActive: false
         }
@@ -106,7 +101,7 @@ class Product extends React.Component {
             this.handleLoginWarning();
             return;
         }
-        if (!this.state.pincode || this.state.pincode.length !== 6 ) {
+        if (!this.state.pincode || isNaN(this.state.pincode) || this.state.pincode.length !== 6 ) {
             this.setState({ pincodeValidationMsg: "Enter a valid Pincode", pincodeValidationStatus: 'error' });
             return;
         }
@@ -183,7 +178,7 @@ class Product extends React.Component {
                                         {size}
                                 </button>
                                 {
-                                    this.state.productData.variants[size].stock && this.state.productData.variants[size].stock <= 10 &&
+                                    !!this.state.productData.variants[size].stock && this.state.productData.variants[size].stock <= 10 &&
                                     <div className="size-availablity-label warning">
                                         {this.state.productData.variants[size].stock + " Left"}
                                     </div>
@@ -206,9 +201,9 @@ class Product extends React.Component {
     changeActiveImage = (input) =>{
         let newIndex = (this.state.activeImageindex + input);
         if (newIndex === -1){
-            newIndex = this.state.images.length - 1;
+            newIndex = this.state.productData.images.length - 1;
         }
-        else if (newIndex === this.state.images.length ){
+        else if (newIndex === this.state.productData.images.length ){
             newIndex = 0;
         }
         this.setState({ activeImageindex: newIndex });
@@ -261,10 +256,15 @@ class Product extends React.Component {
                                 </ul>
                             </nav>
                             <div className="images-container">
-                                <button className="arrow-btn" onClick={() => { this.changeActiveImage(-1) }}>&#10094;</button>
+                                <button 
+                                    className="arrow-btn" 
+                                    disabled={this.state.productData.images && this.state.productData.images.length > 1}
+                                    onClick={() => { this.changeActiveImage(-1) }}>
+                                        &#10094;
+                                </button>
                                 <div className="w3-content w3-display-container" style={{maxWidth:"100%"}}>
                                 {
-                                    this.state.images.map((imgSrc, Idx)=>{
+                                    this.state.productData.images.map((imgSrc, Idx)=>{
                                         return (
                                             <img className={ this.state.activeImageindex === Idx ? "mySlides active" : "mySlides"} 
                                                 src={imgSrc}
@@ -273,11 +273,11 @@ class Product extends React.Component {
                                     })
                                 }
                                 {
-                                    this.state.images.length > 1 &&
+                                    this.state.productData.images.length > 1 &&
                                     <Fragment>
                                         <div className="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style={{ width:"100%"}}>
                                             {
-                                                this.state.images.map((imgSrc, idxx)=>{
+                                                this.state.productData.images.map((imgSrc, idxx)=>{
                                                     return (
                                                         <span 
                                                             className={ 
@@ -294,20 +294,25 @@ class Product extends React.Component {
                                     </Fragment>
                                 }
                                 </div>
-                                <button className="arrow-btn" onClick={() => { this.changeActiveImage(1) }}>&#10095;</button>
+                                <button 
+                                    className="arrow-btn" 
+                                    disabled={this.state.productData.images && this.state.productData.images.length > 1}
+                                    onClick={() => { this.changeActiveImage(1) }}>
+                                        &#10095;
+                                </button>
                             </div>
                         </div>
                             <div className="right-container">
                                 <div className="product-title">
-                                    {/* {this.state.productData.title} */}
-                                    Mens Navy Blue tshirt
+                                    {this.state.productData.title ? this.state.productData.title : `Mens blue ${titleCase(this.state.productData.category)}`}
                                 </div>
                                 <div className="description">
                                     {this.state.productData.description}
                                 </div>
                                 {this.getPriceHtml()}
                                 {this.getSizes()}
-                                {this.state.productData.color&&
+                                {this.state.productData.color
+                                &&
                                 <div className="field-container">
                                     <div className="field-title">
                                         Color
@@ -353,7 +358,7 @@ class Product extends React.Component {
                                                     className={this.state.pincodeValidationStatus === "error" ? "input is-danger" : 
                                                         (this.state.pincodeValidationStatus === "success" ? "input is-success" : "input")
                                                     }
-                                                    type="number"
+                                                    type="text"
                                                     name='pincode'
                                                     maxLength="6"
                                                     onChange={this.onInputChange}

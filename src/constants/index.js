@@ -36,22 +36,22 @@ export const productFilters = [
     },
     {
         "filter_name": "size",
-        "filter_type": "multiSelect",
+        "filter_type": "singleSelect",
         "values": [
             {
-                "key": "30",
+                "key": 30,
                 "title": "30"
             },
             {
-                "key": "32",
+                "key": 32,
                 "title": "32"
             },
             {
-                "key": "36",
+                "key": 36,
                 "title": "36"
             },
             {
-                "key": "38",
+                "key": 38,
                 "title": "38"
             }
         ]
@@ -87,24 +87,6 @@ export const productFilters = [
             {
                 "key": "50",
                 "title": "50%"
-            }
-        ]
-    },
-    {
-        "filter_name": "sort_by",
-        "filter_type": "dropdown",
-        "values": [
-            {
-                "key": "price_high_to_low",
-                "title": "Price High to Low"
-            },
-            {
-                "key": "price_low_to_high",
-                "title": "Price Low to High"
-            },
-            {
-                "key": "Popularity",
-                "title": "popularity"
             }
         ]
     },
@@ -183,6 +165,83 @@ export const addressEditableFields = [
     // },
 ]
 
+export const products = [
+    {
+        _id: "bottomwear_jeans_1574876982_grey_34",
+        images: ["https://i.ibb.co/48hHjC8/Plum-01-900x.png"],
+        available_sizes: [
+            34,
+            32
+        ],
+        category: "bottomwear",
+        color: "grey",
+        color_code: "#0000FF",
+        description: "Some Description",
+        discount: 10,
+        fabric: "cotton",
+        fit: "regular_fit",
+        price: 700,
+        product_code: "bottomwear_jeans_1574876982",
+        product_id: "bottomwear_jeans_1574876982_grey",
+        size: 34,
+        stock: 100,
+        sub_category: "jeans",
+        variants:{
+            34: { stock: 2},
+            32: { stock: 3}
+        }
+    },
+    {
+        _id: "bottomwear_jeans_1574876982_grey_34",
+        images: ["https://i.ibb.co/48hHjC8/Plum-01-900x.png"],
+        available_sizes: [
+            34,
+            32
+        ],
+        category: "bottomwear",
+        color: "grey",
+        color_code: "#0000FF",
+        description: "Some Description",
+        discount: 10,
+        fabric: "cotton",
+        fit: "regular_fit",
+        price: 700,
+        product_code: "bottomwear_jeans_1574876982",
+        product_id: "bottomwear_jeans_1574876982_grey",
+        size: 34,
+        stock: 100,
+        sub_category: "jeans",
+        variants:{
+            34: { stock: 2},
+            32: { stock: 3}
+        }
+    },
+    {
+        _id: "bottomwear_jeans_1574876982_grey_34",
+        images: ["https://i.ibb.co/48hHjC8/Plum-01-900x.png"],
+        available_sizes: [
+            34,
+            32
+        ],
+        category: "bottomwear",
+        color: "grey",
+        color_code: "#0000FF",
+        description: "Some Description",
+        discount: 10,
+        fabric: "cotton",
+        fit: "regular_fit",
+        price: 700,
+        product_code: "bottomwear_jeans_1574876982",
+        product_id: "bottomwear_jeans_1574876982_grey",
+        size: 34,
+        stock: 100,
+        sub_category: "jeans",
+        variants:{
+            34: { stock: 2},
+            32: { stock: 3}
+        }
+    },
+]
 export const myAccountTabs = {
     "Profile": [
         {

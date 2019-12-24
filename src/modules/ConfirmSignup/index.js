@@ -39,11 +39,16 @@ class ConfirmSignUp extends Component {
 			return;
 		}
 		// AWS Cognito integration here
-		const username = this.props.email;
+		const username = this.props.mobile;
 		const code = this.state.code; 
 		try {
-			await Auth.confirmSignUp(username, code);
-			this.setState({ infoMessage: "Done! You can now login to continue shopping.", errors: { ...this.state.errors, responseText: "" }, isLoading: false });
+			await Auth.confirmSignUp("+91" + username, code);
+			this.setState({ 
+				responseText: "Done! You can now login to continue shopping.",
+				responseType: "success",
+				errors: { ...this.state.errors }, 
+				isLoading: false
+			});
 			setTimeout(function () {
 				self.props.history.push("/login");
 			}, 2500);
@@ -56,9 +61,10 @@ class ConfirmSignUp extends Component {
 			}
 			this.setState({
 				errors: {
-					...this.state.errors, responseText
+					...this.state.errors
 				},
-				infoMessage: "",
+				responseText,
+				responseType: "error",
 				isLoading: false
 			})
 			console.log(error);
@@ -66,9 +72,10 @@ class ConfirmSignUp extends Component {
 	};
 
 	onCloseResponse = () => {
-		let { errors } = this.state; 
+		// let { errors } = this.state; 
 		this.setState({
-			errors: { ...errors, responseText: ""} 
+			responseText: "",
+			errors: { ...errors} 
 		})
 	}
 
@@ -89,24 +96,14 @@ class ConfirmSignUp extends Component {
 		return (
 			<Fragment>
 				{
-                    this.state.errors.responseText &&
-					<div className="response-text is-error">
+                    this.state.responseText &&
+					<div className={`response-text is-${this.state.responseType}`}>
                         <span className="response-tag">
-                            {this.state.errors.responseText}
+                            {this.state.responseText}
                         </span>
                         <button className="delete is-small" onClick={this.onCloseResponse} ></button>
                     </div>
                 }
-				{
-					!this.state.errors.responseText &&
-					this.state.infoMessage &&
-					<div className="response-text is-info">
-						<span className="response-tag">
-							{this.state.infoMessage}
-						</span>
-						<button className="delete is-small" onClick={() => { this.setState({ infoMessage: "" }) }} ></button>
-					</div>
-				}
 				<div className="field">
 					<div className={!this.state.errors.codeInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input

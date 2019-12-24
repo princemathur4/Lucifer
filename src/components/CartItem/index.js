@@ -68,7 +68,7 @@ export default class CartItem extends Component {
                                 {
                                     !!leftCount &&
                                     <div className="size-available-warning">
-                                        <span class="tag is-danger is-light">{leftCount} Left</span>
+                                        <span className="tag is-danger is-light">{leftCount} Left</span>
                                     </div>
                                 }
                             </div>

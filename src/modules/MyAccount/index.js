@@ -4,6 +4,7 @@ import Profile from '../../components/Profile';
 import Addresses from '../../components/Addresses';
 import "./style.scss";
 import { myAccountTabs } from "../../constants";
+import ChangePassword from "../ChangePassword";
 
 class MyAccount extends Component {
     constructor(props) {
@@ -60,6 +61,9 @@ class MyAccount extends Component {
                         }
                         {this.state.activeTab === "addresses" &&
                             <Addresses {...this.props} addBtnPosition="header"/>
+                        }
+                        {this.state.activeTab === "passwords" &&
+                            <ChangePassword {...this.props}/>
                         }
                     </div>
                 </div>

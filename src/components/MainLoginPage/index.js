@@ -6,13 +6,13 @@ import { observer } from 'mobx-react';
 import Login from '../../modules/Login';
 import SignupController from '../../modules/SignupController';
 import ForgotPasswordController from '../../modules/ForgotPasswordController';
-import ResendMail from '../../modules/ResendMail';
 
 class MainLoginPage extends Component {
 
     componentDidMount() {
+        let redirectUrl = this.props.store.redirectRoute ? this.props.store.redirectRoute : "/";
         if (this.props.auth.isAuthenticated) {
-            this.props.history.push('/'); // redirect user to app if user is authenticated
+            this.props.history.push(redirectUrl); // redirect user to app if user is authenticated
         }
     }
 
@@ -31,7 +31,7 @@ class MainLoginPage extends Component {
                                 <SignupController {...this.props} />
                             )
                             }
-                            {this.props.name === 'resendMail' && (
+                            {this.props.name === 'resendVerificationCode' && (
                                 <SignupController {...this.props} />
                             )
                             }

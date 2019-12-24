@@ -114,7 +114,7 @@ class SpecialProductItem extends React.Component {
     render() {
         return (
             <Fragment>
-                <div className="card product-item-card" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
+                <div className="card special-product-item-card" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
                     <div className="card-image" onClick={this.handleProductSelect}>
                         <figure className="image is-4by5" >
                             <img 

@@ -30,6 +30,7 @@ export default class Cart extends React.Component {
     }
 
     componentDidMount() {
+        console.log("cart page mounted")
         this.fetchCartItems();
     }
 

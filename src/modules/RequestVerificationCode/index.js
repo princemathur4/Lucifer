@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class RequestVerificationCode extends Component {
 	state = {
-		email: '',
+		mobile: '',
 		isLoading: false,
 		isModalOpen: false,
 		errors: {
-			emailInvalid: false,
+			mobileInvalid: false,
 			responseText: "",
 		}
 	};
@@ -19,7 +19,7 @@ class RequestVerificationCode extends Component {
 	clearErrorState = () => {
 		this.setState({
 			errors: {
-				emailInvalid: false,
+				mobileInvalid: false,
 				responseText: "",
 			}
 		});
@@ -42,8 +42,8 @@ class RequestVerificationCode extends Component {
 		let responseText;
 		// AWS Cognito integration here
 		try {
-			await Auth.forgotPassword(this.state.email);
-			this.props.setEmail(this.state.email);
+			await Auth.forgotPassword("+91" + this.state.mobile);
+			this.props.setMobile(this.state.mobile);
 			this.setState({ isLoading: false });
 			this.props.changeScreen('forgotPasswordVerification');
 		} catch (error) {
@@ -57,7 +57,7 @@ class RequestVerificationCode extends Component {
 			} else if (error.code === "UserNotFoundException") {
 				responseText = "Sorry we couldn't verify your account. Try to sign up again on our platform.";
 			} else if (error.code === "CodeDeliveryFailureException") {
-				responseText = "Sorry we couldn't send the verification code to your E-mail. Please check the email you've entered and try again.";
+				responseText = "Sorry we couldn't send the verification code to your E-mail. Please check the mobile you've entered and try again.";
 			} else if (error.code === "InternalErrorException") {
 				responseText = "Our servers are down for the moment. Please try again after sometime.";
 			} else if (error.code === "LimitExceededException") {
@@ -96,35 +96,35 @@ class RequestVerificationCode extends Component {
 		return (
 			<Fragment>
 				{
-					this.state.errors.responseText &&
+					this.state.responseText &&
 					<div className="response-text is-error">
 						<span className="response-tag">
-							{this.state.errors.responseText}
+							{this.state.responseText}
 						</span>
 						<button className="delete is-small" onClick={this.onCloseResponse} ></button>
 					</div>
 				}
 				<div className="field">
-					<div className={!this.state.errors.emailInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
+					<div className={!this.state.errors.mobileInvalid ? "control has-icons-left" : "control has-icons-left has-icons-right is-danger"}>
 						<input
-							className={!this.state.errors.emailInvalid ? "input" : "input is-danger"}
-							type="email"
-							placeholder="Enter your Email-ID"
-							name="email"
+							className={!this.state.errors.mobileInvalid ? "input" : "input is-danger"}
+							type="mobile"
+							placeholder="Enter your Phone number"
+							name="mobile"
 							onChange={this.onInputChange}
 							onKeyPress={this.onKeyPress}
 						/>
 						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="envelope" />
+							<FontAwesomeIcon icon="mobile-alt" />
 						</span>
 						{
-							this.state.errors.emailInvalid &&
+							this.state.errors.mobileInvalid &&
 							<Fragment>
 								<span className="icon is-small is-right">
 									<FontAwesomeIcon icon="exclamation-triangle" />
 								</span>
 								<p className="help is-danger">
-									Please enter your registered Email-ID
+									Please enter your registered Phone number
                                 </p>
 							</Fragment>
 						}
