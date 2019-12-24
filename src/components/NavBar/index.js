@@ -15,14 +15,15 @@ class NavBar extends React.Component {
         Hub.listen("auth", ({ payload: { event, data } }) => {
             switch (event) {
                 case "signOut":
-                    window.history.pushState(
-                        "",
-                        "",
-                        "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]
-                    ); // clear all params from url
+                    // window.history.pushState(
+                    //     "",
+                    //     "",
+                    //     "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]
+                    // ); // clear all params from url
                     this.props.auth.setAuthStatus(false);
                     this.props.auth.setUser(null);
-                    // this.props.history.push(window.location.href);
+                    console.log("hub signout",window.location.href.split(window.location.origin)[1]);
+                    this.props.history.push(window.location.href.split(window.location.origin)[1]);
                     break;
 
                 default:

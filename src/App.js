@@ -48,11 +48,11 @@ class App extends React.Component {
     routes = [
         {
             path: "/",
-            component: Home,
-            name: "",
+            component: MainLoginPage,
+            name: "mainPage",
             authRequired: false,
             customProps: {
-                name: "",
+                name: "mainPage",
             }
         },
         {
@@ -65,16 +65,16 @@ class App extends React.Component {
                 store
             }
         },
-        {
-            path: "/men",
-            component: Home,
-            name: "men",
-            authRequired: false,
-            customProps: {
-                name: "men",
-                store
-            }
-        },
+        // {
+        //     path: "/men",
+        //     component: Home,
+        //     name: "men",
+        //     authRequired: false,
+        //     customProps: {
+        //         name: "men",
+        //         store
+        //     }
+        // },
         {
             path: "/login",
             component: MainLoginPage,

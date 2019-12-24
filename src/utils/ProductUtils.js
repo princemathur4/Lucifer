@@ -5,6 +5,9 @@ import { store } from "../App";
 export async function fetchCartItems() {
     let self = this;
     let session = await getSession();
+    if(!session){
+        return;
+    }
     try {
         let response = await commonApi.get(`cart`,
             {

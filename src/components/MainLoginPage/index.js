@@ -13,6 +13,8 @@ class MainLoginPage extends Component {
         let redirectUrl = this.props.store.redirectRoute ? this.props.store.redirectRoute : "/";
         if (this.props.auth.isAuthenticated) {
             this.props.history.push(redirectUrl); // redirect user to app if user is authenticated
+        }else if (this.props.name === 'mainPage') {
+            this.props.history.push('/login'); // redirect user to login if no endpoint is given
         }
     }
 
