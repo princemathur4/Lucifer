@@ -11,6 +11,11 @@ class AppStore {
     orderby = { ...sortByOptions[0] };
     currentPage = 1;
     totalPages = 0;
+    cartItemsCount = 0;
+    
+    setCartItemsCount = (count) =>{
+        this.cartItemsCount = count;
+    }
 
     setRedirectRoute = (route) => {
         this.redirectRoute = route;

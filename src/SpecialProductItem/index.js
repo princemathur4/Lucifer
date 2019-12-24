@@ -41,6 +41,7 @@ class SpecialProductItem extends React.Component {
             console.log("cart response", response);
             if (response.data && response.data.success) {
                 this.setState({ isAddingToCartLoading: false });
+                this.props.fetchCartItems();
             } else {
                 this.setState({ isAddingToCartLoading: false });
             }

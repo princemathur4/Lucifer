@@ -310,7 +310,7 @@ class App extends React.Component {
                                     } else {
                                         return ( 
                                             <Fragment>
-                                                <NavBar { ...props} auth={authProps} />
+                                                <NavBar { ...props} store={store} auth={authProps} />
                                                 {
                                                     ((authRequired && this.state.isAuthenticated) || !authRequired) 
                                                     ? 

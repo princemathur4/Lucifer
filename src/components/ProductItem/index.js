@@ -67,6 +67,7 @@ class ProductItem extends React.Component {
             console.log("wishlist response", response);
             if (response.data && response.data.success) {
                 this.setState({ isAddingToCartLoading: false });
+                this.props.fetchCartItems();
             } else {
                 this.setState({ isAddingToCartLoading: false });
             }

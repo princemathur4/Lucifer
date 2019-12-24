@@ -28,6 +28,30 @@ class Product extends React.Component {
         }
     }
 
+    async fetchCartItems() {
+        if (!this.props.auth.isAuthenticated) {
+            return;
+        }
+        let self = this;
+        let session = await getSession();
+        try {
+            let response = await commonApi.get(`cart`,
+                {
+                    params: {},
+                    headers: { "Authorization": session.accessToken.jwtToken }
+                },
+            );
+            console.log("get cart response", response);
+            if (response.data && response.data.success) {
+                // this.props.store.setCartItemsCount(response.data.data.length);
+                this.props.store.cartItemCount = response.data.data.length;
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+        }
+    }
+
     componentDidMount() {
         this.product_id = getParameterByName('id', window.location.href);
         this.makeGetProductApiCall(this.product_id);
@@ -84,6 +108,7 @@ class Product extends React.Component {
             console.log("cart product response", response);
             if (response.data && response.data.success) {
                 this.setState({ isAddingToCartLoading: false });
+                this.fetchCartItems();
             } else {
                 this.setState({ isAddingToCartLoading: false });
             }

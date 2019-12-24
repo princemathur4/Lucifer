@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Hub } from 'aws-amplify';
 import Auth from "@aws-amplify/auth";
+import { getSession } from "../../utils/AuthUtils";
+import commonApi from "../../apis/common";
 
 class NavBar extends React.Component {
     constructor(props){
@@ -36,6 +38,34 @@ class NavBar extends React.Component {
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    async fetchCartItems() {
+        if (!this.props.auth.isAuthenticated) {
+            return;
+        }
+        let self = this;
+        let session = await getSession();
+        try {
+            let response = await commonApi.get(`cart`,
+                {
+                    params: {},
+                    headers: { "Authorization": session.accessToken.jwtToken }
+                },
+            );
+            console.log("get cart response", response);
+            if (response.data && response.data.success) {
+                // this.props.store.setCartItemsCount(response.data.data.length);
+                this.props.store.cartItemCount = response.data.data.length;
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+        }
+    }
+
+    componentDidMount(){
+        this.fetchCartItems();
     }
 
     render() {
@@ -148,8 +178,9 @@ class NavBar extends React.Component {
                                 </div>
                             </div>
                             <div className="dropdown is-right is-hoverable">
-                                <Link to="/cart" className="action-btn" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
+                                <Link to="/cart" className="action-btn cart" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
                                     <img src="https://i.ibb.co/S3x3K0Q/shopping-cart.png" className="action-icon" width="112" height="28" />
+                                    <div className="count">{this.props.store.cartItemsCount}</div>
                                 </Link>
                             </div>
                         </div>

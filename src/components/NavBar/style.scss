@@ -172,6 +172,20 @@ $navbar-tab-hover-border-bottom-color: black;
             .action-icon {
                 width: 1.5em;
             }
+
+            &.cart{
+                .count{
+                    position: absolute;
+                    padding: 0.2rem 0.7rem;
+                    color: white;
+                    background: #140080;
+                    border-radius: 50%;
+                    bottom: 0;
+                    right: -10px;
+                    font-family: inherit;
+                    display: flex;
+                }
+            }
         }
 
         .login-signup-container {

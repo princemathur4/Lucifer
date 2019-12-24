@@ -51,6 +51,7 @@ class ProductList extends React.Component {
                                 key={idx} 
                                 productData={obj}
                                 handleLoginWarning={this.handleLoginWarning}
+                                fetchCartItems={this.props.fetchCartItems}
                             />
                         )
                     })

@@ -39,9 +39,34 @@ class ProductsPage extends React.Component {
         this.node = null;
     }
 
+    async fetchCartItems() {
+        if (!this.props.auth.isAuthenticated) {
+            return;
+        }
+        let self = this;
+        let session = await getSession();
+        try {
+            let response = await commonApi.get(`cart`,
+                {
+                    params: {},
+                    headers: { "Authorization": session.accessToken.jwtToken }
+                },
+            );
+            console.log("get cart response", response);
+            if (response.data && response.data.success) {
+                // this.props.store.setCartItemsCount(response.data.data.length);
+                this.props.store.cartItemCount = response.data.data.length;
+            }
+        }
+        catch (e) {
+            console.log("error", e);
+        }
+    }
+
     componentDidMount() {
         this.category = getParameterByName('category', window.location.href);
         this.sub_category = getParameterByName('sub_category', window.location.href);
+        this.fetchCartItems();
         this.makeFetchFiltersApiCall();
         this.makeGetProductsApiCall();
         document.addEventListener('mousedown', this.handleClickOutside, false)
@@ -292,7 +317,7 @@ class ProductsPage extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="products-list-container">
-                                                <ProductsList data={this.state.productResults} {...this.props}/>
+                                                <ProductsList data={this.state.productResults} {...this.props} fetchCartItems={this.fetchCartItems}/>
                                             </div>
                                             {
                                                 this.getPaginationJsx()
