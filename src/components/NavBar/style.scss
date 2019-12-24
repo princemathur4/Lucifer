@@ -176,14 +176,19 @@ $navbar-tab-hover-border-bottom-color: black;
             &.cart{
                 .count{
                     position: absolute;
-                    padding: 0.2rem 0.7rem;
                     color: white;
-                    background: #140080;
+                    background: #8e4fb6;
                     border-radius: 50%;
-                    bottom: 0;
-                    right: -10px;
-                    font-family: inherit;
+                    top: 12px;
+                    right: 12px;
+                    font-size: 11px;
+                    width: 18px;
+                    height: 18px;
                     display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    font-family: inherit;
                 }
             }
         }

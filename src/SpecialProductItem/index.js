@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import commonApi from "../apis/common";
 import { getSession } from "../utils/AuthUtils";
+import { fetchCartItems } from "../utils/ProductUtils";
 
 class SpecialProductItem extends React.Component {
     constructor(props){
@@ -41,7 +42,7 @@ class SpecialProductItem extends React.Component {
             console.log("cart response", response);
             if (response.data && response.data.success) {
                 this.setState({ isAddingToCartLoading: false });
-                this.props.fetchCartItems();
+                fetchCartItems();
             } else {
                 this.setState({ isAddingToCartLoading: false });
             }

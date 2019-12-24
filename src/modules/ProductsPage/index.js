@@ -11,7 +11,7 @@ import Spinner from "../../components/Spinner";
 import { productFilters, defaultFilterTemplate, products } from "../../constants";
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { fetchCartItems } from '../../utils/ProductUtils';
 
 class ProductsPage extends React.Component {
     constructor(props) {
@@ -39,34 +39,10 @@ class ProductsPage extends React.Component {
         this.node = null;
     }
 
-    async fetchCartItems() {
-        if (!this.props.auth.isAuthenticated) {
-            return;
-        }
-        let self = this;
-        let session = await getSession();
-        try {
-            let response = await commonApi.get(`cart`,
-                {
-                    params: {},
-                    headers: { "Authorization": session.accessToken.jwtToken }
-                },
-            );
-            console.log("get cart response", response);
-            if (response.data && response.data.success) {
-                // this.props.store.setCartItemsCount(response.data.data.length);
-                this.props.store.cartItemCount = response.data.data.length;
-            }
-        }
-        catch (e) {
-            console.log("error", e);
-        }
-    }
-
     componentDidMount() {
         this.category = getParameterByName('category', window.location.href);
         this.sub_category = getParameterByName('sub_category', window.location.href);
-        this.fetchCartItems();
+        fetchCartItems();
         this.makeFetchFiltersApiCall();
         this.makeGetProductsApiCall();
         document.addEventListener('mousedown', this.handleClickOutside, false)
@@ -304,7 +280,7 @@ class ProductsPage extends React.Component {
                                                     <div className="dropdown-menu" id="dropdown-menu-sort" role="menu">
                                                         <div className="dropdown-content">
                                                             {
-                                                                sortByOptions.map((sortByOption, indx)=>{
+                                                                sortByOptions.map((sortByOption, indx) => {
                                                                     return(
                                                                         <div className="dropdown-item" onClick={() => { this.handleSortDropdown(sortByOption) }}>
                                                                             {sortByOption.title}
@@ -317,7 +293,7 @@ class ProductsPage extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="products-list-container">
-                                                <ProductsList data={this.state.productResults} {...this.props} fetchCartItems={this.fetchCartItems}/>
+                                                <ProductsList data={this.state.productResults} {...this.props} />
                                             </div>
                                             {
                                                 this.getPaginationJsx()

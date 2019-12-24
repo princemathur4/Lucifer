@@ -275,17 +275,26 @@ export default class Cart extends React.Component {
                                 <Spinner color="primary" size="medium" />
                             </div>
                             :
+                            (
+                                !this.state.cartProducts.length ?
+                                <div className="cart-content">
+                                    <div className="no-cart-items">
+                                        <img src="https://i.ibb.co/pjfqTYW/cart-512.png" className="no-items-img"/>
+                                        No items present in cart
+                                    </div>
+                                </div>
+                                :
                             (!Object.keys(this.state.orderResponse).length ?
                             <Fragment>
                                 <div className="breadcrumbs">
                                     <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
-                                    <div className="item"> ▶</div>
+                                    <div className="arrow-item"> ▶</div>
                                     <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
-                                    <div className="item"> ▶</div>
+                                    <div className="arrow-item"> ▶</div>
                                     <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
                                 </div>
                                 <div className="cart-content">
-                                    {this.state.cartProducts.length ?
+                                    {this.state.cartProducts.length &&
                                         <Fragment>
                                             <div className="left-container">
                                                 {this.state.mode === "review" &&
@@ -391,11 +400,6 @@ export default class Cart extends React.Component {
                                                 {this.getBillingDetails()}
                                             </div>
                                         </Fragment>
-                                        :
-                                        <div className="no-cart-items">
-                                            <img src="https://i.ibb.co/pjfqTYW/cart-512.png" className="no-items-img"/>
-                                            No items present in cart
-                                        </div>
                                     }
                                 </div>
                             </Fragment>
@@ -407,6 +411,7 @@ export default class Cart extends React.Component {
                                 <div className="order-subtext">We're processing your order and will also be sending you with an email confirmation shortly.</div>
                                 <button className="button view-order-btn is-info is-light">View Order Details</button>
                             </div>
+                            )
                             )
                     }
                 </div>

@@ -8,6 +8,7 @@ import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SpecialProductItem from '../../SpecialProductItem';
 import { Link } from "react-router-dom";
+import { fetchCartItems } from '../../utils/ProductUtils';
 
 class Specials extends React.Component {
     constructor(props) {
@@ -21,31 +22,8 @@ class Specials extends React.Component {
         }
     }
 
-    async fetchCartItems() {
-        if (!this.props.auth.isAuthenticated) {
-            return;
-        }
-        let self = this;
-        let session = await getSession();
-        try {
-            let response = await commonApi.get(`cart`,
-                {
-                    params: {},
-                    headers: { "Authorization": session.accessToken.jwtToken }
-                },
-            );
-            console.log("get cart response", response);
-            if (response.data && response.data.success) {
-                // this.props.store.setCartItemsCount(response.data.data.length);
-                this.props.store.cartItemCount = response.data.data.length;
-            }
-        }
-        catch (e) {
-            console.log("error", e);
-        }
-    }
-
     componentDidMount() {
+        fetchCartItems();
         this.makeGetProductsApiCall();
     }
 
@@ -123,7 +101,6 @@ class Specials extends React.Component {
                                         productData={productObj}
                                         {...this.props}
                                         handleLoginWarning={this.handleLoginWarning}
-                                        fetchCartItems={this.fetchCartItems}
                                     />
                         })
                     }

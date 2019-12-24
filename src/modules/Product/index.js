@@ -9,6 +9,7 @@ import Spinner from "../../components/Spinner";
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { titleCase } from "../../utils/utilFunctions";
+import { fetchCartItems } from '../../utils/ProductUtils';
 
 class Product extends React.Component {
     constructor(props) {
@@ -25,30 +26,6 @@ class Product extends React.Component {
             pincodeCheckLoading: false,
             activeImageindex: 0,
             loginModalActive: false
-        }
-    }
-
-    async fetchCartItems() {
-        if (!this.props.auth.isAuthenticated) {
-            return;
-        }
-        let self = this;
-        let session = await getSession();
-        try {
-            let response = await commonApi.get(`cart`,
-                {
-                    params: {},
-                    headers: { "Authorization": session.accessToken.jwtToken }
-                },
-            );
-            console.log("get cart response", response);
-            if (response.data && response.data.success) {
-                // this.props.store.setCartItemsCount(response.data.data.length);
-                this.props.store.cartItemCount = response.data.data.length;
-            }
-        }
-        catch (e) {
-            console.log("error", e);
         }
     }
 
@@ -108,7 +85,7 @@ class Product extends React.Component {
             console.log("cart product response", response);
             if (response.data && response.data.success) {
                 this.setState({ isAddingToCartLoading: false });
-                this.fetchCartItems();
+                fetchCartItems();
             } else {
                 this.setState({ isAddingToCartLoading: false });
             }
@@ -275,18 +252,18 @@ class Product extends React.Component {
                                 <ul>
                                     <li><Link to="/home">Home</Link></li>
                                     <li><Link to="/products">Products</Link></li>
-                                    <li><Link to="/men">Men</Link></li>
                                     <li><Link to={window.location.href.split(window.location.origin)[1]}>{titleCase(this.state.productData.category)}</Link></li>
                                     <li className="is-active"><Link to={window.location.href.split(window.location.origin)[1]} aria-current="page">{titleCase(this.state.productData.sub_category)}</Link></li>
                                 </ul>
                             </nav>
                             <div className="images-container">
-                                <button 
-                                    className="arrow-btn" 
-                                    disabled={this.state.productData.images && this.state.productData.images.length > 1}
-                                    onClick={() => { this.changeActiveImage(-1) }}>
-                                        &#10094;
-                                </button>
+                                {this.state.productData.images && this.state.productData.images.length > 1 &&
+                                    <button 
+                                        className="arrow-btn" 
+                                        onClick={() => { this.changeActiveImage(-1) }}>
+                                            &#10094;
+                                    </button>
+                                }
                                 <div className="w3-content w3-display-container" style={{maxWidth:"100%"}}>
                                 {
                                     this.state.productData.images.map((imgSrc, Idx)=>{
@@ -319,12 +296,13 @@ class Product extends React.Component {
                                     </Fragment>
                                 }
                                 </div>
-                                <button 
-                                    className="arrow-btn" 
-                                    disabled={this.state.productData.images && this.state.productData.images.length > 1}
-                                    onClick={() => { this.changeActiveImage(1) }}>
-                                        &#10095;
-                                </button>
+                                {this.state.productData.images && this.state.productData.images.length > 1 &&
+                                    <button 
+                                        className="arrow-btn"
+                                        onClick={() => { this.changeActiveImage(1) }}>
+                                            &#10095;
+                                    </button>
+                                }
                             </div>
                         </div>
                             <div className="right-container">

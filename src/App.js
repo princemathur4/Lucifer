@@ -33,7 +33,7 @@ decorate(
     }
 )
 
-const store = new AppStore();
+export const store = new AppStore();
 
 class App extends React.Component {
     constructor(props){
@@ -277,7 +277,7 @@ class App extends React.Component {
     setRedirectUrl = () => {
         if(store.redirectRoute === ""){
             store.setRedirectRoute(window.location.href.split(window.location.origin)[1]);
-            console.log("set redirect url", window.location.href.split(window.location.origin)[1])
+            // console.log("set redirect url", window.location.href.split(window.location.origin)[1])
         }
         return true;
     }
@@ -285,7 +285,7 @@ class App extends React.Component {
     clearRedirectUrl = (customProps) =>{ 
         if(!customProps.authComponent && store.redirectRoute){
            store.setRedirectRoute('');
-           console.log("clear redirect url")
+        //    console.log("clear redirect url")
         }
         return true;
     }

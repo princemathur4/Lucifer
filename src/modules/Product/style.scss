@@ -89,8 +89,10 @@
             font-weight: 600;
             padding-bottom: 0.5rem;
             line-height: 2.5rem;
+            color: black;
         }
         .description {
+            color: rgb(51, 51, 51);
             font-size: 1.3rem;
             font-weight: 600;
             padding-bottom: 0.8rem;
@@ -99,6 +101,7 @@
             display: flex;
             align-items: center;
             padding-bottom: 2rem;
+            color: black;
             border-bottom: 1px solid rgb(224, 224, 224);
             .price-text {
                 font-size: 1.4rem;
@@ -125,6 +128,7 @@
                 font-weight: 600;
                 padding-right: 0.7rem;
                 color: rgb(39, 39, 39);
+                color: black;
             }
             .sizes-content {
                 display: flex;
@@ -223,7 +227,7 @@
             font-family: inherit;
             margin-top: 2rem;
             border-radius: 0;
-            background: rgb(0, 194, 178);
+            background: #9bc200;
             color: white;
             .icon{
                 padding-right: 1.5rem;
