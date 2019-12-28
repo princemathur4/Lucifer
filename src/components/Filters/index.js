@@ -184,10 +184,10 @@ class Filters extends React.Component {
                         <div className="filters-header">
                             <div className="filters-title">
                                 FILTERS
-                                        </div>
+                            </div>
                             <div className="clear-filters" onClick={this.handleClearFilters}>
                                 Clear
-                                        </div>
+                            </div>
                         </div>
                         <button className="apply-button" onClick={this.handleApplyFilters}>Apply</button>
                         <div className="filter-tags">
@@ -205,6 +205,9 @@ class Filters extends React.Component {
                         <div className="filters-body">
                             {
                                 this.props.filtersBlueprint.map((obj, idx) => {
+                                    if (obj.filter_name === "discount" && obj.values.length === 1 && obj.values[0].key === 0) {
+                                        return;
+                                    }
                                     return (
                                         <div className="filter-field" key={idx}>
                                             <div className="filter-field-title">
@@ -267,6 +270,7 @@ class Filters extends React.Component {
                                                     <div className="range-input-container">
                                                         <InputRange
                                                             // draggableTrack
+                                                            step={10}
                                                             disabled={this.max_price_limit === this.min_price_limit}
                                                             allowSameValues={true}
                                                             maxValue={obj.max}
