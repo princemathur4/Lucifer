@@ -7,6 +7,7 @@ import Auth from "@aws-amplify/auth";
 import { getSession } from "../../utils/AuthUtils";
 import commonApi from "../../apis/common";
 import { fetchCartItems } from '../../utils/ProductUtils';
+import { observer } from 'mobx-react';
 
 class NavBar extends React.Component {
     constructor(props){
@@ -17,7 +18,7 @@ class NavBar extends React.Component {
                 case "signOut":
                     // window.history.pushState(
                     //     "",
-                    //     "",
+                    //     "", 
                     //     "/" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1).split("?")[0]
                     // ); // clear all params from url
                     this.props.auth.setAuthStatus(false);
@@ -47,6 +48,7 @@ class NavBar extends React.Component {
     }
 
     render() {
+        // console.log("navbar store",this.props.store)
         return (
             <Fragment>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -159,7 +161,7 @@ class NavBar extends React.Component {
                                 <Link to="/cart" className="action-btn cart" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
                                     <img src="https://i.ibb.co/S3x3K0Q/shopping-cart.png" className="action-icon" width="112" height="28" />
                                     {
-                                        !!this.props.store.cartItemsCount &&
+                                        !!this.props.store.cartItemsCount && this.props.name !== 'cart' &&
                                         <div className="count">
                                             {this.props.store.cartItemsCount}
                                         </div>
@@ -174,4 +176,4 @@ class NavBar extends React.Component {
     }
 }
 
-export default NavBar;
+export default observer(NavBar);

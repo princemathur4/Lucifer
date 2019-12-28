@@ -6,6 +6,11 @@ import { Checkbox, Radio } from 'semantic-ui-react';
 import remove from 'lodash.remove';
 
 class Filters extends React.Component {
+    constructor(props){
+        super(props);
+        this.filtersChanged = false;
+    }
+
     state = {
         tagsList: [],
         errors: {
@@ -28,7 +33,10 @@ class Filters extends React.Component {
             }
         })
         console.log("filters", filters);
-        this.props.handleFiltersChange(filters);
+        if(this.filtersChanged){
+            this.filtersChanged = false;
+            this.props.handleFiltersChange(filters);
+        }
     }
 
     handleClearFilters = () => {
@@ -83,6 +91,7 @@ class Filters extends React.Component {
             [obj.name]: filterState,
             tagsList
         })
+        this.filtersChanged = true;
     }
 
     handleRadioFilter = (e, obj) => {
@@ -98,6 +107,7 @@ class Filters extends React.Component {
             [obj.name]: obj.value,
             tagsList
         })
+        this.filtersChanged = true;
     }
 
     onTagRemove = (obj) => {
@@ -113,6 +123,7 @@ class Filters extends React.Component {
             [obj.filter_type]: filterState,
             tagsList
         })
+        this.filtersChanged = true;
     }
 
     onInputChange = (e) => {
@@ -120,6 +131,7 @@ class Filters extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+        this.filtersChanged = true;
     }
 
     render() {

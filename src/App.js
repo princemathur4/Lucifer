@@ -25,6 +25,10 @@ decorate(
         productResults: observable,
         filtersLoader: observable,
         productListLoader: observable,
+        cartItemsCount: observable,
+        orderby : observable,
+        currentPage : observable,
+        totalPages : observable,
         setFilters: action,
         setFilterBlueprint: action,
         setProductResults: action,
@@ -310,7 +314,7 @@ class App extends React.Component {
                                     } else {
                                         return ( 
                                             <Fragment>
-                                                <NavBar { ...props} store={store} auth={authProps} />
+                                                <NavBar { ...props} name={customProps.name} store={store} auth={authProps} />
                                                 {
                                                     ((authRequired && this.state.isAuthenticated) || !authRequired) 
                                                     ? 

@@ -12,6 +12,7 @@ import { productFilters, defaultFilterTemplate, products } from "../../constants
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fetchCartItems } from '../../utils/ProductUtils';
+import { titleCase } from '../../utils/utilFunctions';
 
 class ProductsPage extends React.Component {
     constructor(props) {
@@ -53,7 +54,7 @@ class ProductsPage extends React.Component {
     }
     
     componentDidUpdate(prevProps, prevState){
-        console.log(prevProps);
+        // console.log(prevProps);
         let prevCategory = getParameterByName('category', prevProps.location.search);
         let prevSubCategory = getParameterByName('sub_category', prevProps.location.search);
         this.category = getParameterByName('category', window.location.href);
@@ -144,7 +145,7 @@ class ProductsPage extends React.Component {
         }
         if(this.lastPaginationValue){
             // this.setState({ currentPage: this.lastPaginationValue });
-            this.store.currentPage = this.lastPaginationValue;
+            this.props.store.currentPage = this.lastPaginationValue;
             this.lastPaginationValue = "";
         }
         this.setState({ 
@@ -159,7 +160,7 @@ class ProductsPage extends React.Component {
             this.props.store.currentPage = value;
         } else {
             // this.setState({ currentPage: this.state.currentPage + value })
-            this.props.store.currentPage = this.state.currentPage + value;
+            this.props.store.currentPage = this.props.store.currentPage + value;
         }
         this.makeGetProductsApiCall();
     }
@@ -260,6 +261,7 @@ class ProductsPage extends React.Component {
                                         :
                                         <Fragment>
                                             <div className="results-action-container">
+                                                {/* <span>Men {titleCase(this.sub_category)}</span> */}
                                                 <span>Showing <b>{this.state.pageCount}</b> Out of <b>{this.state.totalCount}</b> Results</span>
                                                 <div className={this.state.sort_dropdown_active ? "dropdown is-right is-active" : "dropdown is-right"} 
                                                     onClick={this.toggleDropdown}

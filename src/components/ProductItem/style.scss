@@ -5,13 +5,52 @@
     border: 1px solid rgba(255, 255, 255, 0);
     box-shadow: 0 0em 0em 0em rgba(255, 255, 255, 0), 0 0px 0 0px rgba(255, 255, 255, 0) !important;
     display: table;
+    max-width: 100%;
+    width: 100%;
     &:hover {
         border: 1px solid rgba(236, 236, 236, 0.774);
         box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02) !important;
     }
-
+    
     .product-image {
         object-fit: cover;
+    }
+    .arrow-btn{
+        cursor: pointer;
+        width: 4rem;
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(231, 231, 231);
+        border: 0px;
+        &:hover{
+            background: rgb(218, 218, 218);
+        }
+        &:focus{
+            outline: rgba(255, 255, 255, 0);
+        }
+    }
+
+    .mySlides{
+        display: none;
+
+        &.active{
+            object-fit: cover;
+            display: block;
+            -webkit-transition: -webkit-transform 0.4s;
+            -o-transition: -o-transform 0.4s;
+            -moz-transition: transform 0.4s, -moz-transform 0.4s;
+            transition: -webkit-transform 0.4s ease-in-out;
+
+            // &:hover{
+            //     -webkit-transform: scale(1.04);
+            //     -moz-transform: scale(1.04);
+            //     -ms-transform: scale(1.04);
+            //     -o-transform: scale(1.04);
+            //     transform: scale(1.04);
+            // }
+        }
     }
     .card-image{
         cursor: pointer;
@@ -26,7 +65,24 @@
             }
         }
     }
-
+    .dots-container{
+        position: absolute;
+        bottom: 1.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .dots{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: gray;
+            margin: 0.5rem;
+            &.active{
+                background: rgb(61, 61, 61);
+                
+            }
+        }
+    }
     .action-buttons {
         position: absolute;
         display: flex;
@@ -34,7 +90,7 @@
         bottom: 0;
         background: white;
         width: 100%;
-        padding-top: 1rem;
+        padding-top: 0.2rem;
         button {
             font-size: 0.8rem;
             margin: 0 0.3rem;

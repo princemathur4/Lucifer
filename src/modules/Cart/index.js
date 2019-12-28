@@ -13,11 +13,12 @@ export default class Cart extends React.Component {
 
     state = {
         mode: "review",
+        reviewed: false,
+        addressSelected: {},
         cartProducts: [],
         actualCartTotal: 0,
         discountedTotal: 0,
         order_id: "",
-        addressSelected: {},
         isCartLoading: true,
         productLoader: { product_id: '' },
         removeBtnLoader: { product_id: '' },
@@ -100,8 +101,8 @@ export default class Cart extends React.Component {
             if (response.data && response.data.success) {
                 this.order_id = response.data.data.orderId;
                 if(payment_mode === "COD"){
-                    this.setState({ mode: "COD", proceedLoader: false });
-                } else {
+                    this.verifyPayment({ order_id: this.order_id });
+                }else{
                     this.setState({ proceedLoader: false });
                     this.payNow();
                 }
@@ -126,11 +127,14 @@ export default class Cart extends React.Component {
             );
             console.log("verify payment response", response);
             if (response.data && response.data.success) {
-                this.setState({ orderResponse: response.data.data });
+                this.setState({ proceedLoader: false, orderResponse: response.data.data });
+            } else {
+                this.setState({ proceedLoader: false });
             }
         }
         catch (e) {
             console.log("error", e);
+            this.setState({ proceedLoader: false });
         }
     }
 
@@ -165,20 +169,22 @@ export default class Cart extends React.Component {
     handleCheckout = () => {
         let mode = this.state.mode;
         if (mode === "review") {
-            this.setState({ mode: "address" });
+            this.setState({ mode: "address", reviewed: true });
         }
         else if (mode === "address") {
             this.setState({ mode: 'payment' });
         }
         else if (mode === "payment") {
-            if (this.state.paymentMode) {
-                this.setState({ proceedLoader: true });
+            this.setState({ proceedLoader: true });
+            if (this.state.paymentMode === "RAZORPAY") {
+                this.makeCheckoutApiCall();
+            } else {
                 this.makeCheckoutApiCall();
             }
         }
-        else if(mode === "COD"){
+        // else if(mode === "COD"){
             
-        }
+        // }
     }
 
     payNow = () => {
@@ -287,9 +293,19 @@ export default class Cart extends React.Component {
                             (!Object.keys(this.state.orderResponse).length ?
                             <Fragment>
                                 <div className="breadcrumbs">
-                                    <div className={this.state.mode === "review" ? "item is-active" : "item"}>Review Cart</div>
+                                    <div className={this.state.mode === "review" ? 
+                                        (this.state.reviewed ? "item is-active link": "item is-active" ) : 
+                                            (this.state.reviewed ? "item link" : "item" )
+                                        }
+                                        onClick={()=>{ this.state.reviewed && this.setState({ mode: "review" })}}
+                                        >Review Cart</div>
                                     <div className="arrow-item"> ▶</div>
-                                    <div className={this.state.mode === "address" ? "item is-active" : "item"}> Address</div>
+                                    <div className={this.state.mode === "address" ? 
+                                        ( !!Object.keys(this.state.addressSelected).length ? "item is-active link": "item is-active" ) :
+                                            (!!Object.keys(this.state.addressSelected).length ? "item link": "item")
+                                        }
+                                        onClick={()=>{ !!Object.keys(this.state.addressSelected).length && this.setState({ mode: "address" })}}
+                                    > Address</div>
                                     <div className="arrow-item"> ▶</div>
                                     <div className={this.state.mode === "payment" ? "item is-active" : "item"}> Payment</div>
                                 </div>
@@ -407,9 +423,12 @@ export default class Cart extends React.Component {
                             <div className="order-response-container">
                                 <img src="https://i.ibb.co/0GR5fXj/payment-successful.png" />
                                 <div className="title">Thank you. We got your order.</div>
-                                <div className="order-number-text">Your Order ID is: <b>{this.state.orderResponse.order_id}</b></div>
+                                <div className="order-number-text">Your Order ID is: <b>{this.order_id}</b></div>
                                 <div className="order-subtext">We're processing your order and will also be sending you with an email confirmation shortly.</div>
-                                <button className="button view-order-btn is-info is-light">View Order Details</button>
+                                <button className="button view-order-btn is-info is-light"
+                                    // onClick={this.props.history.push(`/orders?id=${this.order_id}`)}
+                                    >View Order Details
+                                </button>
                             </div>
                             )
                             )

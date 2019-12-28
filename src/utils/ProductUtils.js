@@ -15,10 +15,9 @@ export async function fetchCartItems() {
                 headers: { "Authorization": session.accessToken.jwtToken }
             },
         );
-        console.log("get cart response", response);
+        console.log("util cart response", response);
         if (response.data && response.data.success) {
-            // this.props.store.setCartItemsCount(response.data.data.length);
-            store.cartItemCount = response.data.data.length;
+            store.cartItemsCount = response.data.data.length;
         }
     }
     catch (e) {
