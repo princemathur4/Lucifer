@@ -156,9 +156,13 @@ class ProductItem extends React.Component {
             this.setState({
                 hover: false
             })
-            clearInterval(this.intervalId)
+            if(this.props.productData.images.length > 1){
+                clearInterval(this.intervalId)
+            }
         } else {
-            this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 2000);
+            if(this.props.productData.images.length > 1){
+                this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 2000);
+            }
             this.setState({
                 hover: true
             })
@@ -186,24 +190,27 @@ class ProductItem extends React.Component {
                                 })
                             }
                         </figure>
-                        <div className="dots-container" style={{ width: "100%" }}>
-                            {this.props.productData.images.map((imgSrc, idxx) => {
-                                return (
-                                    <span
-                                        className={
-                                            this.state.activeImageindex === idxx ?
-                                                "dots active" :
-                                                "dots"
-                                        }
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            this.setActiveImage(idxx)
-                                        }}>
-                                    </span>
-                                )
-                            })
-                            }
-                        </div>
+                        {
+                            this.props.productData.images.length > 1 &&
+                            <div className="dots-container" style={{ width: "100%" }}>
+                                {this.props.productData.images.map((imgSrc, idxx) => {
+                                    return (
+                                        <span
+                                            className={
+                                                this.state.activeImageindex === idxx ?
+                                                    "dots active" :
+                                                    "dots"
+                                            }
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                this.setActiveImage(idxx)
+                                            }}>
+                                        </span>
+                                    )
+                                })
+                                }
+                            </div>
+                        }
                         {
                             this.state.hover &&
                             <div className="action-buttons">

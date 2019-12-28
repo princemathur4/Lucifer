@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { titleCase } from "../../utils/utilFunctions";
 import { Checkbox, Radio } from 'semantic-ui-react';
 import remove from 'lodash.remove';
+import InputRange from 'react-input-range';
 
 class Filters extends React.Component {
     constructor(props){
@@ -13,9 +14,32 @@ class Filters extends React.Component {
 
     state = {
         tagsList: [],
+        price: {
+            min: 0,
+            max: 0
+        },
         errors: {
             price: false
         }
+    }
+
+    componentDidMount(){
+        // settings max and min values of price in state
+        // and in class variables
+        this.props.filtersBlueprint.forEach((obj)=>{
+            if(obj.filter_type === "range"){
+                if(obj.filter_name === "price"){
+                    this.setState({
+                        price: {
+                            max: obj.max,
+                            min: obj.min
+                        }
+                    })
+                    this.max_price_limit = obj.max;
+                    this.min_price_limit = obj.min;
+                }
+            }
+        })
     }
 
     handleApplyFilters = () => {
@@ -24,11 +48,11 @@ class Filters extends React.Component {
             if (this.state[obj.filter_name] && this.state[obj.filter_name].length) {
                 filters[obj.filter_name] = this.state[obj.filter_name]
             } else if (obj.filter_name === "price") {
-                if (this.state["min_price"]) {
-                    filters['min_price'] = Number(this.state["min_price"]);
+                if (this.state.price.min || this.state.price.min === 0) {
+                    filters['min_price'] = Number(this.state.price.min);
                 }
-                if (this.state["max_price"]) {
-                    filters['max_price'] = Number(this.state["max_price"]);
+                if (this.state.price.max || this.state.price.max === 0) {
+                    filters['max_price'] = Number(this.state.price.max);
                 }
             }
         })
@@ -44,12 +68,16 @@ class Filters extends React.Component {
         //     return;
         // }
         let filtersExist = false;
-        if(this.state.max_price || this.state.min_price){
+        if(this.state.price.max !== this.max_price_limit || this.state.price.min !== this.min_price_limit){
             filtersExist = true;
         }
+        let price = { ...this.state.price };
+        price.max = this.max_price_limit;
+        price.min = this.min_price_limit;
+
         this.props.filtersBlueprint.forEach((obj) => {
             if((['string', 'number'].includes(typeof(this.state[obj.filter_name])) && this.state[obj.filter_name]) || 
-                (typeof(this.state[obj.filter_name]) === "object" && Object.keys(this.state[obj.filter_name]).length >= 1 )
+            (typeof(this.state[obj.filter_name]) === "object" && Object.keys(this.state[obj.filter_name]).length >= 1 )
             ){
                 filtersExist = true;
             }
@@ -59,7 +87,7 @@ class Filters extends React.Component {
                 this.setState({ [obj.filter_name]: '' });
             }
         });
-        this.setState({ max_price: "", min_price: "", tagsList: [] });
+        this.setState({ price, tagsList: [] });
         if(filtersExist) {
             this.props.handleFiltersChange({});
         }
@@ -126,12 +154,25 @@ class Filters extends React.Component {
         this.filtersChanged = true;
     }
 
-    onInputChange = (e) => {
-        console.log(e.target.name, e.target.value);
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-        this.filtersChanged = true;
+    handlePriceRange = (price) => {
+        this.setState({ price });
+    }
+    
+    handleChangeComplete = (price) => {
+        if(price.max > this.max_price_limit){
+            price.max = this.max_price_limit;
+        }
+        if(price.min < this.min_price_limit){
+            price.min = this.min_price_limit;
+        }
+        this.setState({ price });
+        if(price.min !== this.min_price_limit || price.max !== this.max_price_limit){
+            this.filtersChanged = true;
+        }
+    }
+
+    handleRangeFormat = (price) => {
+        return `₹ ${price}`;
     }
 
     render() {
@@ -222,32 +263,19 @@ class Filters extends React.Component {
                                                     })
                                                 }
                                                 {
-                                                    obj.filter_type === "range" &&
+                                                    obj.filter_type === "range" && obj.filter_name === "price" &&
                                                     <div className="range-input-container">
-                                                        <div className={!this.state.errors[obj.filter_name] ? "control" : "control is-danger"}>
-                                                            <input
-                                                                className={!this.state.errors[obj.filter_name] ? "input" : "input is-danger"}
-                                                                type="number"
-                                                                placeholder="₹ Min"
-                                                                minLength={`${obj.min}`}
-                                                                value={this.state[`min_${obj.filter_name}`]}
-                                                                name={`min_${obj.filter_name}`}
-                                                                onChange={this.onInputChange}
-                                                            />
-                                                        </div>
-                                                        <div className={!this.state.errors[obj.filter_name] ? "control" : "control is-danger"}
-                                                            style={{ marginLeft: "1rem" }}
-                                                        >
-                                                            <input
-                                                                className={!this.state.errors[obj.filter_name] ? "input" : "input is-danger"}
-                                                                type="number"
-                                                                placeholder="₹ Max"
-                                                                value={this.state[`max_${obj.filter_name}`]}
-                                                                maxLength={`${obj.max}`}
-                                                                name={`max_${obj.filter_name}`}
-                                                                onChange={this.onInputChange}
-                                                            />
-                                                        </div>
+                                                        <InputRange
+                                                            // draggableTrack
+                                                            disabled={this.max_price_limit === this.min_price_limit}
+                                                            allowSameValues={true}
+                                                            maxValue={obj.max}
+                                                            minValue={obj.min}
+                                                            value={this.state.price}
+                                                            formatLabel={this.handleRangeFormat}
+                                                            onChange={this.handlePriceRange} 
+                                                            onChangeComplete={this.handleChangeComplete} 
+                                                        />
                                                     </div>
                                                 }
                                             </div>
