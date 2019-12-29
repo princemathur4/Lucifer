@@ -1,0 +1,154 @@
+.order-details-container{
+    display: flex;
+    flex-direction: column;
+    .order-id{
+        padding-bottom: 1rem; 
+    }
+    .date{
+        font-size: 0.9rem;
+    }
+    .order-status{
+        font-size: 0.9rem;
+    }
+    .order-details-card{
+
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0.8rem;
+        padding: 1rem;
+        margin: 1.5rem 0;
+        border-radius: 4px;
+        box-shadow: 0px 0.5px 2.5px 2px rgba(40, 44, 63, 0.05);
+        
+        .child-container{
+            display: flex;
+            flex-direction: column;
+            width: 33%;
+            text-align: left;
+            
+            .column-title{
+                font-size: 0.9rem;
+                font-weight: bold;
+                padding-bottom: 0.5rem;
+            }
+
+            .field-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .field-item-key {}
+
+                .field-item-value {
+                    &.discount {
+                        color: rgb(2, 173, 102);
+                    }
+
+                    &.delivery-charge {
+                        color: rgb(173, 133, 2);
+                    }
+                }
+
+            }
+
+            .line-border {
+                width: 100%;
+                padding: 0.3rem 0;
+                border-bottom: 1px solid rgb(226, 226, 226);
+            }
+        }
+    }
+    .items-container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0.8rem;
+        border-radius: 4px;
+        border: 1px solid rgb(235, 235, 235);
+
+        .header{
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 0.5rem;
+        }
+        .items-content{
+            .order-detail-product-content {
+                display: flex;
+                flex-grow: 1;
+                border-top: 1px solid rgb(235, 235, 235);
+                padding: 0.5rem;
+                width: 100%;
+                height: 100%;
+
+                .order-detail-product-thumbnail-container {
+                    cursor: pointer;
+                    img {
+                        width: 7vw;
+                        height: 20vh;
+                        object-fit: cover;
+                    }
+                }
+
+                .order-detail-product-details {
+                    display: flex;
+                    flex-direction: column;
+                    padding-left: 1.5rem;
+                    flex-grow: 2;
+                    font-size: 0.9rem !important;
+
+                    .first-row {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .order-detail-product-name {
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 1.1rem;
+                            color: black;
+                            &:hover{
+                                text-decoration: underline;
+                            }
+                        }
+
+                    }
+                    .second-row{
+                    }
+                    .third-row{
+                        color: rgb(143, 143, 143);
+                        display: flex;
+                        padding-bottom: 0.2rem;
+                        .size{
+                            padding-right: 1rem;
+                            margin-right: 1rem;
+                            border-right: 2px solid rgb(206, 206, 206);
+                        }
+                        .quantity {
+                        }
+                    }                
+                    .fourth-row {
+                        display: flex;
+                        align-items: center;
+                        
+                        .price {
+                            font-weight: 600;
+                        }
+                        
+                        .actual-price {
+                            padding-left: 1rem;
+                            text-decoration: line-through;
+                            color: rgb(156, 156, 156);
+                        }
+                        
+                        .discount {
+                            padding-left: 1rem;
+                            color: rgb(1, 145, 155);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

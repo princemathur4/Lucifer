@@ -9,6 +9,7 @@ import CartItem from '../../components/CartItem';
 import { Radio } from 'semantic-ui-react';
 import VerifyMobile from '../../components/VerifyMobile';
 import { orderResponse } from "../../constants";
+import OrderDetails from '../../components/OrderDetails';
 
 export default class Cart extends React.Component {
     constructor(props){
@@ -333,7 +334,7 @@ export default class Cart extends React.Component {
                                                                     <CartItem
                                                                         {...this.props}
                                                                         productObj={productObj}
-                                                                        loader={this.state.productLoader}
+                                                                        loadingProduct={this.state.productLoader}
                                                                         key={idx}
                                                                         handleQuantityChange={this.handleQuantityChange.bind(this)}
                                                                         handleRemoveProduct={this.handleRemoveProduct.bind(this)}
@@ -424,18 +425,31 @@ export default class Cart extends React.Component {
                                 </div>
                             </Fragment>
                             :
-                            <div className="order-response-container">
-                                <img src="https://i.ibb.co/0GR5fXj/payment-successful.png" />
-                                <div className="title">Thank you. We got your order.</div>
-                                <div className="order-number-text">Your Order ID is: <b>{this.order_id}</b></div>
-                                <div className="order-subtext">We're processing your order and will also be sending you an email confirmation shortly.</div>
-                                <button className="button view-order-btn is-info is-light"
-                                    // onClick={this.props.history.push(`/orders?id=${this.order_id}`)}
-                                    >View Order Details
-                                </button>
+                            this.state.mode === "orderSummary" ?
+                            <div className="summary-container">
+                                <div className="summary-header">
+                                    Order Summary
+                                </div>
+                                <div className="summary-content">
+                                <OrderDetails 
+                                    {...this.props}
+                                    data={this.state.orderResponse}
+                                />
+                                </div>
                             </div>
+                                :
+                                <div className="order-response-container">
+                                    <img src="https://i.ibb.co/0GR5fXj/payment-successful.png" />
+                                    <div className="title">Thank you. We got your order.</div>
+                                    <div className="order-number-text">Your Order ID is: <b>{this.order_id}</b></div>
+                                    <div className="order-subtext">We're processing your order and will also be sending you an email confirmation shortly.</div>
+                                    <button className="button view-order-btn is-info is-light"
+                                        onClick={()=>{this.setState({ mode: "orderSummary" })}}
+                                        >View Order Details
+                                    </button>
+                                </div>
                             )
-                            )
+                        )
                     }
                 </div>
             </Fragment>

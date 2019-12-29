@@ -1,12 +1,13 @@
 import React, { Fragment, Component } from "react";
 import Spinner from "../../components/Spinner";
+import './style.scss';
 
 export default class CartItem extends Component {
     constructor(props){
         super(props)
     }
 
-    handleProductImageClick = ()=>{
+    handleProductImageClick = () => {
         let product_id = this.props.productObj.product_id.split(`_${this.props.productObj.size}`)[0];
         this.props.history.push(`/product?id=${product_id}`);
     }
@@ -25,7 +26,7 @@ export default class CartItem extends Component {
 
         return (
             <div className="product-card">
-                {this.props.loader.product_id === data.product_id ?
+                {this.props.loadingProduct.product_id === data.product_id ?
                     <div className="loader-container">
                         <Spinner color="primary" size="small" />
                     </div>

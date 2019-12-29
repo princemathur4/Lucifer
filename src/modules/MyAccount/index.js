@@ -5,6 +5,7 @@ import Addresses from '../../components/Addresses';
 import "./style.scss";
 import { myAccountTabs } from "../../constants";
 import ChangePassword from "../ChangePassword";
+import Orders from "../../components/Orders";
 
 class MyAccount extends Component {
     constructor(props) {
@@ -64,6 +65,9 @@ class MyAccount extends Component {
                         }
                         {this.state.activeTab === "passwords" &&
                             <ChangePassword {...this.props}/>
+                        }
+                        {this.state.activeTab === "orders" &&
+                            <Orders {...this.props}/>
                         }
                     </div>
                 </div>
