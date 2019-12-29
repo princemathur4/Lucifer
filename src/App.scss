@@ -40,3 +40,25 @@ body{
         // flex-grow: 2;
     }
 }
+/* width */
+::-webkit-scrollbar {
+    width: 5px !important;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(236, 236, 236) !important; 
+    border-radius: 10px !important;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(17, 17, 17, 0.651) !important; 
+    border-radius: 10px !important;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(63, 63, 63, 0.651) !important;
+  }
+  

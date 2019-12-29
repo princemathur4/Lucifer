@@ -112,7 +112,7 @@
                 color: white;
                 background: rgb(43, 135, 158);
                 &:hover{
-                    background: rgb(43, 135, 158);       
+                    background: linear-gradient(rgb(43, 135, 158), rgb(9, 90, 110));
                 }
             }
             &:focus{

@@ -269,7 +269,7 @@ class Filters extends React.Component {
                                                     obj.filter_type === "range" && obj.filter_name === "price" &&
                                                     <div className="range-input-container">
                                                         <InputRange
-                                                            // draggableTrack
+                                                            draggableTrack
                                                             step={10}
                                                             disabled={this.max_price_limit === this.min_price_limit}
                                                             allowSameValues={true}

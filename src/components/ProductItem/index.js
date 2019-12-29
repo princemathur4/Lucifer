@@ -54,6 +54,8 @@ class ProductItem extends React.Component {
     }
 
     async handleCartToggle(e) {
+        console.log(e);
+        e.preventDefault();
         e.stopPropagation();
 
         if (!this.props.auth.isAuthenticated) {
@@ -171,14 +173,18 @@ class ProductItem extends React.Component {
 
     handleProductSelect = () => {
         let product_id = this.props.productData._id;
-        this.props.history.push(`/product?id=${product_id}`);
+        this.props.history.push(`/product?id=${this.props.productData._id}`);
     }
 
     render() {
         return (
             <Fragment>
                 <div className="card product-item-card" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
-                    <div className="card-image" onClick={this.handleProductSelect}>
+                    <Link 
+                        to={`/product?id=${this.props.productData._id}`} 
+                        target="_blank" 
+                        className="card-image"
+                    >
                         <figure className="image is-4by5" >
                             {
                                 this.props.productData.images.map((imgSrc, Idx) => {
@@ -240,7 +246,7 @@ class ProductItem extends React.Component {
                                 </button>
                             </div>
                         }
-                    </div>
+                    </Link>
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">

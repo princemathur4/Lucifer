@@ -6,6 +6,10 @@
     position: sticky;
     height: fit-content;
     top: 6rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 100vh;
+
     .filters-header{
         display: flex;
         flex-direction: row;
@@ -55,7 +59,6 @@
         display: flex;
         flex-direction: column;
         border-top: 1px solid rgb(228, 228, 228);
-        
         .filter-field{
             padding: 0.3rem 1.5rem 0.7rem 1.5rem;
             // padding-bottom: 0.5rem;
@@ -88,7 +91,7 @@
                 }
                 .range-input-container{
                     display: flex;
-                    padding: 1rem;
+                    padding: 1rem 1rem 1rem 1.3rem;
                     .input-range__label{
                         font-family: inherit;
                         font-size: 0.8rem;

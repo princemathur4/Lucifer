@@ -161,9 +161,9 @@ class NavBar extends React.Component {
                                 <Link to="/cart" className="action-btn cart" title="Cart" aria-haspopup="true" aria-controls="dropdown-cart">
                                     <img src="https://i.ibb.co/S3x3K0Q/shopping-cart.png" className="action-icon" width="112" height="28" />
                                     {
-                                        !!this.props.store.cartItemsCount && this.props.name !== 'cart' &&
+                                        !!this.props.store.cartItems.length && this.props.name !== 'cart' &&
                                         <div className="count">
-                                            {this.props.store.cartItemsCount}
+                                            {this.props.store.cartItems.length}
                                         </div>
                                     }
                                 </Link>

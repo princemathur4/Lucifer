@@ -1,3 +1,41 @@
+export const orderResponse = {
+    "data":{ 
+        "_id":"6c8f9af34b494dbc8a98f9e6739e47de",
+        "address":{ 
+           "_id":"5e069c498e1fe7277f642d97",
+           "address":"Flat No. 804,Rattan Jyoti Apartments, Sector-4,Vaishali",
+           "address_type":"home",
+           "city":"Ghaziabad ",
+           "country":"India",
+           "mobile":"09971936873",
+           "name":"Prince Mathur",
+           "pincode":"201010",
+           "state":"Uttar Pradesh"
+        },
+        "created_at":1577563547861,
+        "order_data":[ 
+           { 
+              "count":1,
+              "discount":0,
+              "effective_price":1000.0,
+              "price":1000,
+              "product_id":"bottomwear_chinos_1576676305626_30",
+              "product_image":null,
+              "size":30,
+              "stock":100,
+              "total_price":1000
+           }
+        ],
+        "order_status":"CONFIRMED",
+        "payment_mode":"COD",
+        "payment_status":"PENDING",
+        "total_price":1000.0,
+        "username":"e6f76894-7df3-4d45-a19f-1f065e0af029"
+     },
+     "message":"Order verified.",
+     "success":true
+} 
+
 export const productFilters = [
     {
         "filter_name": "color",

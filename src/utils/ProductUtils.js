@@ -17,7 +17,7 @@ export async function fetchCartItems() {
         );
         console.log("util cart response", response);
         if (response.data && response.data.success) {
-            store.cartItemsCount = response.data.data.length;
+            store.setCartItems(response.data.data);
         }
     }
     catch (e) {

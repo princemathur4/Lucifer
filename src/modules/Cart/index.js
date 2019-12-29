@@ -8,9 +8,12 @@ import Addresses from '../../components/Addresses';
 import CartItem from '../../components/CartItem';
 import { Radio } from 'semantic-ui-react';
 import VerifyMobile from '../../components/VerifyMobile';
+import { orderResponse } from "../../constants";
 
 export default class Cart extends React.Component {
-
+    constructor(props){
+        super(props)
+    }
     state = {
         mode: "review",
         reviewed: false,
@@ -27,11 +30,12 @@ export default class Cart extends React.Component {
         paymentMode: "",
         mobile: "",
         otpVerified: false,
-        orderResponse: {},
+        orderResponse: {
+            // ...orderResponse.data
+        },
     }
 
     componentDidMount() {
-        console.log("cart page mounted")
         this.fetchCartItems();
     }
 
@@ -424,7 +428,7 @@ export default class Cart extends React.Component {
                                 <img src="https://i.ibb.co/0GR5fXj/payment-successful.png" />
                                 <div className="title">Thank you. We got your order.</div>
                                 <div className="order-number-text">Your Order ID is: <b>{this.order_id}</b></div>
-                                <div className="order-subtext">We're processing your order and will also be sending you with an email confirmation shortly.</div>
+                                <div className="order-subtext">We're processing your order and will also be sending you an email confirmation shortly.</div>
                                 <button className="button view-order-btn is-info is-light"
                                     // onClick={this.props.history.push(`/orders?id=${this.order_id}`)}
                                     >View Order Details

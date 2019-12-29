@@ -199,7 +199,7 @@ class Signup extends Component {
 							onKeyPress={this.onKeyPress}
 						/>
 						<span className="icon is-small is-left">
-							<FontAwesomeIcon icon="mobile-alt" />
+							<FontAwesomeIcon icon="envelope" />
 						</span>
 						{
 							this.state.errors.emailInvalid &&
