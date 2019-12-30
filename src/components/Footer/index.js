@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 class Footer extends React.Component{
     render() {
@@ -24,16 +25,16 @@ class Footer extends React.Component{
                                 INFORMATION
                             </div>
                             <div className="footer-item">
-                                Contact Us
+                                <Link to="about_us">About Us</Link>
                             </div>
                             <div className="footer-item">
-                                FAQ's
+                                <Link to="">Contact Us</Link>
                             </div>
                             <div className="footer-item">
-                                Help
+                                <Link to="">FAQ's</Link>
                             </div>
                             <div className="footer-item">
-                                
+                                <Link to="">Help</Link>
                             </div>
                         </div>
                         <div className="column">
@@ -57,16 +58,16 @@ class Footer extends React.Component{
                                 POLICIES
                             </div>
                             <div className="footer-item">
-                                Shipping Policy
+                                <Link to="shipping_policy">Shipping Policy</Link>
                             </div>
                             <div className="footer-item">
-                                Exchange Policy
+                                <Link to="return_exchange_policy">Return/Exchange Policy</Link>
                             </div>
                             <div className="footer-item">
-                                Terms of Service
+                                <Link to="terms_and_conditions">Terms of Service</Link>
                             </div>
                             <div className="footer-item">
-                                Privacy Policy
+                                <Link to="privacy_policy">Privacy Policy</Link>
                             </div>
                         </div>
                     </div>

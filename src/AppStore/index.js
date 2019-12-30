@@ -1,5 +1,6 @@
 
 import { sortByOptions } from "../templates/product";
+import { decorate, observable, action, computed } from 'mobx';
 
 class AppStore {
     redirectRoute = "";
@@ -42,4 +43,24 @@ class AppStore {
     }
 }
 
-export default AppStore;
+decorate(
+    AppStore, {
+        filters: observable,
+        filtersBlueprint: observable,
+        productResults: observable,
+        filtersLoader: observable,
+        productListLoader: observable,
+        orderby : observable,
+        currentPage : observable,
+        totalPages : observable,
+        cartItems: observable,
+        setCartItems: action,
+        setFilters: action,
+        setFilterBlueprint: action,
+        setProductResults: action,
+        setFiltersLoader: action,
+        setProductListLoader: action
+    }
+)
+
+export const store = new AppStore();

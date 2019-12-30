@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Hub } from 'aws-amplify';
 import Auth from "@aws-amplify/auth";
-import { getSession } from "../../utils/AuthUtils";
-import commonApi from "../../apis/common";
 import { fetchCartItems } from '../../utils/ProductUtils';
 import { observer } from 'mobx-react';
 
@@ -48,7 +46,6 @@ class NavBar extends React.Component {
     }
 
     render() {
-        // console.log("navbar store",this.props.store)
         return (
             <Fragment>
                 <nav className="navbar" role="navigation" aria-label="main navigation">

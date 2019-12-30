@@ -1,0 +1,27 @@
+@import '../../base/styles/fonts.scss';
+
+.static-tnc-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: auto;
+    padding: 4rem;
+    font-family: $family-josefin;
+    font-style: normal;
+    font-weight: 500;
+    align-items: center;
+    line-height: 1.5em;
+    min-height: 60vh;
+
+    .static-tnc-header{
+        font-size: 2.5rem;
+        font-weight: 700;
+        padding-bottom: 2rem;
+        color: #a59137;
+    }
+    .static-tnc-content{
+        font-size: 1.3rem;
+        font-weight: 600;
+        
+    }
+}

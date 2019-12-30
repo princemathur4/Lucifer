@@ -1,0 +1,26 @@
+@import '../../base/styles/fonts.scss';
+
+.static-au-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: auto;
+    padding: 4rem;
+    font-family: $family-josefin;
+    font-style: normal;
+    font-weight: 500;
+    align-items: center;
+    min-height: 60vh;
+
+    .static-au-header{
+        font-size: 2.5rem;
+        font-weight: 700;
+        padding-bottom: 1rem;
+        color: #3777a5;
+    }
+    .static-au-content{
+        font-size: 1.3rem;
+        font-weight: 600;
+        
+    }
+}

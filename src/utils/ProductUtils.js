@@ -1,6 +1,6 @@
 import { getSession } from './AuthUtils';
 import commonApi from '../apis/common';
-import { store } from "../App";
+import { store } from "../AppStore";
 
 export async function fetchCartItems() {
     let self = this;
