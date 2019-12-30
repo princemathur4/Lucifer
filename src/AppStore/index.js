@@ -13,33 +13,15 @@ class AppStore {
     currentPage = 1;
     totalPages = 0;
     cartItems = [];
+    discountedTotal = 0;
+    totalItems = 0;
     
-    setCartItems = (items) =>{
-        this.cartItems = items;
+    setStoreVariable = (name, value) => {
+        this[name] = value; 
     }
 
     setRedirectRoute = (route) => {
         this.redirectRoute = route;
-    }
-    
-    setFilters = (newFilters) => {
-        this.filters = newFilters;
-    }
-
-    setFilterBlueprint = (filtersBlueprint) => {
-        this.filtersBlueprint = filtersBlueprint;
-    }
-
-    setProductResults = (productResults) => {
-        this.productResults = productResults;
-    }
-
-    setFiltersLoader = (setValue) => {
-        this.filtersLoader = setValue;
-    }
-    
-    setProductListLoader = (setValue) => {
-        this.productListLoader = setValue;
     }
 }
 
@@ -54,12 +36,9 @@ decorate(
         currentPage : observable,
         totalPages : observable,
         cartItems: observable,
-        setCartItems: action,
-        setFilters: action,
-        setFilterBlueprint: action,
-        setProductResults: action,
-        setFiltersLoader: action,
-        setProductListLoader: action
+        totalItems: observable,
+        discountedTotal: observable,
+        setStoreVariable: action,
     }
 )
 

@@ -172,7 +172,6 @@ class ProductItem extends React.Component {
     }
 
     handleProductSelect = () => {
-        let product_id = this.props.productData._id;
         this.props.history.push(`/product?id=${this.props.productData._id}`);
     }
 

@@ -6,16 +6,19 @@ import Spinner from "../../components/Spinner";
 import findindex from "lodash.findindex";
 import Addresses from '../../components/Addresses';
 import CartItem from '../../components/CartItem';
-import { Radio } from 'semantic-ui-react';
+import { Radio, Popup } from 'semantic-ui-react';
 import VerifyMobile from '../../components/VerifyMobile';
 import { orderResponse } from "../../constants";
 import OrderDetails from '../../components/OrderDetails';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class Cart extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
+        this.contextRef = React.createRef();
     }
     state = {
+        hover: false,
         mode: "review",
         reviewed: false,
         addressSelected: {},
@@ -76,11 +79,11 @@ export default class Cart extends React.Component {
         }
     }
 
-    async updateCart(product_id, count) {
+    async updateCart(product_id, opInput) {
         let session = await getSession();
         try {
             let response = await commonApi.post(`update_cart`,
-                { product_id: product_id, count: count },
+                { product_id: product_id, count: opInput },
                 { headers: { "Authorization": session.accessToken.jwtToken } }
             );
             console.log("cart update response", response);
@@ -155,20 +158,23 @@ export default class Cart extends React.Component {
         } else if (obj.count > 10) {
             return;
         } else if (obj.count > obj.stock) {
+            // TODO: show popup message here
             return;
         }
-        cartProducts[objIdx] = obj;
+        // cartProducts[objIdx] = obj;
         this.setState({
             // cartProducts: cartProducts, 
             productLoader: { product_id }
         });
         this.calculateTotal();
-        this.updateCart(product_id, obj.count);
+        this.updateCart(product_id, input);
     }
 
     async handleRemoveProduct(product_id) {
+        let objIdx = findindex(this.state.cartProducts, { product_id: product_id });
+        let obj = { ...this.state.cartProducts[objIdx] };
         this.setState({ removeBtnLoader: { product_id } });
-        this.updateCart(product_id, 0);
+        this.updateCart(product_id, -obj.count);
     }
 
     handleCheckout = () => {
@@ -235,6 +241,10 @@ export default class Cart extends React.Component {
         this.setState({ actualCartTotal, totalDiscount, discountedTotal });
     }
 
+    toggleHover = (value) => {
+        this.setState({ hover: value });
+    }
+
     getBillingDetails = () => {
         return (
             <div className="field-container">
@@ -250,7 +260,25 @@ export default class Cart extends React.Component {
                     </div>
                     <div className="field-item">
                         <div className="field-item-key">Delivery Charges</div>
-                        <div className="field-item-value delivery-charge">FREE</div>
+                        <div className="field-item-value delivery-charge">
+                            {this.state.discountedTotal > 999 ? 
+                                "FREE": 
+                                <div
+                                    className="info-icon-container"
+                                    ref={this.contextRef} 
+                                    onMouseEnter={()=>{this.toggleHover(true)}}
+                                    onMouseLeave={()=>{this.toggleHover(false)}} 
+                                >
+                                    <FontAwesomeIcon icon="info-circle"/>
+                                </div>
+                            }
+                        </div>
+                        <Popup
+							context={this.contextRef}
+							content={<p>Order with amount less than ₹999 will be charged for delivery i.e.,<br/>For Online payment: ₹50<br/>For Cash on Delivery: ₹100</p>}
+							position='top center'
+							open={this.state.hover}
+						/>
                     </div>
                     <div className="line-border"></div>
                     <div className="field-item">

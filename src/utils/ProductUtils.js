@@ -2,6 +2,17 @@ import { getSession } from './AuthUtils';
 import commonApi from '../apis/common';
 import { store } from "../AppStore";
 
+
+let calculateTotal = () => {
+    let discountedTotal = 0;
+    let totalItems = 0;
+    store.cartItems.forEach((productObj, idx) => {
+        discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+        totalItems += productObj.count;
+    })
+    return { discountedTotal, totalItems };
+}
+
 export async function fetchCartItems() {
     let self = this;
     let session = await getSession();
@@ -17,7 +28,10 @@ export async function fetchCartItems() {
         );
         console.log("util cart response", response);
         if (response.data && response.data.success) {
-            store.setCartItems(response.data.data);
+            store.setStoreVariable('cartItems', response.data.data);
+            let { discountedTotal, totalItems } = calculateTotal()
+            store.setStoreVariable('discountedTotal', discountedTotal);
+            store.setStoreVariable('totalItems', totalItems);
         }
     }
     catch (e) {
