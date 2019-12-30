@@ -125,7 +125,7 @@ class ChangePassword extends Component {
 										</span>
 										<p className="help is-danger">
 											Invalid old password
-									</p>
+										</p>
 									</Fragment>
 								}
 							</div>

@@ -141,21 +141,21 @@
                     }
                 }
             }
-            .payment-mode-container{
+            .payment-mode-container {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 
-                .payment-mode-title{
+                .payment-mode-title {
                     font-size: 1.5rem;
                     color: rgb(0, 101, 126);
                     padding: 1rem 0;
                 } 
-                .ui.checkbox{
+                .ui.checkbox {
                     margin: 2rem;
                 }
-                .payment-mode-label{
+                .payment-mode-label {
                     font-size: 1.2rem;
                 }
             }
@@ -194,7 +194,9 @@
                             &.discount {
                                 color: rgb(2, 173, 102);
                             }
-
+                            .info-icon-container{
+                                cursor: pointer;
+                            }
                             &.delivery-charge {
                                 color: rgb(173, 133, 2);
                             }

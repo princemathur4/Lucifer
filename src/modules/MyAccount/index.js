@@ -4,7 +4,7 @@ import Profile from '../../components/Profile';
 import Addresses from '../../components/Addresses';
 import "./style.scss";
 import { myAccountTabs } from "../../constants";
-import ChangePassword from "../ChangePassword";
+import ChangePassword from "../../components/ChangePassword";
 import Orders from "../../components/Orders";
 
 class MyAccount extends Component {

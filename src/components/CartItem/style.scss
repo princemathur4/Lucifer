@@ -36,46 +36,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-
+            width: 100%;
             .product-name {
                 cursor: pointer;
                 font-weight: 600;
                 font-size: 1.3rem;
+                max-width: 70%;
                 &:hover{
                     text-decoration: underline;
                 }
             }
-
+            
             .price {
                 font-size: 1.2rem;
                 font-weight: 600;
             }
         }
-
+        
         .second-row {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-
+            
             .actual-price {
                 font-size: 0.9rem;
                 text-decoration: line-through;
                 color: rgb(156, 156, 156);
             }
-
+            
             .discount {
                 padding-left: 1rem;
                 font-size: 0.9rem;
                 color: rgb(1, 145, 155);
             }
         }
-
+        
         .fourth-row {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            margin: 1rem 0;
-
+            margin: auto 0;
+            
             .quantity {
                 font-weight: 600;
                 padding-right: 1rem;
