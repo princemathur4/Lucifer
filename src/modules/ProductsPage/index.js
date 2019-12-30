@@ -98,7 +98,7 @@ class ProductsPage extends React.Component {
             }
         } catch (e) {
             console.log("error", e);
-            this.setState({ filtersBlueprint: productFilters, filtersLoader: false });
+            this.setState({ filtersBlueprint: [], filtersLoader: false });
         }
     }
 

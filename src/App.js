@@ -282,7 +282,6 @@ class App extends React.Component {
     setRedirectUrl = () => {
         if(store.redirectRoute === ""){
             store.setRedirectRoute(window.location.href.split(window.location.origin)[1]);
-            // console.log("set redirect url", window.location.href.split(window.location.origin)[1])
         }
         return true;
     }
@@ -290,7 +289,6 @@ class App extends React.Component {
     clearRedirectUrl = (customProps) =>{ 
         if(!customProps.authComponent && store.redirectRoute){
            store.setRedirectRoute('');
-        //    console.log("clear redirect url")
         }
         return true;
     }
@@ -317,17 +315,25 @@ class App extends React.Component {
                                             <Fragment>
                                                 <NavBar { ...props} name={customProps.name} store={store} auth={authProps} />
                                                 {
-                                                    ((authRequired && this.state.isAuthenticated) || !authRequired) 
-                                                    ? 
-                                                    this.clearRedirectUrl(customProps) &&
+                                                    !authRequired ?
                                                     <C
                                                         {...props}
                                                         {...customProps}
                                                         auth={authProps}
-                                                    /> 
-                                                    :
-                                                    this.setRedirectUrl() &&
-                                                    <Redirect to="/login" />
+                                                    />
+                                                    :(
+                                                        (authRequired && this.state.isAuthenticated)
+                                                        ? 
+                                                        this.clearRedirectUrl(customProps) &&
+                                                        <C
+                                                            {...props}
+                                                            {...customProps}
+                                                            auth={authProps}
+                                                        /> 
+                                                        :
+                                                        this.setRedirectUrl() &&
+                                                        <Redirect to="/login" />
+                                                    )
                                                 }
                                                 <Footer {...props} auth={authProps}/>
                                             </Fragment>

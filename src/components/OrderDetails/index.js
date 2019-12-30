@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 
+let moment = require('moment');
+
 class OrderDetails extends Component {
     constructor(props) {
         super(props);
@@ -115,7 +117,9 @@ class OrderDetails extends Component {
         return (
             <div className="order-details-container">
                 <div className="order-id">{ `Order #${this.props.data._id}`}</div>
-                <div className="date">Ordered on {this.props.data.created_at}</div>
+                <div className="date">
+                    Ordered on {moment(this.props.data.created_at).format('DD-MMM-YYYY')} at {moment(this.props.data.created_at).format('hh:mm A')}
+                </div>
                 <div className="order-status">Order Status: <b>{this.props.data.order_status}</b></div>
                 <div className="order-details-card">
                     <div className="child-container">

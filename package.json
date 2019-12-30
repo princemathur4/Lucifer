@@ -33,6 +33,7 @@
     "lodash.remove": "^4.7.0",
     "mobx": "^5.14.2",
     "mobx-react": "^6.1.4",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
