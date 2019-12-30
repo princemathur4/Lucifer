@@ -9,8 +9,7 @@
     "staging": "webpack --env=NODE_ENV=staging --config webpack.staging.js",
     "prod": "webpack --env=NODE_ENV=production --config webpack.prod.js",
     "start": "node server.js",
-    "build": "webpack --env=NODE_ENV=staging --config webpack.staging.js",
-    "heroku-postbuild": "webpack -p"
+    "build": "webpack --env=NODE_ENV=staging --config webpack.staging.js"
   },
   "keywords": [],
   "author": "",
