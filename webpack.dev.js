@@ -24,7 +24,7 @@ module.exports = merge(common,
             new HtmlWebpackPlugin({
                 template: "./public/index.html",
                 filename: 'index.html',
-                // favicon: "./src/spark.ico",
+                favicon: "./public/favicon.ico",
                 inject: false,
             }),
         ],

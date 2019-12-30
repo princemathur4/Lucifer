@@ -9,6 +9,7 @@
     "staging": "webpack --env=NODE_ENV=staging --config webpack.staging.js",
     "prod": "webpack --env=NODE_ENV=production --config webpack.prod.js",
     "start": "node server.js",
+    "build": "webpack --env=NODE_ENV=staging --config webpack.staging.js",
     "heroku-postbuild": "webpack -p"
   },
   "keywords": [],
@@ -27,6 +28,8 @@
     "bulma": "^0.8.0",
     "css-loader": "^3.2.0",
     "dotenv-webpack": "^1.7.0",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
     "file-loader": "^4.2.0",
     "lodash.find": "^4.6.0",
     "lodash.findindex": "^4.6.0",

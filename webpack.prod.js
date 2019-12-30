@@ -21,6 +21,7 @@ module.exports = merge(common,
                 new TerserPlugin(),
                 new HtmlWebpackPlugin({
                     template: "./public/index.html",
+                    favicon: "./public/favicon.ico",
                     filename: 'index.html',
                     inject: true,
                     minify: {
