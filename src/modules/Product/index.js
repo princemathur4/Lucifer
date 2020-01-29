@@ -480,7 +480,7 @@ class Product extends React.Component {
                                     {(this.state.productData.color || adminuser && this.state.mode === "edit")&&
                                         <div className="field-container">
                                             <div className="field-title">
-                                                Color and hex Code
+                                                {adminuser && this.state.mode === "edit" ? "Color and hex Code": "Color"}
                                             </div>
                                             {
                                                 adminuser && this.state.mode === "edit" ?
