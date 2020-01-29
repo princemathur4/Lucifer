@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import './style.scss';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import commonApi from "../apis/common";
-import { getSession } from "../utils/AuthUtils";
-import { fetchCartItems } from "../utils/ProductUtils";
+import commonApi from "../../apis/common";
+import { getSession } from "../../utils/AuthUtils";
+import { fetchCartItems } from "../../utils/ProductUtils";
 
 class SpecialProductItem extends React.Component {
     constructor(props){

@@ -6,7 +6,7 @@ import commonApi from "../../apis/common";
 import Spinner from "../../components/Spinner";
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SpecialProductItem from '../../SpecialProductItem';
+import SpecialProductItem from '../../components/SpecialProductItem';
 import { Link } from "react-router-dom";
 import { fetchCartItems } from '../../utils/ProductUtils';
 

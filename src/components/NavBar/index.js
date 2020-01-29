@@ -102,6 +102,11 @@ class NavBar extends React.Component {
     }
 
     render() {
+        let adminuser = this.props.auth.user &&
+            this.props.auth.user.signInUserSession.accessToken.hasOwnProperty("payload") &&
+            this.props.auth.user.signInUserSession.accessToken.payload.hasOwnProperty("cognito:groups") &&
+            this.props.auth.user.signInUserSession.accessToken.payload["cognito:groups"].length &&
+            this.props.auth.user.signInUserSession.accessToken.payload["cognito:groups"].includes("labroz_admin");
         return (
             <Fragment>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -140,6 +145,12 @@ class NavBar extends React.Component {
                             <Link to="/blog" className="navbar-item">
                                 Blog
                         </Link>
+                        {
+                            adminuser &&
+                            <Link to="/add_products" className="navbar-item">
+                                    Add Products
+                            </Link>
+                        }
                         </div>
                         {/* <div className="field search-container">
                             <p className="control has-icons-left has-icons-right">

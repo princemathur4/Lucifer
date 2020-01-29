@@ -13,6 +13,7 @@ import ReturnExchangePolicy from '../modules/ReturnExchangePolicy';
 import TermsAndConditions from '../modules/TermsAndConditions';
 import PrivacyPolicy from '../modules/PrivacyPolicy';
 import { store } from '../AppStore';
+import AddProduct from '../modules/AddProduct';
 
 export const routes = [
     {
@@ -239,6 +240,16 @@ export const routes = [
         authRequired: false,
         customProps: {
             name: "termsAndConditions",
+            store
+        }
+    },
+    {
+        path: "/add_products",
+        component: AddProduct,
+        name: "addProducts",
+        authRequired: false,
+        customProps: {
+            name: "addProducts",
             store
         }
     },
