@@ -227,6 +227,11 @@ class ProductsPage extends React.Component {
     }
 
     render() {
+        let adminuser = this.props.auth.user && 
+            this.props.auth.user.signInUserSession.accessToken.hasOwnProperty("payload") && 
+            this.props.auth.user.signInUserSession.accessToken.payload.hasOwnProperty("cognito:groups") && 
+            this.props.auth.user.signInUserSession.accessToken.payload["cognito:groups"].length && 
+            this.props.auth.user.signInUserSession.accessToken.payload["cognito:groups"].includes("labroz_admin");
         return (
             <Fragment>
                 <div className="product-page">

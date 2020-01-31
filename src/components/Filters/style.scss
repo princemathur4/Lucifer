@@ -1,3 +1,5 @@
+@import '../../base/styles/fonts.scss';
+
 .filters-container {
     width: 100%;
     background: white;
@@ -9,6 +11,8 @@
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 100vh;
+    // font-family: $family-josefin;
+    color: black;
 
     .filters-header{
         display: flex;

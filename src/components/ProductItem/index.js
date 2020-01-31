@@ -17,11 +17,11 @@ class ProductItem extends React.Component {
             activeImageindex: 0,
         }
         this.intervalId = "";
-        // this.images = [
-        //     "https://i.ibb.co/48hHjC8/Plum-01-900x.png",
-        //     "https://i.ibb.co/cCkkQT8/20191109160044-1.png",
-        //     "https://i.ibb.co/jJnVpGx/TBC-01-900x.png"
-        // ]
+        this.images = [
+            "https://i.ibb.co/48hHjC8/Plum-01-900x.png",
+            "https://i.ibb.co/cCkkQT8/20191109160044-1.png",
+            "https://i.ibb.co/jJnVpGx/TBC-01-900x.png"
+        ]
     }
 
     componentDidMount() {
@@ -137,13 +137,12 @@ class ProductItem extends React.Component {
         )
     }
 
-
     changeActiveImage = (input) => {
         let newIndex = (this.state.activeImageindex + input);
         if (newIndex === -1) {
-            newIndex = this.props.productData.images.length - 1;
+            newIndex = this.images.length - 1;
         }
-        else if (newIndex === this.props.productData.images.length) {
+        else if (newIndex === this.images.length) {
             newIndex = 0;
         }
         this.setState({ activeImageindex: newIndex });
@@ -158,12 +157,12 @@ class ProductItem extends React.Component {
             this.setState({
                 hover: false
             })
-            if(this.props.productData.images.length > 1){
+            if(this.images.length > 1){
                 clearInterval(this.intervalId)
             }
         } else {
-            if(this.props.productData.images.length > 1){
-                this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 2000);
+            if(this.images.length > 1){
+                this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 1200);
             }
             this.setState({
                 hover: true
@@ -186,7 +185,7 @@ class ProductItem extends React.Component {
                     >
                         <figure className="image is-4by5" >
                             {
-                                this.props.productData.images.map((imgSrc, Idx) => {
+                                this.images.map((imgSrc, Idx) => {
                                     return (
                                         <img className={this.state.activeImageindex === Idx ? "mySlides active" : "mySlides"}
                                             src={imgSrc}
@@ -196,53 +195,56 @@ class ProductItem extends React.Component {
                             }
                         </figure>
                         {
-                            this.props.productData.images.length > 1 &&
-                            <div className="dots-container" style={{ width: "100%" }}>
-                                {this.props.productData.images.map((imgSrc, idxx) => {
-                                    return (
-                                        <span
-                                            className={
-                                                this.state.activeImageindex === idxx ?
-                                                    "dots active" :
-                                                    "dots"
-                                            }
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                this.setActiveImage(idxx)
-                                            }}>
-                                        </span>
-                                    )
-                                })
-                                }
-                            </div>
-                        }
-                        {
                             this.state.hover &&
-                            <div className="action-buttons">
-                                {/* <button 
-                                    className={this.state.isWishListToggleLoading ? 
-                                        "button is-outlined is-loading wishlist-btn" : 
-                                        "button is-outlined wishlist-btn"
-                                    } 
-                                    onClick={this.handleWishlistToggle.bind(this)}
-                                >
-                                    <span className="icon">
+                                <div className="hover-container">
+                                {
+                                    this.images.length > 1 &&
+                                    <div className="dots-container" style={{ width: "100%" }}>
+                                    {this.images.map((imgSrc, idxx) => {
+                                            return (
+                                                <span
+                                                className={
+                                                        this.state.activeImageindex === idxx ?
+                                                            "dots active" :
+                                                            "dots"
+                                                        }
+                                                        onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        e.preventDefault();
+                                                        this.setActiveImage(idxx)
+                                                    }}>
+                                                    </span>
+                                            )
+                                        })
+                                        }
+                                        </div>
+                                }
+                                <div className="action-buttons">
+                                    {/* <button 
+                                        className={this.state.isWishListToggleLoading ? 
+                                            "button is-outlined is-loading wishlist-btn" : 
+                                            "button is-outlined wishlist-btn"
+                                        } 
+                                        onClick={this.handleWishlistToggle.bind(this)}
+                                        >
+                                        <span className="icon">
                                         <FontAwesomeIcon icon="bookmark" className="wishlist-icon" />
-                                    </span>
-                                    <span>{this.props.productData.is_wishlisted || this.state.isWishlisted ? "Wishlisted": "Save in Wishlist"}</span>
-                                </button> */}
-                                <button
-                                    className={this.state.isAddingToCartLoading ?
-                                        "button is-outlined is-fullwidth is-loading add-to-cart-btn" :
-                                        "button is-outlined is-fullwidth add-to-cart-btn"
-                                    }
-                                    onClick={this.handleCartToggle.bind(this)}
-                                >
-                                    <span className="icon">
-                                        <FontAwesomeIcon icon="cart-plus" />
-                                    </span>
-                                    <span>Add to Cart</span>
-                                </button>
+                                        </span>
+                                        <span>{this.props.productData.is_wishlisted || this.state.isWishlisted ? "Wishlisted": "Save in Wishlist"}</span>
+                                    </button> */}
+                                    <button
+                                        className={this.state.isAddingToCartLoading ?
+                                            "button is-outlined is-fullwidth is-loading add-to-cart-btn" :
+                                            "button is-outlined is-fullwidth add-to-cart-btn"
+                                        }
+                                        onClick={this.handleCartToggle.bind(this)}
+                                    >
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="cart-plus" />
+                                        </span>
+                                        <span>Add to Cart</span>
+                                    </button>
+                                </div>
                             </div>
                         }
                     </Link>

@@ -62,8 +62,17 @@
                 .dropdown-trigger{
                     width: 100%;
                     button{
+                        border-radius: 0;
+                        border-color: rgb(197, 197, 197);
                         font-family: inherit;
                         width: 100%;
+                        &:hover{
+                            background: rgba(243, 243, 243, 0.781);
+                        }
+                        &:focus{
+                            box-shadow: 0 0 0 0;
+                            border-color: rgb(160, 160, 160);
+                        }
                         .dropdown-header{
                             width: 100%;
                             display: flex;
@@ -95,6 +104,11 @@
                         }
                     }
                 }
+            }
+        }
+        .pagination{
+            button{
+                border-radius: 0;
             }
         }
         .products-list-container {

@@ -104,14 +104,12 @@ class App extends React.Component {
                                                     :(
                                                         (authRequired && this.state.isAuthenticated)
                                                         ? 
-                                                        this.clearRedirectUrl(customProps) &&
                                                         <C
                                                             {...props}
                                                             {...customProps}
                                                             auth={authProps}
                                                         /> 
                                                         :
-                                                        this.setRedirectUrl() &&
                                                         <Redirect to="/login" />
                                                     )
                                                 }
