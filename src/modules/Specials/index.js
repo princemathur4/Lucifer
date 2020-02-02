@@ -32,8 +32,7 @@ class Specials extends React.Component {
         try {
             let response = await commonApi.post(`products`,
                 { 
-                    category: 'bottomwear',
-                    sub_category: "jeans"
+                    is_special: true
                 }
             );
             console.log("products response", response);

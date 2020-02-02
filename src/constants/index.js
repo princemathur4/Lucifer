@@ -1,3 +1,13 @@
+export const categoryOptions = [
+    { key: 'bottomwear', value: 'bottomwear', text: 'Bottomwear' }
+]
+
+export const subCategoryOptions = [
+    { key: 'jeans', value: 'jeans', text: 'Jeans' },
+    { key: 'chinos', value: 'chinos', text: 'Chinos' },
+    { key: 'shorts', value: 'shorts', text: 'Shorts' },
+]
+
 export const orderResponse = {
     "data":{ 
         "_id":"6c8f9af34b494dbc8a98f9e6739e47de",
