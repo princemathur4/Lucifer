@@ -117,8 +117,11 @@ export default class AddProduct extends Component {
             );
             console.log("get_filters response", response);
             if (response.data && response.data.success) {
-                let options = this.getDropdownOptions(response.data.filters)
-                this.setState({ options, filterFetched: true, filtersLoader: false });
+                if(response.data.filters){
+                    let options = this.getDropdownOptions(response.data.filters);
+                    this.setState({ options: { ...this.state.options, ...options } });
+                }
+                this.setState({ filterFetched: true, filtersLoader: false });
             } else {
                 this.setState({ filtersLoader: false });
             }
@@ -147,7 +150,7 @@ export default class AddProduct extends Component {
         });
 
         let payloadState = { 
-            category: this.props.store.addProductSubCategory, 
+            category: this.props.store.addProductCategory, 
             sub_category: this.props.store.addProductSubCategory, 
             ...this.state.payload 
         };
@@ -309,7 +312,7 @@ export default class AddProduct extends Component {
         let optionList = options[f.name];
         optionList.push({ key: f.value, value: f.value, text: titleCase(f.value)});
         options[f.name] = optionList;
-        this.setState({ options });
+        this.setState({ responseText: "", options });
     }
 
     handleCheckboxChange = (e, obj) => {
@@ -364,7 +367,7 @@ export default class AddProduct extends Component {
                         }
                         <div className="field">
                             <Dropdown
-                                placeholder='Product category'
+                                placeholder='Select product category'
                                 fluid
                                 search
                                 selection
@@ -375,7 +378,7 @@ export default class AddProduct extends Component {
                         </div>
                         <div className="field">
                             <Dropdown
-                                placeholder='Product Sub-category'
+                                placeholder='Select product sub-category'
                                 fluid
                                 search
                                 selection
