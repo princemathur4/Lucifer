@@ -154,8 +154,9 @@ export default class AddProduct extends Component {
             sub_category: this.props.store.addProductSubCategory, 
             ...this.state.payload 
         };
+        
         payloadState.price = Number(payloadState.price);
-        payloadState.discount = Number(payloadState.discount.replace('%',''));
+        payloadState.discount = payloadState.discount ? Number(payloadState.discount.replace('%','')) : 0;
         payloadState.size = Number(payloadState.size);
         payloadState.stock = Number(payloadState.stock);
         payloadState.fit = payloadState.fit.replace(' ','_').toLowerCase();
@@ -177,15 +178,20 @@ export default class AddProduct extends Component {
                 }
             );
             console.log("response", response);
-            if (response && response.status === 200 && response.data.status) {
+            if (response && response.status === 200 && response.data.success) {
                 this.clearFieldStates();
+                this.setState({
+                    responseType: "success",
+                })
             } else {
                 this.setState({
                     responseType: "error",
-                    responseText: response.data.message
                 });
             }
-            this.setState({ isLoading: false });
+            this.setState({ 
+                isLoading: false,
+                responseText: response.data.message
+            });
         } catch (err) {
             this.setState({ isLoading: false });
         }
