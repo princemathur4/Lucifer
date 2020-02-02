@@ -375,7 +375,7 @@ export default class AddProduct extends Component {
                         </div>
                         <div className="field">
                             <Dropdown
-                                placeholder='Product Sizes'
+                                placeholder='Product Sub-category'
                                 fluid
                                 search
                                 selection
