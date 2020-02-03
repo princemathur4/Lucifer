@@ -17,11 +17,6 @@ class ProductItem extends React.Component {
             activeImageindex: 0,
         }
         this.intervalId = "";
-        this.images = [
-            "https://i.ibb.co/48hHjC8/Plum-01-900x.png",
-            "https://i.ibb.co/cCkkQT8/20191109160044-1.png",
-            "https://i.ibb.co/jJnVpGx/TBC-01-900x.png"
-        ]
     }
 
     componentDidMount() {
@@ -140,9 +135,9 @@ class ProductItem extends React.Component {
     changeActiveImage = (input) => {
         let newIndex = (this.state.activeImageindex + input);
         if (newIndex === -1) {
-            newIndex = this.images.length - 1;
+            newIndex = this.props.productData.images.length - 1;
         }
-        else if (newIndex === this.images.length) {
+        else if (newIndex === this.props.productData.images.length) {
             newIndex = 0;
         }
         this.setState({ activeImageindex: newIndex });
@@ -157,11 +152,11 @@ class ProductItem extends React.Component {
             this.setState({
                 hover: false
             })
-            if(this.images.length > 1){
+            if(this.props.productData.images.length > 1){
                 clearInterval(this.intervalId)
             }
         } else {
-            if(this.images.length > 1){
+            if(this.props.productData.images.length > 1){
                 this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 1200);
             }
             this.setState({
@@ -185,7 +180,7 @@ class ProductItem extends React.Component {
                     >
                         <figure className="image is-4by5" >
                             {
-                                this.images.map((imgSrc, Idx) => {
+                                this.props.productData.images.map((imgSrc, Idx) => {
                                     return (
                                         <img className={this.state.activeImageindex === Idx ? "mySlides active" : "mySlides"}
                                             src={imgSrc}
@@ -198,9 +193,9 @@ class ProductItem extends React.Component {
                             this.state.hover &&
                                 <div className="hover-container">
                                 {
-                                    this.images.length > 1 &&
+                                    this.props.productData.images.length > 1 &&
                                     <div className="dots-container" style={{ width: "100%" }}>
-                                    {this.images.map((imgSrc, idxx) => {
+                                    {this.props.productData.images.map((imgSrc, idxx) => {
                                             return (
                                                 <span
                                                 className={
