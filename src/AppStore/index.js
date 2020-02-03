@@ -15,7 +15,8 @@ class AppStore {
     cartItems = [];
     discountedTotal = 0;
     totalItems = 0;
-    
+    addProductCategory = '';
+    addProductSubCategory = '';
     setStoreVariable = (name, value) => {
         this[name] = value; 
     }
@@ -38,6 +39,8 @@ decorate(
         cartItems: observable,
         totalItems: observable,
         discountedTotal: observable,
+        addProductCategory: observable,
+        addProductSubCategory: observable,
         setStoreVariable: action,
     }
 )
