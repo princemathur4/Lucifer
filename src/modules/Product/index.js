@@ -163,10 +163,15 @@ class Product extends React.Component {
             return;
         }
         this.setState({ isSubmitLoading: true });
-        let payload = { size: size, product_code: this.state.productData._id, ...this.state.payload };
+        let payload = { ...this.state.productData, size: Number(size), product_code: this.state.productData._id, ...this.state.payload };
         if (this.state.payload.stock) {
             payload = { ...payload, stock: Number(this.state.payload.stock) }
+        }else{
+            payload = { ...payload, stock: 0 }
         }
+        delete payload.total_stock;
+        delete payload._id;
+
         let session = await getSession();
         if (!session) {
             return;
@@ -238,9 +243,9 @@ class Product extends React.Component {
                                     className={
                                         this.state.activeSize === size ?
                                             "size-box active" :
-                                            (this.state.productData.variants[size].stock === 0 ? "size-box disabled" : "size-box")
+                                            (this.state.mode !== "edit" && this.state.productData.variants[size].stock === 0 ? "size-box disabled" : "size-box")
                                     }
-                                    disabled={this.state.productData.variants[size].stock === 0}
+                                    disabled={this.state.mode !== "edit" && this.state.productData.variants[size].stock === 0}
                                     onClick={() => { this.handleSizeSelect(size) }}
                                 >
                                     {size}
