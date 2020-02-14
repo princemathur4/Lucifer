@@ -20,6 +20,7 @@ class Product extends React.Component {
             activeSize: "",
             sizeSelectWarning: false,
             isAddingToCartLoading: false,
+            isSubmitLoading: false,
             pincode: "",
             pincodeValidationMsg: "",
             pincodeValidationStatus: "",
@@ -149,6 +150,7 @@ class Product extends React.Component {
                 responseText: "Please select a size or enter manually in input",
                 responseType: "error"
             })
+            return;
         }
         let size = this.state.payload.size ? this.state.payload.size : this.state.activeSize;
         if (!this.state.payload.stock && (!Object.keys(this.state.payload).length) && 
@@ -158,7 +160,9 @@ class Product extends React.Component {
                 responseText: "Update a field before submitting",
                 responseType: "error"
             })
+            return;
         }
+        this.setState({ isSubmitLoading: true });
         let payload = { size: size, product_code: this.state.productData._id, ...this.state.payload };
         if (this.state.payload.stock) {
             payload = { ...payload, stock: Number(this.state.payload.stock) }
@@ -176,21 +180,21 @@ class Product extends React.Component {
             if (response && response.status === 200 && response.data.success) {
                 this.setState({
                     productResults: response.data.data.products,
-                    productListLoader: false
+                    responseType: "success",
+                    responseText: "Updated product successfully",
                 });
             } else {
                 this.setState({
                     productResults: [],
-                    productListLoader: false,
                     responseType: "error",
-                    responseText: response.data.message
+                    responseText: response.data.message,
                 });
             }
         } catch (err) {
-            this.setState({
-
-            });
         }
+        this.setState({
+            isSubmitLoading: false
+        });
     }
 
     getPriceJSX = () => {
@@ -227,8 +231,9 @@ class Product extends React.Component {
             <Fragment>
                 {
                     allSizes.map((size, idx) => {
+                        let sizeWarning = !!this.state.productData.variants[size].stock && this.state.productData.variants[size].stock <= 10;
                         return (
-                            <div className="size-box-content">
+                            <div className={sizeWarning ? "size-box-content size-with-warning" : "size-box-content"}>
                                 <button
                                     className={
                                         this.state.activeSize === size ?
@@ -241,7 +246,7 @@ class Product extends React.Component {
                                     {size}
                                 </button>
                                 {
-                                    !!this.state.productData.variants[size].stock && this.state.productData.variants[size].stock <= 10 &&
+                                    sizeWarning &&
                                     <div className="size-availablity-label warning">
                                         {this.state.productData.variants[size].stock + " Left"}
                                     </div>
@@ -601,7 +606,7 @@ class Product extends React.Component {
                                                 }
                                                 <div className="action-buttons">
                                                     <button
-                                                        className={this.state.isAddingToCartLoading ? 
+                                                        className={this.state.isSubmitLoading ? 
                                                             "button is-fullwidth is-loading update-btn" : 
                                                             "button is-fullwidth update-btn"}
                                                         onClick={this.handleSubmit.bind(this)}
@@ -609,9 +614,7 @@ class Product extends React.Component {
                                                         Submit and Update
                                                     </button>
                                                     <button
-                                                        className={this.state.isAddingToCartLoading ? 
-                                                            "button is-fullwidth is-loading cancel-btn" : 
-                                                            "button is-fullwidth cancel-btn"}
+                                                        className="button is-fullwidth cancel-btn"
                                                         onClick={()=>{this.changeMode('view')}}
                                                     >
                                                         Cancel
