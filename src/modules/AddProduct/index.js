@@ -146,7 +146,7 @@ export default class AddProduct extends Component {
             return;
         }
         Array.from(this.state.files).forEach((file, idx) => {
-            form_data.append('files[]', this.state.files[idx])
+            form_data.append(idx, this.state.files[idx])
         });
 
         let payloadState = { 
@@ -156,7 +156,7 @@ export default class AddProduct extends Component {
         };
         
         payloadState.price = Number(payloadState.price);
-        payloadState.discount = payloadState.discount ? Number(payloadState.discount.replace('%','')) : 0;
+        payloadState.discount = payloadState.discount ? Number(String(payloadState.discount).replace('%','')) : 0;
         payloadState.size = Number(payloadState.size);
         payloadState.stock = Number(payloadState.stock);
         payloadState.fit = payloadState.fit.replace(' ','_').toLowerCase();
