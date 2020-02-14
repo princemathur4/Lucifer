@@ -84,7 +84,7 @@
                 height: 5px;
                 border-radius: 5px;
                 background: gray;
-                margin: 5px 7px 10px 7px;
+                margin: 5px 7px 5px 7px;
                 &.active{
                     background: rgb(61, 61, 61);
                 }
@@ -96,7 +96,7 @@
             width: 100%;
             button {
                 font-size: 0.8rem;
-                margin: 0 0.3rem;
+                margin: 0.3rem 0.3rem 0 0.3rem;
                 font-family: inherit;
                 border-radius: 0px !important;
                 .wishlist-icon {
