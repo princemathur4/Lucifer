@@ -71,8 +71,6 @@ export default class AddProduct extends Component {
             fileInputKey: moment.now(),
             files: [],
             payload: {
-                category: "",
-                sub_category: "",
                 price: "",
                 discount: "",
                 title: "",
@@ -82,6 +80,8 @@ export default class AddProduct extends Component {
                 size: "",
                 fabric: "",
                 stock: "",
+                fit: "",
+                is_special: false
             }
         });
     }
@@ -150,9 +150,9 @@ export default class AddProduct extends Component {
         });
 
         let payloadState = { 
+            ...this.state.payload, 
             category: this.props.store.addProductCategory, 
             sub_category: this.props.store.addProductSubCategory, 
-            ...this.state.payload 
         };
         
         payloadState.price = Number(payloadState.price);
