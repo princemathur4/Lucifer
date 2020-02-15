@@ -163,7 +163,7 @@ class Product extends React.Component {
             return;
         }
         this.setState({ isSubmitLoading: true });
-        let payload = { ...this.state.productData, size: Number(size), product_code: this.state.productData._id, ...this.state.payload };
+        let payload = { ...this.state.productData, product_code: this.state.productData._id, ...this.state.payload, size: Number(size) };
         if (this.state.payload.stock) {
             payload = { ...payload, stock: Number(this.state.payload.stock) }
         }else{
