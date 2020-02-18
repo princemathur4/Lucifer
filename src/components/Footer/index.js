@@ -13,7 +13,7 @@ class Footer extends React.Component{
                                 VISIT OUR STORE
                             </div>
                             <div className="footer-address">
-                                6300, Upper Ground Floor, Block number 6,Gali Number 3, Dev Nagar, Karol Bagh
+                                6300, Upper Ground Floor, Block number 6, Gali Number 3, Dev Nagar, Karol Bagh
                                 <br/>
                                 T: +91-9650387093
                                 <br/>
