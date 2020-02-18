@@ -38,7 +38,7 @@ class OrderDetails extends Component {
         return (
             <div className="order-detail-product-content" key={idxx}>
                 <div className="order-detail-product-thumbnail-container" onClick={()=>{this.handleProductImageClick(productObj.product_id)}}>
-                    <img src={ productObj.product_image ? productObj.product_image : "https://i.ibb.co/48hHjC8/Plum-01-900x.png"} 
+                    <img src={ productObj.product_image && productObj.product_image.length ? productObj.product_image[0] : "https://i.ibb.co/48hHjC8/Plum-01-900x.png"} 
                         className="order-detail-product-thumbnail-image" 
                     />
                 </div>

@@ -14,6 +14,8 @@ import TermsAndConditions from '../modules/TermsAndConditions';
 import PrivacyPolicy from '../modules/PrivacyPolicy';
 import { store } from '../AppStore';
 import AddProduct from '../modules/AddProduct';
+import UpdateOrders from '../modules/UpdateOrders';
+
 
 export const routes = [
     {
@@ -247,9 +249,19 @@ export const routes = [
         path: "/add_products",
         component: AddProduct,
         name: "addProducts",
-        authRequired: false,
+        authRequired: true,
         customProps: {
             name: "addProducts",
+            store
+        }
+    },
+    {
+        path: "/update_orders",
+        component: UpdateOrders,
+        name: "updateOrders",
+        authRequired: true,
+        customProps: {
+            name: "updateOrders",
             store
         }
     },

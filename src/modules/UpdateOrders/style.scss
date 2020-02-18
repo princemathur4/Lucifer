@@ -1,0 +1,155 @@
+.update-orders-container{
+    background: linear-gradient(rgb(245, 245, 245), rgb(143, 205, 221));
+    display: flex;
+    justify-content: center;
+    .update-orders-card{
+        display: flex;
+        flex-direction: column;
+        min-height: 80vh;
+        width: 70%;
+        margin: 0 auto;
+        margin: 3rem;
+        background: white;
+        padding: 0 2rem;
+        .update-orders-header{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin: 1rem;
+        }
+        .update-orders-body{
+            display: flex;
+            flex-direction: column;
+            flex-grow: 2;
+            width: 100%;
+            .action-buttons{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                margin: 1rem 0;
+                border-radius: 8px;
+                .action-btns{
+                    // background: rgb(215, 227, 243);
+                    // color: rgb(0, 0, 0);
+                    // border-radius: 50%;
+                    margin: 1rem 2rem;
+                    &:focus{
+                        outline: rgba(255, 255, 255, 0);
+                    }
+                }
+            }
+            .search-input-container{
+                width: 100%;
+                display: flex;
+                // flex-grow: 2;
+                margin: 1rem 0;
+            }
+            .row{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .order-status{
+                    display: flex;
+                    align-items: center;
+                }
+                .change-status-btn{
+                    margin: 0 1rem;
+                }
+            }
+            .order-product-thumbnail-container {
+                img {
+                    width: 5vw !important;
+                    height: 12vh !important;
+                }
+            }
+            .order-card-content{
+                .accordian{
+                    display: flex;
+                    padding: 0.2rem;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding: 0 1rem;
+                    cursor: pointer;
+                    .accodian-icon{
+                        font-size: 0.8rem;   
+                    }
+                    .view-products{
+                        padding-left: 1rem;
+                        font-size: 0.8rem;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+        .response-text{
+            text-align: center;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            border-radius: 4px;
+            min-height: 2em;
+            padding: 0.75em;
+            &.is-error{
+                color: #cc0f35;
+                background-color: #feecf0;
+            }
+            &.is-info{
+                color: #1b79b0;
+                background: #e2f5ff;
+            }
+            &.is-success{
+                color: #048348;
+                background: #e2fff4;
+            }
+            .response-tag{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1.5;
+                font-size: 1rem;
+                flex-grow: 2;
+                flex-wrap: wrap;
+                padding-left: 0.75em;
+                padding-right: 0.75em;
+            }
+        }
+        .submit-btn{
+            font-family: inherit;
+            color: white;
+            background: rgb(43, 70, 100);
+            margin-bottom: 1rem;
+            border-radius: 0;
+        }
+        
+        .modal-content{
+            text-align: center;
+            display: flex;
+            justify-content: center;
+
+            .login-modal-content{
+                max-width: 600px;
+                padding: 2rem;
+                background: rgb(255, 255, 255);
+                box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+                color: rgb(39, 39, 39);
+                .login-modal-header{
+                    display: flex;
+                    justify-content: space-between;
+                    .login-modal-title{
+                        font-weight: 500;
+                        font-size: 1.2rem;
+                        padding: 0.3rem 1rem;
+                    }
+                }
+                .login-modal-body{
+                    padding: 1rem 2rem;
+                }
+            }
+        }
+    }
+}

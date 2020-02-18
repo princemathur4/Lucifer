@@ -3,13 +3,15 @@ import { fab, faFacebook, faGoogle, faFacebookSquare } from '@fortawesome/free-b
 import {
     faEnvelope, faCheck, faLock, faMobile, faKey, faMobileAlt,
     faUser, faSignOutAlt, faExclamationTriangle, faEdit, faPlus, 
-    faTrashAlt, faBookmark, faCartPlus, faAngleDown, faAngleLeft, faInfoCircle, faPencilAlt, faFileUpload, 
+    faTrashAlt, faBookmark, faCartPlus, faAngleDown, faAngleLeft, 
+    faAngleRight, faInfoCircle, faPencilAlt, faFileUpload,
+    
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
     fab, faEnvelope, faCheck, faLock, faFacebookSquare, faGoogle,
     faMobile, faMobileAlt, faKey, faUser, faSignOutAlt, faCheck,
     faExclamationTriangle, faEdit, faPlus, faTrashAlt, faBookmark,
-    faCartPlus, faAngleDown, faAngleLeft, faInfoCircle, faPencilAlt, 
-    faFileUpload
+    faCartPlus, faAngleDown, faAngleLeft, faAngleRight, faInfoCircle, 
+    faPencilAlt, faFileUpload
 );
