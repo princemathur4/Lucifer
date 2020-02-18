@@ -147,9 +147,14 @@ class NavBar extends React.Component {
                         </Link>
                         {
                             adminuser &&
-                            <Link to="/add_products" className="navbar-item">
+                            <Fragment>
+                                <Link to="/add_products" className="navbar-item">
                                     Add Products
-                            </Link>
+                                </Link>
+                                <Link to="/update_orders" className="navbar-item">
+                                    Update Orders
+                                </Link>
+                            </Fragment>
                         }
                         </div>
                         {/* <div className="field search-container">
