@@ -13,11 +13,11 @@ class Footer extends React.Component{
                                 VISIT OUR STORE
                             </div>
                             <div className="footer-address">
-                                888 Griffiths Way, Mainland ML12345
+                                6300, Upper Ground Floor, Block number 6,Gali Number 3, Dev Nagar, Karol Bagh
                                 <br/>
-                                T: +91-9971289321
+                                T: +91-9650387093
                                 <br/>
-                                Monday-Saturday: 9.00 am - 9.00 pm
+                                Tuesday-Sunday: 9.00 am - 9.00 pm
                             </div>
                         </div>
                         <div className="column">
