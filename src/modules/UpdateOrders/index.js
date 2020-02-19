@@ -122,6 +122,11 @@ export default class UpdateOrders extends Component {
         }
     }
 
+    handleTextChange = async event => {
+        event.preventDefault();
+        this.state.comments = event.target.value;
+    }
+
     handleSubmit = async event => {
         event.preventDefault();
         this.setState({ isSubmitLoading: true });
@@ -134,10 +139,11 @@ export default class UpdateOrders extends Component {
         let action, orderID, comments;
         orderID = this.state.activeModalID;
         action = this.orderStatusMapping[this.state.activeOrderStatus]
+        comments = this.state.comments;
         try {
             response = await commonApi.post(
                 'change_order_status',
-                {'order_id': orderID, 'action': action, 'notes': ''},
+                {'order_id': orderID, 'action': action, 'notes': comments},
                 {
                     headers: { 
                         "Content-Type": "text/plain", 
@@ -402,6 +408,7 @@ export default class UpdateOrders extends Component {
                                                 </div>
                                             </div>
                                             <div className="login-modal-body">
+                                                <textarea rows="2" columns="40" placeholder="Type your comments here."></textarea>
                                                 <div className="buttons-container">
                                                     <button className={this.state.isSubmitLoading ? "button is-success is-loading" :"button is-success"}
                                                         onClick={this.handleSubmit}
