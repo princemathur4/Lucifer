@@ -146,7 +146,7 @@ export default class UpdateOrders extends Component {
                 }
             );
             console.log("response", response);
-            if (response && response.status === 200 && response.data.status) {
+            if (response && response.status === 200 && response.data.success) {
                 this.setState({
                     responseType: "success",
                     responseText: "Order updated successfully"
