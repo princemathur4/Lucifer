@@ -64,13 +64,13 @@ class SpecialProductItem extends React.Component {
 
     getPriceHtml = () => {
         let discount = this.props.productData.discount;
-        let price = roundOffNumber(discount ? 
+        let price = discount ? 
             this.props.productData.price - Math.round(this.props.productData.price * discount / 100) : 
-            this.props.productData.price);
+            this.props.productData.price;
 
         return(
             <div className="price-container">
-                <p className="price-text">Rs. {price}</p>
+                <p className="price-text">Rs. {roundOffNumber(price)}</p>
                 {
                     !!discount && 
                     <Fragment>

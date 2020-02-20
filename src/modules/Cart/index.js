@@ -235,9 +235,9 @@ export default class Cart extends React.Component {
         let totalDiscount = 0;
         let discountedTotal = 0;
         this.state.cartProducts.forEach((productObj, idx) => {
-            actualCartTotal += roundOffNumber(productObj.price * productObj.count);
-            discountedTotal += roundOffNumber((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
-            totalDiscount += roundOffNumber((productObj.price * productObj.count) * (productObj.discount / 100));
+            actualCartTotal += (productObj.price * productObj.count);
+            discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+            totalDiscount += ((productObj.price * productObj.count) * (productObj.discount / 100));
         })
         this.setState({ actualCartTotal, totalDiscount, discountedTotal });
     }
@@ -253,11 +253,11 @@ export default class Cart extends React.Component {
                 <div className="field-content">
                     <div className="field-item">
                         <div className="field-item-key">Cart Total</div>
-                        <div className="field-item-value">₹ {this.state.actualCartTotal}</div>
+                        <div className="field-item-value">₹ {roundOffNumber(this.state.actualCartTotal)}</div>
                     </div>
                     <div className="field-item">
                         <div className="field-item-key">Total Discount</div>
-                        <div className="field-item-value discount"> - ₹ {this.state.totalDiscount}</div>
+                        <div className="field-item-value discount"> - ₹ {roundOffNumber(this.state.totalDiscount)}</div>
                     </div>
                     <div className="field-item">
                         <div className="field-item-key">Delivery Charges</div>
@@ -284,7 +284,7 @@ export default class Cart extends React.Component {
                     <div className="line-border"></div>
                     <div className="field-item">
                         <div className="field-item-key">Total</div>
-                        <div className="field-item-value">₹ {this.state.discountedTotal}</div>
+                        <div className="field-item-value">₹ {roundOffNumber(this.state.discountedTotal)}</div>
                     </div>
                 </div>
             </div>
@@ -354,7 +354,7 @@ export default class Cart extends React.Component {
                                                                 {this.state.cartProducts.length} Items in Cart
                                                         </div>
                                                             <div className="total">
-                                                                Total Payable: ₹ {this.state.discountedTotal}
+                                                                Total Payable: ₹ {roundOffNumber(this.state.discountedTotal)}
                                                             </div>
                                                         </div>
                                                         <div className="products-summary-container">

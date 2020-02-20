@@ -64,7 +64,7 @@ class OrderDetails extends Component {
                                     ₹ {roundOffNumber(productObj.total_price)}
                                 </div>
                                 <div className="discount">
-                                    (Saved ₹ {roundOffNumber(productObj.total_price) - roundOffNumber(productObj.effective_price)})
+                                    (Saved ₹ {roundOffNumber(productObj.total_price - productObj.effective_price)})
                                 </div>
                             </Fragment>
                         }
@@ -79,9 +79,9 @@ class OrderDetails extends Component {
         let totalDiscount = 0;
         let discountedTotal = 0;
         this.props.data.order_data.forEach((productObj, idx) => {
-            actualCartTotal += roundOffNumber(productObj.price * productObj.count);
-            discountedTotal += roundOffNumber((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
-            totalDiscount += roundOffNumber((productObj.price * productObj.count) * (productObj.discount / 100));
+            actualCartTotal += (productObj.price * productObj.count);
+            discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+            totalDiscount += ((productObj.price * productObj.count) * (productObj.discount / 100));
         })
         this.setState({ actualCartTotal, totalDiscount, discountedTotal });
     }
@@ -91,11 +91,11 @@ class OrderDetails extends Component {
             <Fragment>
                 <div className="field-item">
                     <div className="field-item-key">Cart Total</div>
-                    <div className="field-item-value">₹ {this.state.actualCartTotal}</div>
+                    <div className="field-item-value">₹ {roundOffNumber(this.state.actualCartTotal)}</div>
                 </div>
                 <div className="field-item">
                     <div className="field-item-key">Total Discount</div>
-                    <div className="field-item-value discount"> - ₹ {this.state.totalDiscount}</div>
+                    <div className="field-item-value discount"> - ₹ {roundOffNumber(this.state.totalDiscount)}</div>
                 </div>
                 <div className="field-item">
                     <div className="field-item-key">Delivery Charges</div>
@@ -104,7 +104,7 @@ class OrderDetails extends Component {
                 <div className="line-border"></div>
                 <div className="field-item">
                     <div className="field-item-key">Total</div>
-                    <div className="field-item-value">₹ {this.state.discountedTotal}</div>
+                    <div className="field-item-value">₹ {roundOffNumber(this.state.discountedTotal)}</div>
                 </div>
             </Fragment>
         )

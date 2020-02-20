@@ -94,9 +94,9 @@ class ProductItem extends React.Component {
 
     getPriceHtml = () => {
         let discount = this.props.productData.discount;
-        let price = roundOffNumber(discount ?
+        let price = discount ?
             this.props.productData.price - Math.round(this.props.productData.price * discount / 100) :
-            this.props.productData.price);
+            this.props.productData.price;
 
         return (
             <div className="price-container">

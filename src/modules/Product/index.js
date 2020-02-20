@@ -225,13 +225,13 @@ class Product extends React.Component {
 
     getPriceJSX = () => {
         let discount = this.state.productData.discount;
-        let price = roundOffNumber(discount ?
+        let price = discount ?
                 this.state.productData.price - Math.round(this.state.productData.price * discount / 100) :
-                    this.state.productData.price);
+                    this.state.productData.price;
 
         return (
             <Fragment>
-                <p className="price-text">Rs. {price}</p>
+                <p className="price-text">Rs. {roundOffNumber(price)}</p>
                 {
                     !!discount &&
                     <Fragment>

@@ -8,5 +8,5 @@ export function titleCase (str){
 }
 
 export function roundOffNumber(num){
-    return Math.round((num + Number.EPSILON) * 100) / 100;
+    return Number.isInteger(num) ? String(num) : parseFloat(num).toFixed(2);
 }
