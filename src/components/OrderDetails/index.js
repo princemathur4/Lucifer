@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
+import { roundOffNumber } from "../../utils/utilFunctions";
 
 let moment = require('moment');
 
@@ -50,24 +51,20 @@ class OrderDetails extends Component {
                             {productObj.title ? productObj.title : "Product Title"}
                         </Link>
                     </div>
-                    <div className="second-row">
-                        {productObj.description ? productObj.description : "Product Description"}
-                    </div>
-
                     <div className="third-row">
                         <div className="size">Size: <b>{productObj.size}</b></div>
                         <div className="quantity"> Qty: <b>{productObj.count}</b></div>
                     </div>
                     <div className="fourth-row">
-                        <div className="price">₹ {productObj.effective_price}</div>
+                        <div className="price">₹ {roundOffNumber(productObj.effective_price)}</div>
                         {
                             !!productObj.discount &&
                             <Fragment>
                                 <div className="actual-price">
-                                    ₹ {productObj.total_price}
+                                    ₹ {roundOffNumber(productObj.total_price)}
                                 </div>
                                 <div className="discount">
-                                    (Saved ₹ {productObj.total_price - productObj.effective_price})
+                                    (Saved ₹ {roundOffNumber(productObj.total_price) - roundOffNumber(productObj.effective_price)})
                                 </div>
                             </Fragment>
                         }
@@ -82,9 +79,9 @@ class OrderDetails extends Component {
         let totalDiscount = 0;
         let discountedTotal = 0;
         this.props.data.order_data.forEach((productObj, idx) => {
-            actualCartTotal += (productObj.price * productObj.count);
-            discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
-            totalDiscount += ((productObj.price * productObj.count) * (productObj.discount / 100));
+            actualCartTotal += roundOffNumber(productObj.price * productObj.count);
+            discountedTotal += roundOffNumber((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+            totalDiscount += roundOffNumber((productObj.price * productObj.count) * (productObj.discount / 100));
         })
         this.setState({ actualCartTotal, totalDiscount, discountedTotal });
     }

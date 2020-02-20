@@ -1,13 +1,14 @@
 import { getSession } from './AuthUtils';
 import commonApi from '../apis/common';
 import { store } from "../AppStore";
+import { roundOffNumber } from './utilFunctions';
 
 
 let calculateTotal = () => {
     let discountedTotal = 0;
     let totalItems = 0;
     store.cartItems.forEach((productObj, idx) => {
-        discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+        discountedTotal += roundOffNumber((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
         totalItems += productObj.count;
     })
     return { discountedTotal, totalItems };

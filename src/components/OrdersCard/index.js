@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import "./style.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { titleCase } from "../../utils/utilFunctions";
+import { titleCase, roundOffNumber } from "../../utils/utilFunctions";
 import { Radio } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 
@@ -41,24 +41,20 @@ class OrdersCard extends Component {
                             {productObj.title ? productObj.title : "Product Title"}
                         </Link>
                     </div>
-                    <div className="second-row">
-                        {productObj.description ? productObj.description : "Product Description"}
-                    </div>
-
                     <div className="third-row">
                         <div className="size">Size: <b>{productObj.size}</b></div>
                         <div className="quantity"> Qty: <b>{productObj.count}</b></div>
                     </div>
                     <div className="fourth-row">
-                        <div className="price">₹ {productObj.effective_price}</div>
+                        <div className="price">₹ {roundOffNumber(productObj.effective_price)}</div>
                         {
                             !!productObj.discount &&
                             <Fragment>
                                 <div className="actual-price">
-                                    ₹ {productObj.total_price}
+                                    ₹ {roundOffNumber(productObj.total_price)}
                                 </div>
                                 <div className="discount">
-                                    (Saved ₹ {productObj.total_price - productObj.effective_price})
+                                    (Saved ₹ {roundOffNumber(productObj.total_price - productObj.effective_price)})
                                 </div>
                             </Fragment>
                         }
@@ -77,7 +73,7 @@ class OrdersCard extends Component {
                         <div className="order-status">
                             Order Status: <b className={`${this.getStatusClass(this.props.data.order_status)}`}>{this.props.data.order_status}</b>
                         </div>
-                        <div className="amount-paid">Amount Paid: <b>₹ {this.props.data.total_price}</b></div>
+                        <div className="amount-paid">Amount Paid: <b>₹ {roundOffNumber(this.props.data.total_price)}</b></div>
                     </div>
                     <div className="row">
                         <div className="view-details" onClick={()=>{this.props.handleViewDetails(this.props.data._id)}}>View Order details</div>

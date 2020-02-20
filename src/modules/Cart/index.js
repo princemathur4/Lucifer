@@ -11,6 +11,7 @@ import VerifyMobile from '../../components/VerifyMobile';
 import { orderResponse } from "../../constants";
 import OrderDetails from '../../components/OrderDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { roundOffNumber } from '../../utils/utilFunctions';
 
 export default class Cart extends React.Component {
     constructor(props){
@@ -234,9 +235,9 @@ export default class Cart extends React.Component {
         let totalDiscount = 0;
         let discountedTotal = 0;
         this.state.cartProducts.forEach((productObj, idx) => {
-            actualCartTotal += (productObj.price * productObj.count);
-            discountedTotal += ((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
-            totalDiscount += ((productObj.price * productObj.count) * (productObj.discount / 100));
+            actualCartTotal += roundOffNumber(productObj.price * productObj.count);
+            discountedTotal += roundOffNumber((productObj.price * productObj.count) - ((productObj.price * productObj.count) * (productObj.discount / 100)));
+            totalDiscount += roundOffNumber((productObj.price * productObj.count) * (productObj.discount / 100));
         })
         this.setState({ actualCartTotal, totalDiscount, discountedTotal });
     }

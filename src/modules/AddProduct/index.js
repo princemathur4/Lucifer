@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { categoryOptions, subCategoryOptions } from "../../constants";
 import { Dropdown, Grid, Search, Segment, Header, Input, Checkbox } from 'semantic-ui-react';
 import Spinner from "../../components/Spinner";
+import findindex from "lodash.findindex";
 
 const moment = require('moment');
 
@@ -36,6 +37,8 @@ export default class AddProduct extends Component {
             files: [],
             filterFetched: false,
             filtersLoader: false,
+            productInfoCount: 0,
+            productInfoList: [],
             options: {
                 discount: [],
                 color: [],
@@ -49,7 +52,7 @@ export default class AddProduct extends Component {
                 price: "",
                 discount: "",
                 title: "",
-                description: "",
+                description: {},
                 color: "",
                 color_code: "",
                 size: "",
@@ -117,7 +120,7 @@ export default class AddProduct extends Component {
             );
             console.log("get_filters response", response);
             if (response.data && response.data.success) {
-                if(response.data.filters){
+                if (response.data.filters) {
                     let options = this.getDropdownOptions(response.data.filters);
                     this.setState({ options: { ...this.state.options, ...options } });
                 }
@@ -137,7 +140,7 @@ export default class AddProduct extends Component {
         this.clearErrorState();
 
         let form_data = new FormData();
-        if(!this.state.files || !this.state.files.length){
+        if (!this.state.files || !this.state.files.length) {
             this.setState({
                 responseText: "Image not selected for product",
                 responseType: "error",
@@ -149,19 +152,25 @@ export default class AddProduct extends Component {
             form_data.append(idx, this.state.files[idx])
         });
 
-        let payloadState = { 
-            ...this.state.payload, 
-            category: this.props.store.addProductCategory, 
-            sub_category: this.props.store.addProductSubCategory, 
+        let payloadState = {
+            ...this.state.payload,
+            category: this.props.store.addProductCategory,
+            sub_category: this.props.store.addProductSubCategory,
         };
-        
+
+        let description = {};
+        this.state.productInfoList.forEach((obj, idx)=>{
+            description[obj.key] = obj.value
+        })
+        // [infoObj.count][e.target.name]
+        payloadState.description = description;
         payloadState.price = Number(payloadState.price);
-        payloadState.discount = payloadState.discount ? Number(String(payloadState.discount).replace('%','')) : 0;
+        payloadState.discount = payloadState.discount ? Number(String(payloadState.discount).replace('%', '')) : 0;
         payloadState.size = Number(payloadState.size);
         payloadState.stock = Number(payloadState.stock);
-        payloadState.fit = payloadState.fit.replace(' ','_').toLowerCase();
-        payloadState.fabric = payloadState.fabric.replace(' ','_').toLowerCase();
-        console.log("payloadState: ",payloadState)
+        payloadState.fit = payloadState.fit.replace(' ', '_').toLowerCase();
+        payloadState.fabric = payloadState.fabric.replace(' ', '_').toLowerCase();
+        console.log("payloadState: ", payloadState)
         form_data.append('data', JSON.stringify(payloadState));
 
         let session = await getSession();
@@ -188,7 +197,7 @@ export default class AddProduct extends Component {
                     responseType: "error",
                 });
             }
-            this.setState({ 
+            this.setState({
                 isLoading: false,
                 responseText: response.data.message
             });
@@ -211,11 +220,11 @@ export default class AddProduct extends Component {
     getDropdownOptions = (filterOptions) => {
         let options = {}
         filterOptions.forEach((filterObj, idx) => {
-            if(filterObj.filter_name != 'price' && filterObj.filter_name !== 'color_code'){
+            if (filterObj.filter_name != 'price' && filterObj.filter_name !== 'color_code') {
                 options[filterObj.filter_name] = this.getFormattedOption(filterObj.values);
-            }else if(filterObj.filter_name === 'color_code'){
-                options[filterObj.filter_name] = filterObj.values.map((color_obj)=>{ return { key: color_obj.key, value: color_obj.key, text: color_obj.key }})
-                options['color'] = filterObj.values.map((color_obj)=>{ return { key: color_obj.title, value: color_obj.title, text: color_obj.title }})
+            } else if (filterObj.filter_name === 'color_code') {
+                options[filterObj.filter_name] = filterObj.values.map((color_obj) => { return { key: color_obj.key, value: color_obj.key, text: color_obj.key } })
+                options['color'] = filterObj.values.map((color_obj) => { return { key: color_obj.title, value: color_obj.title, text: color_obj.title } })
             }
         })
         return options;
@@ -300,23 +309,23 @@ export default class AddProduct extends Component {
 
     handleAddition = (e, f) => {
         let errorField = '';
-        if(f.name === "color_code" && !f.value.match(this.color_hex_code_regex)){
+        if (f.name === "color_code" && !f.value.match(this.color_hex_code_regex)) {
             errorField = 'color_code';
-        }else if(f.name === "discount" && !f.value.match(this.discount_regex)){
+        } else if (f.name === "discount" && !f.value.match(this.discount_regex)) {
             errorField = 'discount';
-        }else if(f.name === "size" && isNaN(f.value)){
+        } else if (f.name === "size" && isNaN(f.value)) {
             errorField = 'size';
         }
-        if(errorField){
+        if (errorField) {
             this.setState({
                 responseText: `Invalid value for ${titleCase(errorField)}`,
                 responseType: "error"
             })
             return;
         }
-        let options = {...this.state.options};
+        let options = { ...this.state.options };
         let optionList = options[f.name];
-        optionList.push({ key: f.value, value: f.value, text: titleCase(f.value)});
+        optionList.push({ key: f.value, value: f.value, text: titleCase(f.value) });
         options[f.name] = optionList;
         this.setState({ responseText: "", options });
     }
@@ -325,6 +334,61 @@ export default class AddProduct extends Component {
         let payload = this.state.payload;
         payload[obj.name] = obj.checked;
         this.setState({ payload });
+    }
+
+    handleAddProductInfo = () => {
+        let { productInfoList, productInfoCount } = this.state;
+        productInfoCount = productInfoCount + 1
+        productInfoList.push({
+            count: productInfoCount,
+            key: "",
+            value: ""
+        })
+        this.setState({
+            productInfoList, productInfoCount
+        })
+    }
+
+    handleRemoveProductInfo = (infoObj) => {
+        let { productInfoList } = this.state;
+        let objIdx = findindex(productInfoList, { count: infoObj.count });
+        productInfoList.splice(objIdx, 1);
+        this.setState({
+            productInfoList
+        })
+    }
+
+    onProductInfoChange = (e, infoObj) => {
+        let { productInfoList } = this.state;
+        let objIdx = findindex(productInfoList, { count: infoObj.count });
+        productInfoList[objIdx][e.target.name] = e.target.value;
+        this.setState({
+            productInfoList
+        });
+    }
+
+    getProductInfoInputs = (infoObj, idx) => {
+        return (
+            <div className="product-info-field">
+                <Input
+                    className="key-input"
+                    placeholder="Enter Info Title"
+                    type="text"
+                    name="key"
+                    onChange={(e)=>{this.onProductInfoChange(e, infoObj)}}
+                />
+                <Input
+                    className="value-input"
+                    placeholder="Enter Info Value"
+                    type="text"
+                    name="value"
+                    onChange={(e)=>{this.onProductInfoChange(e, infoObj)}}
+                />
+                <button className="delete is-medium is-danger is-light"
+                    onClick={()=>{this.handleRemoveProductInfo(infoObj)}}
+                ></button>
+            </div>
+        )
     }
 
     render() {
@@ -337,40 +401,6 @@ export default class AddProduct extends Component {
                         </div>
                     </div>
                     <div className="card-body">
-                        <input
-                            type="file"
-                            key={this.state.fileInputKey}
-                            ref={this.fileInput}
-                            accept="image/*"
-                            multiple
-                            onChange={this.onFilesSelect}
-                            hidden
-                        />
-                        <button className="button is-fullwidth choose-file-btn" onClick={() => { this.handleChooseBtnClick() }}>
-                            Choose Files
-                            <span className="icon">
-                                <FontAwesomeIcon icon="file-upload" />
-                            </span>
-                        </button>
-                        {
-                            !!this.state.files.length &&
-                            <div className="files-container">
-                                {
-                                    Array.from(this.state.files).map((fileObj, fileIdx) => {
-                                        return (
-                                            <div className="file-item">
-                                                <div className="file-index">
-                                                    {fileIdx + 1}
-                                                </div>
-                                                <div className="file-name-text">
-                                                    {fileObj.name}
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                        }
                         <div className="field">
                             <Dropdown
                                 placeholder='Select product category'
@@ -394,58 +424,105 @@ export default class AddProduct extends Component {
                             />
                         </div>
                         <div className="add-product-main-body">
-                        {this.state.filtersLoader ?
-                            <Spinner color="primary" size="medium" />
-                            :
-                            (this.state.filterFetched &&
-                                <Fragment>
-                                    <div className="field-row">
-                                        {this.getInputJSX("text", "title", "Title", "field-input-first")}
-                                        {this.getInputJSX("text", "description", "Description", "field-input")}
-                                    </div>
-                                    <div className="field">
-                                        {this.getInputJSX("number", "stock", "Stock", "field-input")}
-                                    </div>
-                                    <div className="field-row">
-                                        {this.getInputJSX("number", "price", "Price", "field-input")}
-                                    </div>
-                                    <div className="field-row">
-                                        {this.getSearchableInput("discount")}
-                                    </div>
-                                    <div className="field-row">
-                                        {this.getSearchableInput("color")}
-                                        {this.getSearchableInput("color_code")}
-                                    </div>
-                                    <div className="field">
-                                        {this.getSearchableInput("size")}
-                                    </div>
-                                    <div className="field-row">
-                                        {this.getSearchableInput("fit")}
-                                        {this.getSearchableInput("fabric")}
-                                    </div>
-                                    <div className="field-row">
-                                        <Checkbox
-                                            key='is_special'
-                                            name='is_special'
-                                            title="Is special?"
-                                            // value={this.state.payload.is_special}
-                                            checked={this.state.payload.is_special}
-                                            onChange={this.handleCheckboxChange}
-                                            label="Is special?"
+                            {this.state.filtersLoader ?
+                                <Spinner color="primary" size="medium" />
+                                :
+                                (this.state.filterFetched &&
+                                    <Fragment>
+                                        <input
+                                            type="file"
+                                            key={this.state.fileInputKey}
+                                            ref={this.fileInput}
+                                            accept="image/*"
+                                            multiple
+                                            onChange={this.onFilesSelect}
+                                            hidden
                                         />
-                                    </div>
-                                    <button
-                                        className={this.state.isLoading ?
-                                            "button is-fullwidth submit-btn is-loading" :
-                                            "button is-fullwidth submit-btn"
+                                        <button className="button is-fullwidth choose-file-btn" onClick={() => { this.handleChooseBtnClick() }}>
+                                            Choose Files
+                                            <span className="icon">
+                                                <FontAwesomeIcon icon="file-upload" />
+                                            </span>
+                                        </button>
+                                        {
+                                            !!this.state.files.length &&
+                                            <div className="files-container">
+                                                {
+                                                    Array.from(this.state.files).map((fileObj, fileIdx) => {
+                                                        return (
+                                                            <div className="file-item">
+                                                                <div className="file-index">
+                                                                    {fileIdx + 1}
+                                                                </div>
+                                                                <div className="file-name-text">
+                                                                    {fileObj.name}
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
                                         }
-                                        onClick={this.handleSubmit}
-                                    >
-                                        Submit
+                                        <div className="field-row">
+                                            {this.getInputJSX("text", "title", "Title", "field-input")}
+                                        </div>
+                                        <div className="field">
+                                            {this.getInputJSX("number", "stock", "Stock", "field-input")}
+                                        </div>
+                                        <div className="field-row">
+                                            {this.getInputJSX("number", "price", "Price", "field-input")}
+                                        </div>
+                                        <div className="field-row">
+                                            {this.getSearchableInput("discount")}
+                                        </div>
+                                        <div className="field-row">
+                                            {this.getSearchableInput("color")}
+                                            {this.getSearchableInput("color_code")}
+                                        </div>
+                                        <div className="field">
+                                            {this.getSearchableInput("size")}
+                                        </div>
+                                        <div className="field-row">
+                                            {this.getSearchableInput("fit")}
+                                            {this.getSearchableInput("fabric")}
+                                        </div>
+                                        <div className="product-info-container">
+                                            <div className="field-row">
+                                                <button className="button is-light is-success is-fullwidth"
+                                                    onClick={this.handleAddProductInfo}
+                                                >Add Additional Product Info
+                                                <FontAwesomeIcon icon="plus-square" className="add-icon ico" />
+                                                </button>
+                                            </div>
+                                            {
+                                                this.state.productInfoList.map((infoObj, index) => {
+                                                    return this.getProductInfoInputs(infoObj, index)
+                                                })
+                                            }
+                                        </div>
+                                        <div className="field-row">
+                                            <Checkbox
+                                                key='is_special'
+                                                name='is_special'
+                                                title="Is special?"
+                                                // value={this.state.payload.is_special}
+                                                checked={this.state.payload.is_special}
+                                                onChange={this.handleCheckboxChange}
+                                                label="Is special?"
+                                            />
+                                        </div>
+                                        <button
+                                            className={this.state.isLoading ?
+                                                "button is-fullwidth submit-btn is-loading" :
+                                                "button is-fullwidth submit-btn"
+                                            }
+                                            onClick={this.handleSubmit}
+                                        >
+                                            Submit
                                     </button>
-                                </Fragment>
-                            )
-                        }
+                                    </Fragment>
+                                )
+                            }
                         </div>
                         {
                             this.state.responseText &&

@@ -95,7 +95,9 @@ class NavBar extends React.Component {
                 </div>
 
                 <div className="cart-popup-footer">
-                    <button className="button is-fullwidth popup-checkout"><Link to="/cart">Checkout</Link></button>
+                    <button className="button is-fullwidth popup-checkout" 
+                        onClick={()=>{this.props.history.push('/cart')}}
+                    >Checkout</button>
                 </div>
             </Fragment>
         )

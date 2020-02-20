@@ -8,8 +8,9 @@ import { getSession } from "../../utils/AuthUtils";
 import Spinner from "../../components/Spinner";
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { titleCase } from "../../utils/utilFunctions";
+import { titleCase, roundOffNumber } from "../../utils/utilFunctions";
 import { fetchCartItems } from '../../utils/ProductUtils';
+import findindex from "lodash.findindex";
 
 class Product extends React.Component {
     constructor(props) {
@@ -32,6 +33,8 @@ class Product extends React.Component {
             responseType: "error",
             sizeOptions: [],
             stock: 0,
+            productInfoCount: 0,
+            productInfoList: [],
             payload: {},
             errors: {
                 title: false,
@@ -68,7 +71,21 @@ class Product extends React.Component {
             );
             console.log("product response", response);
             if (response.data && response.data.success) {
-                this.setState({ productData: response.data.data[0], productLoaderActive: false });
+                let productInfoList = []
+                Object.keys(response.data.data[0].description).forEach((key, idx)=>{
+                    productInfoList.push({
+                        key: key,
+                        value: response.data.data[0].description[key],
+                        count: idx
+                    })
+                })
+                this.setState({ 
+                    productInfoList: productInfoList,
+                    productInfoCount: productInfoList.length,
+                    productData: response.data.data[0], 
+                    productLoaderActive: false
+                });
+                
             } else {
                 this.setState({ productData: {}, productLoaderActive: false });
             }
@@ -153,15 +170,15 @@ class Product extends React.Component {
             return;
         }
         let size = this.state.payload.size ? this.state.payload.size : this.state.activeSize;
-        if (!this.state.payload.stock && (!Object.keys(this.state.payload).length) && 
-            this.state.productData.available_sizes.includes(size)
-        ){
-            this.setState({
-                responseText: "Update a field before submitting",
-                responseType: "error"
-            })
-            return;
-        }
+        // if (!this.state.payload.stock && (!Object.keys(this.state.payload).length) && 
+        //     this.state.productData.available_sizes.includes(size)
+        // ){
+        //     this.setState({
+        //         responseText: "Update a field before submitting",
+        //         responseType: "error"
+        //     })
+        //     return;
+        // }
         this.setState({ isSubmitLoading: true });
         let payload = { ...this.state.productData, product_code: this.state.productData._id, ...this.state.payload, size: Number(size) };
         if (this.state.payload.stock) {
@@ -171,7 +188,11 @@ class Product extends React.Component {
         }
         delete payload.total_stock;
         delete payload._id;
-
+        let description = {};
+        this.state.productInfoList.forEach((obj, idx)=>{
+            description[obj.key] = obj.value
+        })
+        payload.description = description;
         let session = await getSession();
         if (!session) {
             return;
@@ -204,9 +225,9 @@ class Product extends React.Component {
 
     getPriceJSX = () => {
         let discount = this.state.productData.discount;
-        let price = discount ?
+        let price = roundOffNumber(discount ?
                 this.state.productData.price - Math.round(this.state.productData.price * discount / 100) :
-                    this.state.productData.price;
+                    this.state.productData.price);
 
         return (
             <Fragment>
@@ -214,7 +235,7 @@ class Product extends React.Component {
                 {
                     !!discount &&
                     <Fragment>
-                        <p className="actual-price-text">Rs. {this.state.productData.price}</p>
+                        <p className="actual-price-text">Rs. {roundOffNumber(this.state.productData.price)}</p>
                         <p className="discount-text">({discount}% OFF)</p>
                     </Fragment>
                 }
@@ -232,6 +253,7 @@ class Product extends React.Component {
 
     getSizesJSX = () => {
         let allSizes = this.state.productData.available_sizes;
+        allSizes = allSizes.sort()
         return (
             <Fragment>
                 {
@@ -292,6 +314,69 @@ class Product extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    handleAddProductInfo = () => {
+        let { productInfoList, productInfoCount } = this.state;
+        productInfoCount = productInfoCount + 1
+        productInfoList.push({
+            count: productInfoCount,
+            key: "",
+            value: ""
+        })
+        this.setState({
+            productInfoList, productInfoCount
+        })
+    }
+
+    handleRemoveProductInfo = (infoObj) => {
+        let { productInfoList } = this.state;
+        let objIdx = findindex(productInfoList, { count: infoObj.count });
+        productInfoList.splice(objIdx, 1);
+        this.setState({
+            productInfoList
+        })
+    }
+
+    onProductInfoChange = (e, infoObj) => {
+        let { productInfoList } = this.state;
+        let objIdx = findindex(productInfoList, { count: infoObj.count });
+        productInfoList[objIdx][e.target.name] = e.target.value;
+        this.setState({
+            productInfoList
+        });
+    }
+
+    getProductInfoInputs = (infoObj, idx) => {
+        return (
+            <div className="product-info-field">
+                <div className={this.state.errors[name] ? "key-input-control control is-danger" : "key-input-control control"}
+                >
+                    <input
+                        defaultValue={infoObj.key}
+                        className="input editable-input"
+                        placeholder="Enter Title"
+                        type="text"
+                        name="key"
+                        onChange={(e)=>{this.onProductInfoChange(e, infoObj)}}
+                    />
+                </div>
+                <div className={this.state.errors[name] ? "value-input-control control is-danger" : "value-input-control control"}
+                >
+                    <input
+                        defaultValue={infoObj.value}
+                        className="input editable-input"
+                        placeholder="Enter Info Value"
+                        type="text"
+                        name="value"
+                        onChange={(e)=>{this.onProductInfoChange(e, infoObj)}}
+                    />
+                </div>
+                <button className="delete is-medium is-danger is-light"
+                    onClick={()=>{this.handleRemoveProductInfo(infoObj)}}
+                ></button>
+            </div>
+        )
     }
 
     changeActiveImage = (input) => {
@@ -367,7 +452,7 @@ class Product extends React.Component {
                                                 className="arrow-btn"
                                                 onClick={() => { this.changeActiveImage(-1) }}>
                                                 &#10094;
-                                    </button>
+                                            </button>
                                         }
                                         <div className="w3-content w3-display-container" style={{ maxWidth: "100%" }}>
                                             {
@@ -451,19 +536,6 @@ class Product extends React.Component {
                                         adminuser && this.state.mode === "edit" ?
                                             <div className="field-container">
                                                 <div className="field-title">
-                                                    Description
-                                                </div>
-                                                {this.getInputJSX('description', 'text')}
-                                            </div>
-                                            :
-                                            <div className="description">
-                                                {this.state.productData.description}
-                                            </div>
-                                    }
-                                    {
-                                        adminuser && this.state.mode === "edit" ?
-                                            <div className="field-container">
-                                                <div className="field-title">
                                                     Price and Discount
                                                 </div>
                                                 <div className="two-inputs">
@@ -538,6 +610,36 @@ class Product extends React.Component {
                                                 }
                                             </div>
                                         </div>
+                                    }
+                                    {
+                                        adminuser && this.state.mode === "edit" ?
+                                        <div className="product-info-container">
+                                            <button className="button is-light is-success is-fullwidth add-desc-btn"
+                                                onClick={this.handleAddProductInfo}
+                                            >Add Additional Product Info
+                                            <FontAwesomeIcon icon="plus-square" className="add-icon ico" />
+                                            </button>
+                                            {
+                                                this.state.productInfoList.map((infoObj, index) => {
+                                                    return this.getProductInfoInputs(infoObj, index)
+                                                })
+                                            }
+                                        </div>
+                                            :
+                                            !!Object.keys(this.state.productData.description).length && 
+                                                Object.keys(this.state.productData.description).map((key, idx)=>{
+                                                return (
+                                                    <div className="field-container">
+                                                        <div className="field-title">
+                                                            {key}
+                                                        </div>
+                                                        <div className="field-content">
+                                                            {this.state.productData.description[key]}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                            
                                     }
                                     {this.state.mode !== "edit" &&
                                         <div className="field-container">

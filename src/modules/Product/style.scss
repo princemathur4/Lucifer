@@ -167,7 +167,7 @@
                         bottom: -1.2rem;
                         color: white;
                         font-size: 0.65rem;
-                        width: 2.5rem;
+                        width: 3rem;
                         padding: 0.1rem 0.275rem;
                         &.warning{
                             border: 1px solid chocolate;
@@ -175,8 +175,8 @@
                         }
                     }
                     .size-box {
-                        width: 2.5rem;
-                        height: 2.5rem;
+                        width: 3rem;
+                        height: 3rem;
                         cursor: pointer;
                         display: flex;
                         align-items: center;
@@ -246,6 +246,36 @@
                         
                     }
                 }
+            }
+        }
+        .add-desc-btn{
+            margin: 1rem 0;
+        }
+        .product-info-container{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0.5rem 0;
+            .product-info-field{
+                background: rgba(241, 241, 241, 0.377);
+                display: flex;
+                align-items: center;
+                width: 100%;
+                border: 1px solid whitesmoke;
+                padding: 0.5rem;
+                .key-input-control{
+                    width: 30%;
+                }
+                .value-input-control{
+                    width: 70%;
+                }
+                button{
+                    margin-left: 1rem;
+                }
+
+            }
+            .add-icon{
+                margin-left: 1rem;
             }
         }
         .add-to-cart-btn{

@@ -130,6 +130,33 @@
                 }
                 padding-bottom: 1rem; 
             }
+            .product-info-container{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                background: rgb(241, 241, 241);
+                margin: 0.5rem 0;
+                .product-info-field{
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    border: 1px solid whitesmoke;
+                    padding: 0.5rem;
+                    .key-input{
+                        width: 30%;
+                    }
+                    .value-input{
+                        width: 70%;
+                    }
+                    button{
+                        margin-left: 1rem;
+                    }
+
+                }
+                .add-icon{
+                    margin-left: 1rem;
+                }
+            }
             .add-product-main-body{
                 width: 100%;
                 display: flex;

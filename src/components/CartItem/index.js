@@ -1,6 +1,8 @@
 import React, { Fragment, Component } from "react";
 import Spinner from "../../components/Spinner";
 import './style.scss';
+import { roundOffNumber } from "../../utils/utilFunctions";
+
 
 export default class CartItem extends Component {
     constructor(props){
@@ -15,12 +17,12 @@ export default class CartItem extends Component {
     render () {
         let data = this.props.productObj;
         let actualPrice = data.count > 1 ?
-            `₹ ${data.price} x ${data.count}` :
-            `₹ ${data.price}`;
+            `₹ ${roundOffNumber(data.price)} x ${data.count}` :
+            `₹ ${roundOffNumber(data.price)}`;
 
         let calculatedPrice = data.count > 1 ?
-            `₹ ${(data.price - (data.price * (data.discount / 100)))} x ${data.count}` :
-            `₹ ${(data.price - (data.price * (data.discount / 100)))}`;
+            `₹ ${roundOffNumber(data.price - (data.price) * (data.discount / 100))} x ${data.count}` :
+            `₹ ${roundOffNumber(data.price - (data.price) * (data.discount / 100))}`;
 
         let leftCount = data.stock <= 10 ? data.stock : 0;
 
@@ -38,7 +40,7 @@ export default class CartItem extends Component {
                         </div>
                         <div className="product-details">
                             <div className="first-row">
-                                <div className="product-name" onClick={this.handleProductImageClick}>{data.description ? data.description : "Product Description"}</div>
+                                <div className="product-name" onClick={this.handleProductImageClick}>{data.title ? data.title : "Product title"}</div>
                                 <div className="price">{calculatedPrice}</div>
                             </div>
                             <div className="second-row">
