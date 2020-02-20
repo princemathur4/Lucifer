@@ -141,7 +141,7 @@ export default class UpdateOrders extends Component {
         action = this.orderStatusMapping[this.state.activeOrderStatus]
         comments = this.state.comments;
         try {
-            response = await commonApi.post(
+            let response = await commonApi.post(
                 'change_order_status',
                 {'order_id': orderID, 'action': action, 'notes': comments},
                 {
@@ -151,7 +151,7 @@ export default class UpdateOrders extends Component {
                     }
                 }
             );
-            console.log("response", response);
+            console.log("submit response", response);
             if (response && response.status === 200 && response.data.success) {
                 this.setState({
                     responseType: "success",
@@ -168,6 +168,7 @@ export default class UpdateOrders extends Component {
                 isSubmitLoading: false, 
             });
         } catch (err) {
+            console.log("err",err)
             this.setState({ 
                 isSubmitLoading: false, 
                 responseType: "error",
@@ -408,7 +409,15 @@ export default class UpdateOrders extends Component {
                                                 </div>
                                             </div>
                                             <div className="login-modal-body">
-                                                <textarea rows="2" columns="40" placeholder="Type your comments here."></textarea>
+                                            <div class="field">
+                                                <div class="control">
+                                                    <textarea 
+                                                        class="textarea is-primary" 
+                                                        placeholder="Type your comments here."
+                                                        onChange={this.handleTextChange}
+                                                        ></textarea>
+                                                </div>
+                                            </div>
                                                 <div className="buttons-container">
                                                     <button className={this.state.isSubmitLoading ? "button is-success is-loading" :"button is-success"}
                                                         onClick={this.handleSubmit}

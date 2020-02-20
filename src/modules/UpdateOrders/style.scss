@@ -30,11 +30,8 @@
                 width: 100%;
                 margin: 1rem 0;
                 border-radius: 8px;
-                .action-btns{
-                    // background: rgb(215, 227, 243);
-                    // color: rgb(0, 0, 0);
-                    // border-radius: 50%;
-                    margin: 1rem 2rem;
+                .action-btn{
+                    margin: 1rem;
                     &:focus{
                         outline: rgba(255, 255, 255, 0);
                     }
