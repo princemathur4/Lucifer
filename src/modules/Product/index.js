@@ -559,6 +559,61 @@ class Product extends React.Component {
                                         }
                                         </div>
                                     </div>
+                                    {
+                                    this.state.mode !== "edit" &&
+                                        <Fragment>
+                                            <div className="field-container">
+                                                <div className="field-title">
+                                                    Delivery Availibility
+                                                </div>
+                                                <div className="field-content">
+                                                    <div className="check-pincode-input-container">
+                                                        <div className={this.state.pincodeValidationStatus === "error" ? "control is-danger" :
+                                                            (this.state.pincodeValidationStatus === "success" ? "control is-success" : "control")}
+                                                        >
+                                                            <input
+                                                                placeholder="Enter your Pincode"
+                                                                className={this.state.pincodeValidationStatus === "error" ? "input is-danger" :
+                                                                    (this.state.pincodeValidationStatus === "success" ? "input is-success" : "input")
+                                                                }
+                                                                type="text"
+                                                                name='pincode'
+                                                                maxLength="6"
+                                                                onChange={this.onInputChange}
+                                                            />
+                                                        </div>
+                                                        <button
+                                                            className="button is-fullwidth check-btn"
+                                                            onClick={this.handleVerifyPincode.bind(this)}
+                                                        >
+                                                            Check
+                                                        </button>
+                                                    </div>
+                                                    {
+                                                        this.state.pincodeValidationMsg &&
+                                                        <p
+                                                            className={this.state.pincodeValidationStatus === "error" ? "help is-danger" :
+                                                                (this.state.pincodeValidationStatus === "success" ? "help is-success" : "help is-info")
+                                                            }
+                                                        >
+                                                            {this.state.pincodeValidationMsg}
+                                                        </p>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <button
+                                                className={this.state.isAddingToCartLoading ? 
+                                                    "button is-fullwidth is-loading add-to-cart-btn" : 
+                                                    "button is-fullwidth add-to-cart-btn"}
+                                                onClick={this.handleCartToggle.bind(this)}
+                                            >
+                                                <span className="icon">
+                                                    <FontAwesomeIcon icon="cart-plus" />
+                                                </span>
+                                                Add to Cart
+                                            </button>
+                                        </Fragment>
+                                    }   
                                     {(this.state.productData.color || adminuser && this.state.mode === "edit")&&
                                         <div className="field-container">
                                             <div className="field-title">
@@ -641,47 +696,6 @@ class Product extends React.Component {
                                             })
                                             
                                     }
-                                    {this.state.mode !== "edit" &&
-                                        <div className="field-container">
-                                            <div className="field-title">
-                                                Delivery Availibility
-                                            </div>
-                                            <div className="field-content">
-                                                <div className="check-pincode-input-container">
-                                                    <div className={this.state.pincodeValidationStatus === "error" ? "control is-danger" :
-                                                        (this.state.pincodeValidationStatus === "success" ? "control is-success" : "control")}
-                                                    >
-                                                        <input
-                                                            placeholder="Enter your Pincode"
-                                                            className={this.state.pincodeValidationStatus === "error" ? "input is-danger" :
-                                                                (this.state.pincodeValidationStatus === "success" ? "input is-success" : "input")
-                                                            }
-                                                            type="text"
-                                                            name='pincode'
-                                                            maxLength="6"
-                                                            onChange={this.onInputChange}
-                                                        />
-                                                    </div>
-                                                    <button
-                                                        className="button is-fullwidth check-btn"
-                                                        onClick={this.handleVerifyPincode.bind(this)}
-                                                    >
-                                                        Check
-                                                    </button>
-                                                </div>
-                                                {
-                                                    this.state.pincodeValidationMsg &&
-                                                    <p
-                                                        className={this.state.pincodeValidationStatus === "error" ? "help is-danger" :
-                                                            (this.state.pincodeValidationStatus === "success" ? "help is-success" : "help is-info")
-                                                        }
-                                                    >
-                                                        {this.state.pincodeValidationMsg}
-                                                    </p>
-                                                }
-                                            </div>
-                                        </div>
-                                    }   
                                     {
                                         this.state.sizeSelectWarning &&
                                         <div className="select-size-error">
@@ -689,19 +703,7 @@ class Product extends React.Component {
                                         </div>
                                     }
                                     {
-                                        this.state.mode !== "edit" ?
-                                        <button
-                                            className={this.state.isAddingToCartLoading ? 
-                                                "button is-fullwidth is-loading add-to-cart-btn" : 
-                                                "button is-fullwidth add-to-cart-btn"}
-                                            onClick={this.handleCartToggle.bind(this)}
-                                        >
-                                            <span className="icon">
-                                                <FontAwesomeIcon icon="cart-plus" />
-                                            </span>
-                                            Add to Cart
-                                        </button>
-                                        :
+                                        this.state.mode === "edit" &&
                                         adminuser &&(
                                             <Fragment>
                                                 {this.state.responseText &&
