@@ -11,6 +11,7 @@ import VerifyMobile from '../../components/VerifyMobile';
 import { orderResponse } from "../../constants";
 import OrderDetails from '../../components/OrderDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { roundOffNumber } from '../../utils/utilFunctions';
 
 export default class Cart extends React.Component {
     constructor(props){
@@ -252,11 +253,11 @@ export default class Cart extends React.Component {
                 <div className="field-content">
                     <div className="field-item">
                         <div className="field-item-key">Cart Total</div>
-                        <div className="field-item-value">₹ {this.state.actualCartTotal}</div>
+                        <div className="field-item-value">₹ {roundOffNumber(this.state.actualCartTotal)}</div>
                     </div>
                     <div className="field-item">
                         <div className="field-item-key">Total Discount</div>
-                        <div className="field-item-value discount"> - ₹ {this.state.totalDiscount}</div>
+                        <div className="field-item-value discount"> - ₹ {roundOffNumber(this.state.totalDiscount)}</div>
                     </div>
                     <div className="field-item">
                         <div className="field-item-key">Delivery Charges</div>
@@ -283,7 +284,7 @@ export default class Cart extends React.Component {
                     <div className="line-border"></div>
                     <div className="field-item">
                         <div className="field-item-key">Total</div>
-                        <div className="field-item-value">₹ {this.state.discountedTotal}</div>
+                        <div className="field-item-value">₹ {roundOffNumber(this.state.discountedTotal)}</div>
                     </div>
                 </div>
             </div>
@@ -353,7 +354,7 @@ export default class Cart extends React.Component {
                                                                 {this.state.cartProducts.length} Items in Cart
                                                         </div>
                                                             <div className="total">
-                                                                Total Payable: ₹ {this.state.discountedTotal}
+                                                                Total Payable: ₹ {roundOffNumber(this.state.discountedTotal)}
                                                             </div>
                                                         </div>
                                                         <div className="products-summary-container">

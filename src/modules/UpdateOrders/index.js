@@ -3,7 +3,7 @@ import commonApi from "../../apis/common";
 import { getSession } from "../../utils/AuthUtils";
 import "./style.scss";
 import axios from "axios";
-import { titleCase } from "../../utils/utilFunctions";
+import { titleCase, roundOffNumber } from "../../utils/utilFunctions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import groupby from "lodash.groupby";
 import { Dropdown, Button, Modal } from 'semantic-ui-react';
@@ -31,7 +31,6 @@ export default class UpdateOrders extends Component {
         this.orderStatusMapping = {
             "CONFIRMED": "OUT_FOR_DELIVERY",
             "OUT_FOR_DELIVERY": "DELIVERED",
-            "DELIVERED": "OUT_FOR_DELIVERY"
         }
         this.state = {
             isLoading: false,
@@ -122,6 +121,11 @@ export default class UpdateOrders extends Component {
         }
     }
 
+    handleTextChange = async event => {
+        event.preventDefault();
+        this.state.comments = event.target.value;
+    }
+
     handleSubmit = async event => {
         event.preventDefault();
         this.setState({ isSubmitLoading: true });
@@ -134,10 +138,11 @@ export default class UpdateOrders extends Component {
         let action, orderID, comments;
         orderID = this.state.activeModalID;
         action = this.orderStatusMapping[this.state.activeOrderStatus]
+        comments = this.state.comments;
         try {
-            response = await commonApi.post(
+            let response = await commonApi.post(
                 'change_order_status',
-                {'order_id': orderID, 'action': action, 'notes': ''},
+                {'order_id': orderID, 'action': action, 'notes': comments},
                 {
                     headers: { 
                         "Content-Type": "text/plain", 
@@ -145,8 +150,8 @@ export default class UpdateOrders extends Component {
                     }
                 }
             );
-            console.log("response", response);
-            if (response && response.status === 200 && response.data.status) {
+            console.log("submit response", response);
+            if (response && response.status === 200 && response.data.success) {
                 this.setState({
                     responseType: "success",
                     responseText: "Order updated successfully"
@@ -162,6 +167,7 @@ export default class UpdateOrders extends Component {
                 isSubmitLoading: false, 
             });
         } catch (err) {
+            console.log("err",err)
             this.setState({ 
                 isSubmitLoading: false, 
                 responseType: "error",
@@ -201,24 +207,20 @@ export default class UpdateOrders extends Component {
                             {productObj.title ? productObj.title : "Product Title"}
                         </Link>
                     </div>
-                    <div className="second-row">
-                        {productObj.description ? productObj.description : "Product Description"}
-                    </div>
-
                     <div className="third-row">
                         <div className="size">Size: <b>{productObj.size}</b></div>
                         <div className="quantity"> Qty: <b>{productObj.count}</b></div>
                     </div>
                     <div className="fourth-row">
-                        <div className="price">₹ {productObj.effective_price}</div>
+                        <div className="price">₹ {roundOffNumber(productObj.effective_price)}</div>
                         {
                             !!productObj.discount &&
                             <Fragment>
                                 <div className="actual-price">
-                                    ₹ {productObj.total_price}
+                                    ₹ {roundOffNumber(productObj.total_price)}
                                 </div>
                                 <div className="discount">
-                                    (Saved ₹ {productObj.total_price - productObj.effective_price})
+                                    (Saved ₹ {roundOffNumber(productObj.total_price - productObj.effective_price)})
                                 </div>
                             </Fragment>
                         }
@@ -276,9 +278,12 @@ export default class UpdateOrders extends Component {
                         <div className="amount-paid">Amount Paid: <b>₹ {data.total_price}</b></div>
                         <div className="order-status">
                             <p><span>Order Status:</span>{' '}<span><b className={`${this.getStatusClass(data.order_status)}`}>{data.order_status}</b></span></p>
-                            <Button primary className="change-status-btn" size='mini'
-                                onClick={()=>{this.handleModalTrigger(data)}}
-                            >Change Status</Button>
+                            {
+                                Object.keys(this.orderStatusMapping).includes(data.order_status) &&
+                                <Button primary className="change-status-btn" size='mini'
+                                    onClick={()=>{this.handleModalTrigger(data)}}
+                                >Change Status</Button>
+                            }
                         </div>
                     </div>
                     <div className="row">
@@ -402,6 +407,15 @@ export default class UpdateOrders extends Component {
                                                 </div>
                                             </div>
                                             <div className="login-modal-body">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <textarea 
+                                                        class="textarea is-primary" 
+                                                        placeholder="Type your comments here."
+                                                        onChange={this.handleTextChange}
+                                                        ></textarea>
+                                                </div>
+                                            </div>
                                                 <div className="buttons-container">
                                                     <button className={this.state.isSubmitLoading ? "button is-success is-loading" :"button is-success"}
                                                         onClick={this.handleSubmit}

@@ -7,6 +7,7 @@ import Auth from "@aws-amplify/auth";
 import { fetchCartItems } from '../../utils/ProductUtils';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
+import { roundOffNumber } from '../../utils/utilFunctions';
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -59,7 +60,7 @@ class NavBar extends React.Component {
             <Fragment>
                 <div className="cart-popup-header">
                     <div className="cart-popup-title">Total: </div>
-                    <div className="cart-popup-value">₹ {this.props.store.discountedTotal}</div>
+                    <div className="cart-popup-value">₹ {roundOffNumber(this.props.store.discountedTotal)}</div>
                 </div>
                 <div className="cart-popup-content">
                     {toJS(this.props.store.cartItems).map((productObj, idx) => {
@@ -80,7 +81,7 @@ class NavBar extends React.Component {
                                     </div>
                                     <div className="second-row">
                                         <div className="price">
-                                            ₹{productObj.effective_price}
+                                            ₹{roundOffNumber(productObj.effective_price)}
                                         </div>
                                         <div className="product-quantity">
                                             Qty: {productObj.count}
@@ -95,7 +96,9 @@ class NavBar extends React.Component {
                 </div>
 
                 <div className="cart-popup-footer">
-                    <button className="button is-fullwidth popup-checkout"><Link to="/cart">Checkout</Link></button>
+                    <button className="button is-fullwidth popup-checkout" 
+                        onClick={()=>{this.props.history.push('/cart')}}
+                    >Checkout</button>
                 </div>
             </Fragment>
         )

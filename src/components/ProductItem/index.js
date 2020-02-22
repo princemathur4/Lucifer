@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import commonApi from "../../apis/common";
 import { getSession } from "../../utils/AuthUtils";
 import { fetchCartItems } from '../../utils/ProductUtils';
+import { roundOffNumber } from '../../utils/utilFunctions';
 
 class ProductItem extends React.Component {
     constructor(props) {
@@ -103,7 +104,7 @@ class ProductItem extends React.Component {
                 {
                     !!discount &&
                     <Fragment>
-                        <p className="actual-price-text">Rs. {this.props.productData.price}</p>
+                        <p className="actual-price-text">Rs. {roundOffNumber(this.props.productData.price)}</p>
                         <p className="discount-text">({discount}% OFF)</p>
                     </Fragment>
                 }
@@ -113,6 +114,7 @@ class ProductItem extends React.Component {
 
     getSizes = () => {
         let allSizes = this.props.productData.available_sizes;
+        allSizes = allSizes.sort();
         return (
             allSizes.map((size, idx) => {
                 return (
@@ -246,7 +248,7 @@ class ProductItem extends React.Component {
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">
-                                <p className="product-description" onClick={this.handleProductSelect}>{this.props.productData.title}</p>
+                                <p className="product-title" onClick={this.handleProductSelect}>{this.props.productData.title}</p>
                                 {this.getPriceHtml()}
                                 {
                                     this.state.sizeSelectWarning &&
