@@ -13,7 +13,8 @@ class NavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            discountedTotal: 0
+            discountedTotal: 0,
+            isSideNavOpen: false
         }
 
         Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -51,8 +52,8 @@ class NavBar extends React.Component {
     }
 
     getCartPopup = () => {
-        if(!this.props.store.cartItems.length){
-            return(
+        if (!this.props.store.cartItems.length) {
+            return (
                 <div className="no-items">No Items in Cart</div>
             )
         }
@@ -96,12 +97,16 @@ class NavBar extends React.Component {
                 </div>
 
                 <div className="cart-popup-footer">
-                    <button className="button is-fullwidth popup-checkout" 
-                        onClick={()=>{this.props.history.push('/cart')}}
+                    <button className="button is-fullwidth popup-checkout"
+                        onClick={() => { this.props.history.push('/cart') }}
                     >Checkout</button>
                 </div>
             </Fragment>
         )
+    }
+
+    toggleSideNav = () => {
+        this.setState({ isSideNavOpen: !this.state.isSideNavOpen });
     }
 
     render() {
@@ -117,48 +122,143 @@ class NavBar extends React.Component {
                         <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
                     </Link>
                     <div className="navbar-brand">
-                        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarLabroz">
+                        <button 
+                            className={this.state.isSideNavOpen ? "button is-active is-light navbar-burger burger" : "button is-light navbar-burger burger"}
+                            aria-label="menu"
+                            aria-expanded="false"
+                            role="button"
+                            data-target="navbarLabroz"
+                            onClick={this.toggleSideNav}
+                        >
                             <span aria-hidden="true"></span>
                             <span aria-hidden="true"></span>
                             <span aria-hidden="true"></span>
-                        </a>
+                        </button>
                     </div>
+                    <div className={this.state.isSideNavOpen ? "sidenav is-active": "sidenav"}>
+                        <Link className="side-nav-logo-container" to="/">
+                            <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
+                        </Link>
+                        <Link className={this.props.location.pathname === "/home" ? "sidenav-item is-active": "sidenav-item"} 
+                            to="/home"
+                        >
+                            Home
+                        </Link>
 
+                        <Link className={this.props.location.pathname === "/products?category=bottomwear&sub_category=jeans" ? 
+                            "sidenav-item is-active": "sidenav-item"} 
+                            to="/products?category=bottomwear&sub_category=jeans"
+                        >
+                            Jeans
+                        </Link>
+                        <Link 
+                            to="/products?category=bottomwear&sub_category=chinos"
+                            className={this.props.location.pathname === "/products?category=bottomwear&sub_category=chinos" ? 
+                                "sidenav-item is-active": "sidenav-item"}
+                        >
+                            Chinos
+                        </Link>
+                        <Link 
+                            to="/products?category=bottomwear&sub_category=shorts"
+                            className={this.props.location.pathname === "/products?category=bottomwear&sub_category=shorts" ? 
+                               "sidenav-item is-active": "sidenav-item"}
+                        >
+                            Shorts
+                        </Link>
+                        <Link 
+                            to="/specials" 
+                            className={this.props.location.pathname === "/specials" ? "sidenav-item is-active": "sidenav-item"} 
+                        >
+                            Specials
+                        </Link>
+                        <Link 
+                            to="/blog" 
+                            className={this.props.location.pathname === "/blog" ? "sidenav-item is-active": "sidenav-item"} 
+                        >
+                            Blog
+                        </Link>
+                        {
+                            adminuser &&
+                            <Fragment>
+                                <Link 
+                                    to="/add_products" 
+                                    className={this.props.location.pathname === "/add_products" ? "sidenav-item is-active": "sidenav-item"} 
+                                >
+                                    Add Products
+                                </Link>
+                                <Link to="/update_orders" 
+                                    className={this.props.location.pathname === "/update_orders" ? "sidenav-item is-active": "sidenav-item"}
+                                >
+                                    Update Orders
+                                </Link>
+                            </Fragment>
+                        }
+                        {
+                            this.props.auth.isAuthenticated ?
+                            <Fragment>
+
+                                <Link to="/myaccount"
+                                    className={this.props.location.pathname === "/myaccount" ? "sidenav-item is-active": "sidenav-item"}
+                                >
+                                    My Account
+                                </Link>
+                                <Link to="/cart"
+                                    className={this.props.location.pathname === "/cart" ? "sidenav-item is-active": "sidenav-item"}
+                                >
+                                    Cart
+                                </Link>
+                                <a className="sidenav-item" onClick={this.handleLogout}>
+                                    Logout
+                                </a>
+                            </Fragment>
+                            :
+                            <Fragment>
+                                <Link to="/signup"
+                                    className={this.props.location.pathname === "/signup" ? "sidenav-item is-active": "sidenav-item"}
+                                >
+                                    Signup
+                                </Link>
+                                <Link to="/login"
+                                    className={this.props.location.pathname === "/login" ? "sidenav-item is-active": "sidenav-item"}
+                                >Login</Link>
+                            </Fragment>
+                        }
+                    </div>
                     <div id="navbarLabroz" className="navbar-menu">
                         <div className="main-nav-container">
                             {
                                 this.props.location.pathname !== "/home" &&
                                 <Link className="navbar-item" to="/home">
                                     Home
-                            </Link>
+                                </Link>
                             }
 
                             <Link className="navbar-item" to="/products?category=bottomwear&sub_category=jeans">
                                 Jeans
-                        </Link>
-                            <Link className="navbar-item" to="/products?category=bottomwear&sub_category=chinos">
-                                Chinos
-                        </Link>
-                            <Link className="navbar-item" to="/products?category=bottomwear&sub_category=shorts">
-                                Shorts
-                        </Link>
-                            <Link to="/specials" className="navbar-item">
-                                Specials
-                        </Link>
-                            <Link to="/blog" className="navbar-item">
-                                Blog
-                        </Link>
-                        {
-                            adminuser &&
-                            <Fragment>
-                                <Link to="/add_products" className="navbar-item">
-                                    Add Products
+                            </Link>
+                                <Link className="navbar-item" to="/products?category=bottomwear&sub_category=chinos">
+                                    Chinos
+                            </Link>
+                                <Link className="navbar-item" to="/products?category=bottomwear&sub_category=shorts">
+                                    Shorts
+                            </Link>
+                                <Link to="/specials" className="navbar-item">
+                                    Specials
+                            </Link>
+                                <Link to="/blog" className="navbar-item">
+                                    Blog
+                            </Link>
+                            {
+                                adminuser &&
+                                <Fragment>
+                                    <Link to="/add_products" className="navbar-item">
+                                        Add Products
                                 </Link>
-                                <Link to="/update_orders" className="navbar-item">
-                                    Update Orders
+                                    <Link to="/update_orders" className="navbar-item">
+                                        Update Orders
                                 </Link>
-                            </Fragment>
-                        }
+                                </Fragment>
+                            }
                         </div>
                         {/* <div className="field search-container">
                             <p className="control has-icons-left has-icons-right">
@@ -168,7 +268,6 @@ class NavBar extends React.Component {
                                 </span>
                             </p>
                         </div> */}
-
                         <div className="action-buttons">
                             <div className="dropdown is-right is-hoverable">
                                 <div className="action-btn" aria-haspopup="true" aria-controls="dropdown-profile">
@@ -199,7 +298,7 @@ class NavBar extends React.Component {
                                             <div className="" onClick={this.handleLogout}>
                                                 <div className="logout-btn selectable">
                                                     Logout
-                                            </div>
+                                                </div>
                                             </div>
                                         </div>
                                         :
@@ -211,14 +310,14 @@ class NavBar extends React.Component {
                                                         onClick={() => { this.props.history.push('/login') }}
                                                     >
                                                         Login
-                                                </button>
+                                                    </button>
                                                     <p>OR</p>
                                                     <button
                                                         className="login-btn"
                                                         onClick={() => { this.props.history.push('/signup') }}
                                                     >
                                                         Signup
-                                                </button>
+                                                    </button>
                                                 </div>
                                             </div>
                                             <hr className="dropdown-divider" />

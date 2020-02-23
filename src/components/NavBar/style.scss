@@ -170,7 +170,7 @@ $navbar-tab-hover-border-bottom-color: black;
                 }
             }
         }
-        .dropdown-content{
+        .dropdown-content{  
             border-radius: 0;
             .action-link-container{
                 a {
@@ -312,5 +312,48 @@ $navbar-tab-hover-border-bottom-color: black;
             }
         }
     }
-
+    
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(255, 255, 255);
+        overflow-x: hidden;
+        transition: 0.5s;
+        box-shadow: 5px 0 8px rgba(0,0,0,.2);
+        z-index: 5;
+        &.is-active{
+            width: 70%;
+        }
+        .side-nav-logo-container{
+            display: flex;
+            justify-content: center;
+            margin: 0.5vh auto;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            width: 100%;
+            padding: 0.5rem;
+            .logo-img {
+                max-height: 8rem !important;
+                height: 5rem;
+                min-width: auto;
+            }
+        }
+        .sidenav-item{
+            padding: 1rem;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            a{
+                color: black !important;
+            }
+            &.is-active{
+                background: cadetblue;
+                color: white !important;
+            }
+        }
+    }
+  
 }
