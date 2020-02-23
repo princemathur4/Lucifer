@@ -42,6 +42,7 @@ class ProductsPage extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.location)
         this.category = getParameterByName('category', window.location.href);
         this.sub_category = getParameterByName('sub_category', window.location.href);
         fetchCartItems();

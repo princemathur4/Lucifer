@@ -46,9 +46,14 @@ class NavBar extends React.Component {
             console.log(error.message);
         }
     }
-
+    
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside, false)
         fetchCartItems();
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside, false)
     }
 
     getCartPopup = () => {
@@ -105,6 +110,14 @@ class NavBar extends React.Component {
         )
     }
 
+    handleClickOutside = (e) => {
+        e.stopPropagation()
+        if (this.node.contains(e.target)) {
+            return;
+        }
+        this.setState({ isSideNavOpen: false });
+    };
+
     toggleSideNav = () => {
         this.setState({ isSideNavOpen: !this.state.isSideNavOpen });
     }
@@ -137,7 +150,7 @@ class NavBar extends React.Component {
                             <span aria-hidden="true"></span>
                         </button>
                     </div>
-                    <div className={this.state.isSideNavOpen ? "sidenav is-active": "sidenav"}>
+                    <div className={this.state.isSideNavOpen ? "sidenav is-active": "sidenav"} ref={(node) => { this.node = node }}>
                         <Link className="side-nav-logo-container" to="/">
                             <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
                         </Link>
@@ -147,7 +160,7 @@ class NavBar extends React.Component {
                             Home
                         </Link>
 
-                        <Link className={this.props.location.pathname === "/products?category=bottomwear&sub_category=jeans" ? 
+                        <Link className={this.props.location.pathname + this.props.location.search === "/products?category=bottomwear&sub_category=jeans" ? 
                             "sidenav-item is-active": "sidenav-item"} 
                             to="/products?category=bottomwear&sub_category=jeans"
                         >
@@ -155,14 +168,14 @@ class NavBar extends React.Component {
                         </Link>
                         <Link 
                             to="/products?category=bottomwear&sub_category=chinos"
-                            className={this.props.location.pathname === "/products?category=bottomwear&sub_category=chinos" ? 
+                            className={this.props.location.pathname + this.props.location.search  === "/products?category=bottomwear&sub_category=chinos" ? 
                                 "sidenav-item is-active": "sidenav-item"}
                         >
                             Chinos
                         </Link>
                         <Link 
                             to="/products?category=bottomwear&sub_category=shorts"
-                            className={this.props.location.pathname === "/products?category=bottomwear&sub_category=shorts" ? 
+                            className={this.props.location.pathname + this.props.location.search  === "/products?category=bottomwear&sub_category=shorts" ? 
                                "sidenav-item is-active": "sidenav-item"}
                         >
                             Shorts
