@@ -118,9 +118,11 @@ class NavBar extends React.Component {
         return (
             <Fragment>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
-                    <Link className="logo-container" to="/">
-                        <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
-                    </Link>
+                    <div className="logo-container">
+                        <Link to="/">
+                            <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
+                        </Link>
+                    </div>
                     <div className="navbar-brand">
                         <button 
                             className={this.state.isSideNavOpen ? "button is-active is-light navbar-burger burger" : "button is-light navbar-burger burger"}
