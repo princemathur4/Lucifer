@@ -368,6 +368,9 @@
         .left-container {
             width: $leftContainerWidth !important;
             height: $leftContainerHeight !important;
+            .breadcrumb{
+                padding: 1rem;
+            }
         }
         .right-container {
             width: $rightContainerWidth !important;
