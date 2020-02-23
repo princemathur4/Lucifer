@@ -171,6 +171,37 @@ class ProductItem extends React.Component {
         this.props.history.push(`/product?id=${this.props.productData._id}`);
     }
 
+    getActionbuttons = (type) => {
+        return (
+            <div className={type +"-action-buttons"}>
+                {/* <button 
+                    className={this.state.isWishListToggleLoading ? 
+                        "button is-outlined is-loading wishlist-btn" : 
+                        "button is-outlined wishlist-btn"
+                    } 
+                    onClick={this.handleWishlistToggle.bind(this)}
+                    >
+                    <span className="icon">
+                    <FontAwesomeIcon icon="bookmark" className="wishlist-icon" />
+                    </span>
+                    <span>{this.props.productData.is_wishlisted || this.state.isWishlisted ? "Wishlisted": "Save in Wishlist"}</span>
+                </button> */}
+                <button
+                    className={this.state.isAddingToCartLoading ?
+                        "button is-outlined is-fullwidth is-loading add-to-cart-btn" :
+                        "button is-outlined is-fullwidth add-to-cart-btn"
+                    }
+                    onClick={this.handleCartToggle.bind(this)}
+                >
+                    <span className="icon">
+                        <FontAwesomeIcon icon="cart-plus" />
+                    </span>
+                    <span>Add to Cart</span>
+                </button>
+            </div>
+        )
+    }
+
     render() {
         return (
             <Fragment>
@@ -216,38 +247,14 @@ class ProductItem extends React.Component {
                                         }
                                         </div>
                                 }
-                                <div className="action-buttons">
-                                    {/* <button 
-                                        className={this.state.isWishListToggleLoading ? 
-                                            "button is-outlined is-loading wishlist-btn" : 
-                                            "button is-outlined wishlist-btn"
-                                        } 
-                                        onClick={this.handleWishlistToggle.bind(this)}
-                                        >
-                                        <span className="icon">
-                                        <FontAwesomeIcon icon="bookmark" className="wishlist-icon" />
-                                        </span>
-                                        <span>{this.props.productData.is_wishlisted || this.state.isWishlisted ? "Wishlisted": "Save in Wishlist"}</span>
-                                    </button> */}
-                                    <button
-                                        className={this.state.isAddingToCartLoading ?
-                                            "button is-outlined is-fullwidth is-loading add-to-cart-btn" :
-                                            "button is-outlined is-fullwidth add-to-cart-btn"
-                                        }
-                                        onClick={this.handleCartToggle.bind(this)}
-                                    >
-                                        <span className="icon">
-                                            <FontAwesomeIcon icon="cart-plus" />
-                                        </span>
-                                        <span>Add to Cart</span>
-                                    </button>
-                                </div>
+                                {this.getActionbuttons('hover')}
                             </div>
                         }
                     </Link>
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">
+                                {this.getActionbuttons('mobile')}
                                 <p className="product-title" onClick={this.handleProductSelect}>{this.props.productData.title}</p>
                                 {this.getPriceHtml()}
                                 {

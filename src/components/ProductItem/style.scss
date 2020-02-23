@@ -1,3 +1,6 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 .product-item-card {
     min-width: 23% !important;
     width: 23% !important;
@@ -56,9 +59,9 @@
         cursor: pointer;
     }
     .card-content{
-        padding: 0.4rem !important;
+        padding: 0.4rem;
         .media{
-            padding: 0.4rem !important;
+            padding: 0.4rem;
             .select-size-error{
                 font-size: 0.85rem;
                 color: rgb(204, 10, 10);
@@ -90,7 +93,7 @@
                 }
             }
         }
-        .action-buttons {
+        .hover-action-buttons {
             display: flex;
             justify-content: space-evenly;
             width: 100%;
@@ -121,6 +124,39 @@
                 &:focus{
                     outline: rgba(255, 255, 255, 0);
                 }
+            }
+        }
+    }
+    .mobile-action-buttons {
+        display: none;
+        justify-content: space-evenly;
+        width: 100%;
+        button {
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            font-family: inherit;
+            border-radius: 0px !important;
+            .wishlist-icon {
+                height: 1rem;
+            }
+            &.wishlist-btn{
+                border: 1px solid rgb(12, 204, 194);
+                color: white;
+                background: rgb(12, 204, 194);
+                &:hover{
+                    background: rgb(12, 204, 194);
+                }
+            }
+            &.add-to-cart-btn{
+                border: 1px solid rgb(43, 135, 158);
+                color: white;
+                background: rgb(43, 135, 158);
+                &:hover{
+                    background: linear-gradient(rgb(43, 135, 158), rgb(9, 90, 110));
+                }
+            }
+            &:focus{
+                outline: rgba(255, 255, 255, 0);
             }
         }
     }
@@ -191,11 +227,11 @@
     }
 }
 
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
 
-
-@mixin styling(
-
-){
+@media (max-width:1360px){
     .product-item-card {
         .action-buttons {
             button{
@@ -205,6 +241,97 @@
     }
 }
 
-@media (max-width:1360px){
-    @include styling();
+@mixin styling(
+    $productItemCardWidth: 23%,
+    $hoverContainerDisplay: flex,
+    $mobileActionBtnsDisplay: none,
+    $cardContentPadding: 0.4rem, 
+    $mediaPadding: 0.4rem,
+){
+    .product-item-card {
+        width: $productItemCardWidth !important;
+    }
+    .hover-container{
+        display: $hoverContainerDisplay !important;
+    }
+    .mobile-action-buttons{
+        display: $mobileActionBtnsDisplay !important;
+    }
+    .card-content{
+        padding: $cardContentPadding !important;
+    }
+    .media{
+        padding: $mediaPadding !important;
+    }
 }
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+        $productItemCardWidth: 31%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+    @media #{$tablet} {
+    @include styling(
+        $productItemCardWidth: 31%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  

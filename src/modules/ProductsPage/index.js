@@ -30,6 +30,7 @@ class ProductsPage extends React.Component {
             totalCount: 0,
             pageCount: 0,
             productListLoader: true,
+            isSideFilterOpen: false,
             currentPage: 1,
             totalPages: 0,
             orderby: { 
@@ -103,7 +104,7 @@ class ProductsPage extends React.Component {
     }
 
     async makeGetProductsApiCall() {
-        this.setState({ productListLoader: true });
+        this.setState({ productListLoader: true, isSideFilterOpen: false });
         let payload = { 
             ...this.filters, 
             category: this.category, 
@@ -226,6 +227,10 @@ class ProductsPage extends React.Component {
         })
     }
 
+    handleFiltersToggle = () => {
+        this.setState({ isSideFilterOpen: !this.state.isSideFilterOpen });
+    }
+
     render() {
         let adminuser = this.props.auth.user && 
             this.props.auth.user.signInUserSession.accessToken.hasOwnProperty("payload") && 
@@ -256,6 +261,14 @@ class ProductsPage extends React.Component {
                                         handleFiltersChange={this.handleFiltersChange.bind(this)}
                                     />
                                 </div>
+                                <div className={this.state.isSideFilterOpen ? "side-filter-nav is-active": "side-filter-nav"}>
+                                    <Filters 
+                                        {...this.props}
+                                        filtersBlueprint={this.state.filtersBlueprint} 
+                                        store={this.props.store}
+                                        handleFiltersChange={this.handleFiltersChange.bind(this)}
+                                    />
+                                </div>
                                 <div className="right-container">
                                     {
                                         this.state.productListLoader 
@@ -265,6 +278,15 @@ class ProductsPage extends React.Component {
                                             </div>
                                         :
                                         <Fragment>
+                                            <button 
+                                                className={this.state.isSideFilterOpen ? 
+                                                    "button is-fullwidth is-link filter-toggle-btn hide-cls":
+                                                    "button is-fullwidth is-link filter-toggle-btn show-cls"
+                                                }
+                                                onClick={this.handleFiltersToggle}
+                                            >
+                                                {this.state.isSideFilterOpen ? "Hide Filters": "Show Filters"}
+                                            </button>
                                             <div className="results-action-container">
                                                 {/* <span>Men {titleCase(this.sub_category)}</span> */}
                                                 <span>Showing <b>{this.state.pageCount}</b> Out of <b>{this.state.totalCount}</b> Results</span>
