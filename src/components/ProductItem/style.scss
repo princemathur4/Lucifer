@@ -6,7 +6,7 @@
     width: 23% !important;
     margin: 1%;
     border: 1px solid rgba(255, 255, 255, 0);
-    box-shadow: 0 0em 0em 0em rgba(255, 255, 255, 0), 0 0px 0 0px rgba(255, 255, 255, 0) !important;
+    box-shadow: 0 0em 0em 0em rgba(255, 255, 255, 0), 0 0px 0 0px rgba(255, 255, 255, 0);
     display: table;
     max-width: 100%;
     width: 100%;
@@ -250,6 +250,11 @@
 ){
     .product-item-card {
         width: $productItemCardWidth !important;
+        box-shadow: 0 0 0 0 !important;
+        &:hover {
+            border: 0px solid rgba(255, 255, 255, 0) !important;
+            box-shadow: 0 0 0 0 !important;
+        }
     }
     .hover-container{
         display: $hoverContainerDisplay !important;

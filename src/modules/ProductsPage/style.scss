@@ -34,6 +34,7 @@
     .filter-toggle-btn{
         display: none;
         border-radius: 0 !important;
+        font-family: inherit;
         &.show-cls{
             background: rgb(42, 100, 167);
         }

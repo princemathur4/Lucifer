@@ -111,8 +111,8 @@ class NavBar extends React.Component {
     }
 
     handleClickOutside = (e) => {
-        e.stopPropagation()
-        if (this.node.contains(e.target)) {
+        e.stopPropagation();
+        if (this.node.contains(e.target) || e.target.closest('.navbar-burger')) {
             return;
         }
         this.setState({ isSideNavOpen: false });
@@ -130,6 +130,10 @@ class NavBar extends React.Component {
             this.props.auth.user.signInUserSession.accessToken.payload["cognito:groups"].includes("labroz_admin");
         return (
             <Fragment>
+                {
+                    this.state.isSideNavOpen &&
+                    <div className="faded-content"></div>
+                }
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <div className="logo-container">
                         <Link to="/">

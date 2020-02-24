@@ -1,3 +1,7 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
+
 .product-card {
     display: flex;
     flex-grow: 1;
@@ -88,7 +92,7 @@
                 align-items: center;
                 padding: 0 0.5rem;
                 font-weight: 600;
-                min-width: 2rem;
+                min-width: 1.5rem;
                 background: #020b8a;
                 color: white;
                 height: 100%;
@@ -124,3 +128,84 @@
         }
     }
 }
+
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+  ) {
+    .product-card {
+        &:hover {
+            box-shadow: 0 !important;
+        }
+        img {
+            width: 20vw !important;
+            height: 18vh !important;
+            object-fit: cover !important;
+        }
+        .product-details {
+            padding-left: 0.5rem !important;   
+            .product-name {
+                font-size: 1.1rem !important;
+            }
+            .price {
+                font-size: 1rem !important;
+            }
+            .size{
+                font-size: 0.9rem !important;
+            }
+            .quantity{
+                font-size: 0.9rem !important;
+            }
+            .count {
+                font-size: 0.9rem !important;
+                line-height: 1.8rem !important;
+            }
+            .bottom-container{
+                justify-content: flex-end !important;
+                .remove-btn{
+                    padding: 0 1rem !important;
+                    font-size: 0.9rem !important;   
+                }
+            }
+        }
+      }
+    }
+
+@media #{$mobile--smallest} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+    );
+  }

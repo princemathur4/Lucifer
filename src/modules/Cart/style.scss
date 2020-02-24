@@ -1,3 +1,6 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 .loader-container {
     width: 100%;
     height: 100%;
@@ -165,6 +168,8 @@
             width: 35%;
             height: 100%;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
 
             .cart-btn {
                 font-family: inherit;
@@ -245,3 +250,160 @@
         width: 70%;
     }
 }
+
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+    $cartContainerPadding: 2rem,
+    $cartContentWidth: 1100px,
+    $cartContentFlexDirection: row,
+    $leftContainerWidth: 65%,
+    $rightContainerWidth: 35%,
+    $rightContainerFlexDirection: column,
+    $rightContainerPadding: 2rem
+  ) {
+      .cart-container{
+          padding: $cartContainerPadding !important;
+          .breadcrumbs{
+              margin-top: 0.5rem !important;
+          }
+        .cart-content {
+            width: $cartContentWidth !important;
+            flex-direction: $cartContentFlexDirection !important;
+            .left-container {
+                width: $leftContainerWidth !important;
+            }
+            .right-container {
+                border-top: 1px solid rgb(241, 241, 241) !important ;
+                width: $rightContainerWidth !important;
+                flex-direction: $rightContainerFlexDirection !important;
+                padding: $rightContainerPadding !important;
+            }
+        }
+      }
+      .addresses-body{
+        .add-address-card{
+            width: 100% !important;
+        }
+        .card{
+            width: 100% !important;
+        }
+        }
+        .addresses-container {
+
+            .editable-field{
+                width: 100% !important;
+                margin-bottom: 0.3rem !important;
+            }
+        }
+        .action-buttons{
+            box-sizing: border-box !important;
+            width: 100% !important;
+            .button{
+                width: 47% !important;
+            }
+        }
+        .order-response-container{
+            padding: 1rem !important;
+            .title{
+                text-align: center !important;
+            }
+            .order-number-text{
+                text-align: center !important;
+            }
+            .order-subtext{
+                text-align: center !important;
+            }
+        }
+        .summary-content{
+            width: 100%;
+        }
+    }
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+        $cartContainerPadding: 0rem,
+        $cartContentWidth: 90%,
+        $cartContentFlexDirection: column,
+        $leftContainerWidth: 100%,
+        $rightContainerWidth: 100%,
+        $rightContainerFlexDirection: column-reverse,
+        $rightContainerPadding: 0rem
+    );
+  }
