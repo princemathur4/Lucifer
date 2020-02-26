@@ -137,7 +137,7 @@ class NavBar extends React.Component {
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <div className="logo-container">
                         <Link to="/">
-                            <img src="https://i.ibb.co/FmybjVx/labroz-logo-1.png" className="logo-img" width="140" height="28" />
+                            <img src="https://i.ibb.co/FmybjVx/labroz-logo-1.png" className="logo-img" width="150" height="28" />
                         </Link>
                     </div>
                     <div className="navbar-brand">
