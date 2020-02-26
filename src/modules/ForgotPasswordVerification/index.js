@@ -4,6 +4,7 @@ import Validate from "../../utils/FormValidation";
 import Auth from '@aws-amplify/auth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router-dom';
+import { Popup } from 'semantic-ui-react';
 
 class ForgotPasswordVerification extends Component {
 	contextRef = React.createRef();

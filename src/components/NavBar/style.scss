@@ -3,12 +3,13 @@ $navbar-tab-hover-border-bottom-color: black;
 .logo-container {
     display: flex;
     justify-content: center;
-    margin: 0.5vh auto;
+    align-items: center;
+    // margin: 0.5vh auto;
     flex-grow: 2;
     
     .logo-img {
         max-height: 8rem !important;
-        height: 6rem;
+        height: 3.5rem;
         min-width: auto;
     }
 }
@@ -338,20 +339,25 @@ $navbar-tab-hover-border-bottom-color: black;
             width: 100%;
             padding: 0.5rem;
             .logo-img {
-                max-height: 8rem !important;
-                height: 5rem;
+                // max-height: 2rem !important;
+                // height: 2rem;
                 min-width: auto;
             }
         }
         .sidenav-item{
+            // margin: 0 1rem;
             padding: 1rem;
-            border-bottom: 1px solid rgb(235, 235, 235);
+            border-bottom: 1px solid rgb(219, 219, 219);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgb(31, 31, 31);
             a{
-                color: black !important;
+                color: rgb(31, 31, 31) !important;
             }
             &.is-active{
-                background: cadetblue;
-                color: white !important;
+                background: rgb(235, 235, 235);
+                color: rgb(31, 31, 31) !important;
             }
         }
     }

@@ -207,7 +207,7 @@ export default class Cart extends React.Component {
             "currency": "INR",
             "name": "Labroz Denim",
             "description": "",
-            "image": "https://i.ibb.co/WyZrjkf/larboz-logo.png",
+            "image": "https://i.ibb.co/FmybjVx/labroz-logo-1.png",
             "order_id": self.order_id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
             "handler": function (response) {
                 console.log("razorpay response: ", response);
