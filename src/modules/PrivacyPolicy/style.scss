@@ -1,4 +1,6 @@
 @import '../../base/styles/fonts.scss';
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
 
 .static-pp-container{
     display: flex;
@@ -32,3 +34,80 @@
         }
     }
 }
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+    $containerPadding: 4rem,
+    $headerFontSize: 2.5rem,
+    $contentFontSize: 1.3rem,
+  ) {
+    .static-pp-container{
+        padding: $containerPadding !important;
+        .static-pp-header{
+            font-size: $headerFontSize !important;
+        }
+        .static-pp-content{
+            font-size: $contentFontSize !important;
+        }
+    }
+}
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $containerPadding: 1.5rem,
+        $headerFontSize: 1.5rem,
+        $contentFontSize: 1rem,
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $containerPadding: 1.5rem,
+        $headerFontSize: 1.5rem,
+        $contentFontSize: 1rem,
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $containerPadding: 1.5rem,
+        $headerFontSize: 1.5rem,
+        $contentFontSize: 1rem,
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $containerPadding: 1.5rem,
+        $headerFontSize: 1.5rem,
+        $contentFontSize: 1rem,
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $containerPadding: 1.5rem,
+        $headerFontSize: 1.5rem,
+        $contentFontSize: 1rem,
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+        $containerPadding: 2rem,
+        $headerFontSize: 1.8rem,
+        $contentFontSize: 1.2rem,
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+        $containerPadding: 2rem,
+        $headerFontSize: 1.8rem,
+        $contentFontSize: 1.2rem,
+    );
+  }
+  
