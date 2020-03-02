@@ -327,14 +327,14 @@ export const profileEditableFields = [
         editable: false
     },
     {
-        title: 'Email-ID',
-        name: 'email',
+        title: 'Phone Number',
+        name: 'phone',
         type: 'text',
         editable: false
     },
     {
-        title: 'Phone Number',
-        name: 'phone',
+        title: 'Email-ID',
+        name: 'email',
         type: 'text',
         editable: true
     },

@@ -137,7 +137,7 @@ class NavBar extends React.Component {
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <div className="logo-container">
                         <Link to="/">
-                            <img src="https://i.ibb.co/FmybjVx/labroz-logo-1.png" className="logo-img" width="150" height="28" />
+                            <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
                         </Link>
                     </div>
                     <div className="navbar-brand">
@@ -156,7 +156,7 @@ class NavBar extends React.Component {
                     </div>
                     <div className={this.state.isSideNavOpen ? "sidenav is-active": "sidenav"} ref={(node) => { this.node = node }}>
                         <Link className="side-nav-logo-container" to="/">
-                            <img src="https://i.ibb.co/FmybjVx/labroz-logo-1.png" className="logo-img" width="118" height="40" />
+                            <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
                         </Link>
                         <Link className={this.props.location.pathname === "/home" ? "sidenav-item is-active": "sidenav-item"} 
                             to="/home"
@@ -168,6 +168,7 @@ class NavBar extends React.Component {
                         <Link className={this.props.location.pathname + this.props.location.search === "/products?category=bottomwear&sub_category=jeans" ? 
                             "sidenav-item is-active": "sidenav-item"} 
                             to="/products?category=bottomwear&sub_category=jeans"
+                            onClick={this.toggleSideNav}
                         >
                             Jeans
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
@@ -176,6 +177,7 @@ class NavBar extends React.Component {
                             to="/products?category=bottomwear&sub_category=chinos"
                             className={this.props.location.pathname + this.props.location.search  === "/products?category=bottomwear&sub_category=chinos" ? 
                                 "sidenav-item is-active": "sidenav-item"}
+                            onClick={this.toggleSideNav}
                         >
                             Chinos
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
@@ -184,6 +186,7 @@ class NavBar extends React.Component {
                             to="/products?category=bottomwear&sub_category=shorts"
                             className={this.props.location.pathname + this.props.location.search  === "/products?category=bottomwear&sub_category=shorts" ? 
                                "sidenav-item is-active": "sidenav-item"}
+                            onClick={this.toggleSideNav}
                         >
                             Shorts
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>

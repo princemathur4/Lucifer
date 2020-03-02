@@ -4,12 +4,12 @@ $navbar-tab-hover-border-bottom-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    // margin: 0.5vh auto;
+    margin: 0.5vh auto;
     flex-grow: 2;
     
     .logo-img {
         max-height: 8rem !important;
-        height: 3.5rem;
+        height: 6rem;
         min-width: auto;
     }
 }
@@ -339,8 +339,8 @@ $navbar-tab-hover-border-bottom-color: black;
             width: 100%;
             padding: 0.5rem;
             .logo-img {
-                // max-height: 2rem !important;
-                // height: 2rem;
+                max-height: 8rem !important;
+                height: 5rem;
                 min-width: auto;
             }
         }

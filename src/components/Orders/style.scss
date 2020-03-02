@@ -1,3 +1,6 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 .orders-container{
     width: 100%;
     height: 100%;
@@ -14,7 +17,11 @@
             display: flex;
             align-items: center;
             cursor: pointer;
+            padding: 0.2rem 1rem;
+            background: whitesmoke;
+            border-radius: 4px;
             &:hover{
+                background: rgb(236, 236, 236);
                 text-decoration: underline;
             }
             .back-text{
@@ -69,3 +76,64 @@
         }
     }
 }
+
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+    $rowFlexDirection: column
+  ) {
+      .order-card-header{
+          .row{
+              flex-direction: $rowFlexDirection !important;
+              .order-status {
+                  display: flex !important;
+                  justify-content: space-between !important;
+              }
+              .amount-paid {
+                padding-right: 0rem !important;
+                display: flex !important;
+                justify-content: space-between !important;
+              }
+          }
+      }
+}
+
+@media #{$mobile--smallest} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+    );
+  }
+  
