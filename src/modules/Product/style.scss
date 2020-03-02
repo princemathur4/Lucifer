@@ -1,3 +1,6 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 .product-container {
     width: 100%;
     display: flex;
@@ -345,3 +348,137 @@
         }
     }
 }
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+    $productContainerFlexDirection: row,
+    $productContainerPadding: 3rem 5rem,
+    $leftContainerWidth: 65%,
+    $leftContainerHeight: 100%,
+    $rightContainerWidth: 35%,
+    $rightContainerPadding: 0 3rem,
+  ) {
+    .product-container {
+        flex-direction: $productContainerFlexDirection !important;
+        padding: $productContainerPadding !important;
+        .left-container {
+            width: $leftContainerWidth !important;
+            height: $leftContainerHeight !important;
+            .breadcrumb{
+                padding: 1rem;
+            }
+        }
+        .right-container {
+            width: $rightContainerWidth !important;
+            padding: $rightContainerPadding !important;
+        }
+        .w3-display-container{
+            display: flex !important;
+            justify-content: center !important;
+            .mySlides{
+                &.active{
+                    width: 60% !important;
+                    height: 20rem !important;
+                }
+            }
+        } 
+        .product-title {
+            font-size: 1.5rem !important;
+            padding-bottom: 0.3rem !important;
+            line-height: 1.5rem !important;
+        }  
+        .price-container {
+            padding-bottom: 1rem !important;
+            .price-text {
+                font-size: 1.2rem !important;
+            }
+            .actual-price-text {
+                font-size: 1.2rem !important;
+            }
+            .discount-text {
+                font-size: 1.2rem !important;
+            }   
+        }
+    }
+}
+
+    @media #{$mobile--smallest} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+      }
+      
+      @media #{$mobile--smaller} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+      }
+      
+      @media #{$mobile} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+      }
+      
+      @media #{$mobile--large} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+      }
+      
+      @media #{$mobile--largest} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+      }
+      
+      @media #{$tablet--smaller} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+    }
+    
+    @media #{$tablet} {
+        @include styling(
+            $productContainerFlexDirection: column,
+            $productContainerPadding: 0.3rem,
+            $leftContainerWidth: 100%,
+            $leftContainerHeight: fit-content,
+            $rightContainerWidth: 100%,
+            $rightContainerPadding: 1rem,
+        );
+      }

@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { store } from './AppStore';
 import { routes } from "./constants/routes";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 class App extends React.Component {
@@ -83,6 +84,7 @@ class App extends React.Component {
         return (
             !this.state.isAuthenticating &&
             <Router >
+                <ScrollToTop>
                 {
                     routes.map(({ path, component: C, name, customProps, authRequired }) => (
                         <Route path={path} exact={true} key={name}
@@ -124,7 +126,7 @@ class App extends React.Component {
                         </Route>
                     ))
                 }
-                
+                </ScrollToTop>
             </Router>
         )
     }

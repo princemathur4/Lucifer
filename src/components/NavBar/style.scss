@@ -3,6 +3,7 @@ $navbar-tab-hover-border-bottom-color: black;
 .logo-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 0.5vh auto;
     flex-grow: 2;
     
@@ -344,16 +345,30 @@ $navbar-tab-hover-border-bottom-color: black;
             }
         }
         .sidenav-item{
+            // margin: 0 1rem;
             padding: 1rem;
-            border-bottom: 1px solid rgb(235, 235, 235);
+            border-bottom: 1px solid rgb(219, 219, 219);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgb(31, 31, 31);
             a{
-                color: black !important;
+                color: rgb(31, 31, 31) !important;
             }
             &.is-active{
-                background: cadetblue;
-                color: white !important;
+                background: rgb(235, 235, 235);
+                color: rgb(31, 31, 31) !important;
             }
         }
     }
-  
+}
+.faded-content{
+    position: absolute;
+    top:0;
+    display: flex;
+    flex-grow: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(44, 44, 44, 0.14);
+    z-index: 2;
 }

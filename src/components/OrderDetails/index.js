@@ -119,36 +119,40 @@ class OrderDetails extends Component {
                 </div>
                 <div className="order-status">Order Status: <b>{this.props.data.order_status}</b></div>
                 <div className="order-details-card">
-                    <div className="child-container">
-                        <div className="column-title">Shipping Address</div>
-                        <div className="column-content">
-                            <b>{this.props.data.address.name}</b>
-                            <br/>
-                            {this.props.data.address.address}
-                            <br/>
-                            {this.props.data.address.city}
-                            <br/>
-                            {this.props.data.address.state}
-                            <br/>
-                            {this.props.data.address.country}
-                            <br/>
-                            {this.props.data.address.pincode}
-                            <br/>
-                            {this.props.data.address.mobile}
+                    <div className="first-child">
+                        <div className="child-container">
+                            <div className="column-title">Shipping Address</div>
+                            <div className="column-content">
+                                <b>{this.props.data.address.name}</b>
+                                <br/>
+                                {this.props.data.address.address}
+                                <br/>
+                                {this.props.data.address.city}
+                                <br/>
+                                {this.props.data.address.state}
+                                <br/>
+                                {this.props.data.address.country}
+                                <br/>
+                                {this.props.data.address.pincode}
+                                <br/>
+                                {this.props.data.address.mobile}
+                            </div>
+                        </div>
+                        <div className="child-container">
+                            <div className="column-title">Payment</div>
+                            <div className="column-content">
+                                Status: <b>{this.props.data.payment_status}</b>
+                                <br/>
+                                Mode: <b>{this.props.data.payment_mode}</b>
+                            </div>
                         </div>
                     </div>
-                    <div className="child-container">
-                        <div className="column-title">Payment</div>
-                        <div className="column-content">
-                            Status: <b>{this.props.data.payment_status}</b>
-                            <br/>
-                            Mode: <b>{this.props.data.payment_mode}</b>
-                        </div>
-                    </div>
-                    <div className="child-container">
-                        <div className="column-title">Price Details</div>
-                        <div className="column-content">
-                            {this.getBillingDetails()}
+                    <div className="second-child">
+                        <div className="child-container">
+                            <div className="column-title">Price Details</div>
+                            <div className="column-content">
+                                {this.getBillingDetails()}
+                            </div>
                         </div>
                     </div>
 

@@ -562,6 +562,17 @@ class Product extends React.Component {
                                     {
                                     this.state.mode !== "edit" &&
                                         <Fragment>
+                                            <button
+                                                className={this.state.isAddingToCartLoading ? 
+                                                    "button is-fullwidth is-loading add-to-cart-btn" : 
+                                                    "button is-fullwidth add-to-cart-btn"}
+                                                onClick={this.handleCartToggle.bind(this)}
+                                            >
+                                                <span className="icon">
+                                                    <FontAwesomeIcon icon="cart-plus" />
+                                                </span>
+                                                Add to Cart
+                                            </button>
                                             <div className="field-container">
                                                 <div className="field-title">
                                                     Delivery Availibility
@@ -601,17 +612,6 @@ class Product extends React.Component {
                                                     }
                                                 </div>
                                             </div>
-                                            <button
-                                                className={this.state.isAddingToCartLoading ? 
-                                                    "button is-fullwidth is-loading add-to-cart-btn" : 
-                                                    "button is-fullwidth add-to-cart-btn"}
-                                                onClick={this.handleCartToggle.bind(this)}
-                                            >
-                                                <span className="icon">
-                                                    <FontAwesomeIcon icon="cart-plus" />
-                                                </span>
-                                                Add to Cart
-                                            </button>
                                         </Fragment>
                                     }   
                                     {(this.state.productData.color || adminuser && this.state.mode === "edit")&&

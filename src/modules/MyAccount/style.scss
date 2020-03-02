@@ -1,3 +1,6 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 .user-name{
     font-size: 1rem;
     font-family: inherit;
@@ -8,13 +11,160 @@
     box-sizing: border-box;
     padding: 2rem 8rem; 
     .side-menu{
-        width: 20%;
+        width: 25%;
         padding-right: 3rem; 
         border-right: 1px solid rgb(235, 235, 235); 
     }
     .content{
         padding-left: 3rem; 
-        width: 80%;
+        width: 75%;
         min-height: 50vh;
     }
 }
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+       $myAccountTextAlign: left,
+        $myAccountContainerPadding: 2rem 8rem,
+       $myAccountContainerFlexDir: row,
+       $sideMenuWidth: 20%,
+       $sideMenuPadding: 0 3rem 0 0,
+       $contentWidth: 80%,
+       $contentPadding: 0 0 0 3rem,
+       $sideMenuBackground: unset,
+       $sideMenuBorderLeft: 0px solid white
+  ) {
+    .title{
+        text-align: $myAccountTextAlign !important;
+    }
+    .user-name{
+        text-align: $myAccountTextAlign !important;
+    }
+    .my-account-container{
+        padding: $myAccountContainerPadding !important;
+        flex-direction: $myAccountContainerFlexDir !important;
+        .side-menu{
+            padding: $sideMenuPadding !important;
+            width: $sideMenuWidth !important;
+            background: $sideMenuBackground !important;
+            border-left: $sideMenuBorderLeft !important;
+        }
+        .content{
+            padding: $contentPadding !important; 
+            width: $contentWidth !important;
+        }
+    }
+}
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+        $myAccountTextAlign: center,
+        $myAccountContainerFlexDir: column,
+        $myAccountContainerPadding: 2rem 1rem,
+        $sideMenuWidth: 100%,
+        $sideMenuPadding: 1rem,
+        $contentWidth: 100%,
+        $contentPadding: 1rem 0,
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
+    );
+  }
+
+  @media #{$desktop} {
+    @include styling(
+        $sideMenuWidth: 25%,
+        $contentWidth: 75%,
+        $myAccountContainerPadding: 2rem 1.5rem,
+        $sideMenuPadding: 0 1.5rem,
+        $contentPadding: 0 1.5rem
+    );
+  }
+  

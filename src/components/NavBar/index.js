@@ -46,9 +46,14 @@ class NavBar extends React.Component {
             console.log(error.message);
         }
     }
-
+    
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside, false)
         fetchCartItems();
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside, false)
     }
 
     getCartPopup = () => {
@@ -105,6 +110,14 @@ class NavBar extends React.Component {
         )
     }
 
+    handleClickOutside = (e) => {
+        e.stopPropagation();
+        if (this.node.contains(e.target) || e.target.closest('.navbar-burger')) {
+            return;
+        }
+        this.setState({ isSideNavOpen: false });
+    };
+
     toggleSideNav = () => {
         this.setState({ isSideNavOpen: !this.state.isSideNavOpen });
     }
@@ -117,10 +130,16 @@ class NavBar extends React.Component {
             this.props.auth.user.signInUserSession.accessToken.payload["cognito:groups"].includes("labroz_admin");
         return (
             <Fragment>
+                {
+                    this.state.isSideNavOpen &&
+                    <div className="faded-content"></div>
+                }
                 <nav className="navbar" role="navigation" aria-label="main navigation">
-                    <Link className="logo-container" to="/">
-                        <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
-                    </Link>
+                    <div className="logo-container">
+                        <Link to="/">
+                            <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
+                        </Link>
+                    </div>
                     <div className="navbar-brand">
                         <button 
                             className={this.state.isSideNavOpen ? "button is-active is-light navbar-burger burger" : "button is-light navbar-burger burger"}
@@ -135,7 +154,7 @@ class NavBar extends React.Component {
                             <span aria-hidden="true"></span>
                         </button>
                     </div>
-                    <div className={this.state.isSideNavOpen ? "sidenav is-active": "sidenav"}>
+                    <div className={this.state.isSideNavOpen ? "sidenav is-active": "sidenav"} ref={(node) => { this.node = node }}>
                         <Link className="side-nav-logo-container" to="/">
                             <img src="https://i.ibb.co/WyZrjkf/larboz-logo.png" className="logo-img" width="118" height="28" />
                         </Link>
@@ -143,39 +162,48 @@ class NavBar extends React.Component {
                             to="/home"
                         >
                             Home
+                            <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
 
-                        <Link className={this.props.location.pathname === "/products?category=bottomwear&sub_category=jeans" ? 
+                        <Link className={this.props.location.pathname + this.props.location.search === "/products?category=bottomwear&sub_category=jeans" ? 
                             "sidenav-item is-active": "sidenav-item"} 
                             to="/products?category=bottomwear&sub_category=jeans"
+                            onClick={this.toggleSideNav}
                         >
                             Jeans
+                            <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
                             to="/products?category=bottomwear&sub_category=chinos"
-                            className={this.props.location.pathname === "/products?category=bottomwear&sub_category=chinos" ? 
+                            className={this.props.location.pathname + this.props.location.search  === "/products?category=bottomwear&sub_category=chinos" ? 
                                 "sidenav-item is-active": "sidenav-item"}
+                            onClick={this.toggleSideNav}
                         >
                             Chinos
+                            <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
                             to="/products?category=bottomwear&sub_category=shorts"
-                            className={this.props.location.pathname === "/products?category=bottomwear&sub_category=shorts" ? 
+                            className={this.props.location.pathname + this.props.location.search  === "/products?category=bottomwear&sub_category=shorts" ? 
                                "sidenav-item is-active": "sidenav-item"}
+                            onClick={this.toggleSideNav}
                         >
                             Shorts
+                            <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
                             to="/specials" 
                             className={this.props.location.pathname === "/specials" ? "sidenav-item is-active": "sidenav-item"} 
                         >
                             Specials
+                            <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
                             to="/blog" 
                             className={this.props.location.pathname === "/blog" ? "sidenav-item is-active": "sidenav-item"} 
                         >
                             Blog
+                            <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         {
                             adminuser &&
@@ -185,11 +213,13 @@ class NavBar extends React.Component {
                                     className={this.props.location.pathname === "/add_products" ? "sidenav-item is-active": "sidenav-item"} 
                                 >
                                     Add Products
+                                    <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                                 </Link>
                                 <Link to="/update_orders" 
                                     className={this.props.location.pathname === "/update_orders" ? "sidenav-item is-active": "sidenav-item"}
                                 >
                                     Update Orders
+                                    <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                                 </Link>
                             </Fragment>
                         }
@@ -201,6 +231,7 @@ class NavBar extends React.Component {
                                     className={this.props.location.pathname === "/myaccount" ? "sidenav-item is-active": "sidenav-item"}
                                 >
                                     My Account
+                                    <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                                 </Link>
                                 <Link to="/cart"
                                     className={this.props.location.pathname === "/cart" ? "sidenav-item is-active": "sidenav-item"}
@@ -209,6 +240,7 @@ class NavBar extends React.Component {
                                 </Link>
                                 <a className="sidenav-item" onClick={this.handleLogout}>
                                     Logout
+                                    <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                                 </a>
                             </Fragment>
                             :

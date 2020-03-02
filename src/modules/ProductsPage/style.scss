@@ -1,3 +1,6 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 .product-page {
     display: flex;
     justify-content: space-around;
@@ -28,7 +31,35 @@
         justify-content: center;
         background: rgba(255, 255, 255, 0.274);
     }
-
+    .filter-toggle-btn{
+        display: none;
+        border-radius: 0 !important;
+        font-family: inherit;
+        &.show-cls{
+            background: rgb(42, 100, 167);
+        }
+        &.hide-cls{
+            background: rgb(199, 179, 0);
+        }
+    }
+    .side-filter-nav {
+        width: 0;
+        position: absolute;
+        z-index: 1;
+        top: 138px;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        background-color: rgb(255, 255, 255);
+        overflow-x: hidden;
+        transition: 1s;
+        box-shadow: 5px 0 8px rgba(0,0,0,.2);
+        z-index: 5;
+        &.is-active{
+            display: flex;
+            width: 100%;
+        }
+    }
     .right-container {
         width: 85%;
         display: flex;
@@ -113,14 +144,120 @@
         }
         .products-list-container {
             display: flex;
+            align-content: flex-start;
+            justify-content: flex-start;
             flex-wrap: wrap;
             flex-grow: 2;
             padding: 1rem 0;
             overflow-x: hidden;
             overflow-y: auto;
+            box-sizing: border-box;
         }
         nav{
             margin: 0 1%;
         }
     }
 }
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+   @mixin styling(
+    $leftContainerDisplay: flex,
+    $leftContainerWidth: 15%,
+    $rightContainerWidth: 85%,
+    $filterToggleBtnDisplay: none,
+    $sortDropdownWidth: 20%
+  ) {
+      .product-page {
+          .filter-toggle-btn{
+              display: $filterToggleBtnDisplay !important;
+            }
+            .left-container{
+                width: $leftContainerWidth !important;
+                display: $leftContainerDisplay !important;
+            }
+            .right-container{
+                width: $rightContainerWidth !important;
+                .results-action-container{
+                    .dropdown {
+                        width: $sortDropdownWidth !important;
+                    }
+                }
+            }
+        }
+    }
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $leftContainerDisplay: none,
+      $rightContainerWidth: 100%,
+      $filterToggleBtnDisplay: block,
+    $sortDropdownWidth: 50%
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $leftContainerDisplay: none,
+      $rightContainerWidth: 100%,
+      $filterToggleBtnDisplay: block,
+    $sortDropdownWidth: 50%
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $leftContainerDisplay: none,
+      $rightContainerWidth: 100%,
+      $filterToggleBtnDisplay: block,
+    $sortDropdownWidth: 50%
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $leftContainerDisplay: none,
+      $rightContainerWidth: 100%,
+      $filterToggleBtnDisplay: block,
+    $sortDropdownWidth: 50%
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $leftContainerDisplay: none,
+      $rightContainerWidth: 100%,
+      $filterToggleBtnDisplay: block,
+    $sortDropdownWidth: 50%
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+      $leftContainerDisplay: none,
+      $rightContainerWidth: 100%,
+      $filterToggleBtnDisplay: block,
+    $sortDropdownWidth: 50%
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+        $leftContainerDisplay: none,
+        $rightContainerWidth: 100%,
+        $filterToggleBtnDisplay: block,
+        $sortDropdownWidth: max-content
+    );
+  }
+
+  @media #{$desktop} {
+    @include styling(
+        $leftContainerWidth: 20%,
+        $rightContainerWidth: 80%,
+        $sortDropdownWidth: max-content
+    );
+  }
+  
