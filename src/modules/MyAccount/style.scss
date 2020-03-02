@@ -35,7 +35,8 @@
        $sideMenuPadding: 0 3rem 0 0,
        $contentWidth: 80%,
        $contentPadding: 0 0 0 3rem,
-       $sideMenuBackground: unset
+       $sideMenuBackground: unset,
+       $sideMenuBorderLeft: 0px solid white
   ) {
     .title{
         text-align: $myAccountTextAlign !important;
@@ -50,6 +51,7 @@
             padding: $sideMenuPadding !important;
             width: $sideMenuWidth !important;
             background: $sideMenuBackground !important;
+            border-left: $sideMenuBorderLeft !important;
         }
         .content{
             padding: $contentPadding !important; 
@@ -67,7 +69,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
   }
   
@@ -80,7 +83,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
   }
   
@@ -93,7 +97,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
   }
   
@@ -106,7 +111,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
   }
   
@@ -119,7 +125,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
   }
   
@@ -132,7 +139,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
 }
 
@@ -145,7 +153,8 @@
         $sideMenuPadding: 1rem,
         $contentWidth: 100%,
         $contentPadding: 1rem 0,
-        $sideMenuBackground: #edf4f4
+        $sideMenuBackground: #edf4f4,
+        $sideMenuBorderLeft: 5px solid #258791
     );
   }
 
