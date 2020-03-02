@@ -74,6 +74,7 @@
         }
         .action-buttons{
             button{
+                font-family: inherit !important;
                 margin-right: 0.5rem;
                 &.submit-btn{
                     background: rgb(255, 255, 255);

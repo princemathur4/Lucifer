@@ -139,7 +139,7 @@ class Profile extends Component {
                                 <div className="btn-container">
                                     {
                                         !this.state.isLoading && !!Object.keys(this.state.profileData).length &&
-                                        <button className="button is-dark" onClick={this.handleEdit}>Edit</button>
+                                        <button className="button is-dark" style={{ fontFamily: "inherit" }}onClick={this.handleEdit}>Edit</button>
                                     }
                                 </div>
                             </div>
