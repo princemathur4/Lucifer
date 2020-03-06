@@ -352,6 +352,7 @@ $navbar-tab-hover-border-bottom-color: black;
             justify-content: space-between;
             align-items: center;
             color: rgb(31, 31, 31);
+            z-index: 6 !important;
             a{
                 color: rgb(31, 31, 31) !important;
             }
