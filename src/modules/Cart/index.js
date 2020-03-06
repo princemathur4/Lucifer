@@ -349,6 +349,12 @@ export default class Cart extends React.Component {
                                             <div className="left-container">
                                                 {this.state.mode === "review" &&
                                                     <Fragment>
+                                                        {
+                                                            this.state.mode === "review" &&
+                                                            <button className="button is-link is-fullwidth cart-btn-mobile"
+                                                                onClick={this.handleCheckout}
+                                                            >Checkout</button>
+                                                        }
                                                         <div className="header">
                                                             <div className="items">
                                                                 {this.state.cartProducts.length} Items in Cart

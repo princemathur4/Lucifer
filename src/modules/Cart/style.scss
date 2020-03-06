@@ -54,7 +54,11 @@
             }
         }
     }
-
+    .cart-btn-mobile{
+        display: none;
+        font-family: inherit;
+        border-radius: 0;
+    }
     .cart-content {
         width: 1100px;
         margin: 0 auto;
@@ -268,8 +272,14 @@
   ) {
       .cart-container{
           padding: $cartContainerPadding !important;
+          box-sizing: border-box !important;
           .breadcrumbs{
               margin-top: 0.5rem !important;
+          }
+          .cart-btn-mobile{
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
           }
         .cart-content {
             width: $cartContentWidth !important;

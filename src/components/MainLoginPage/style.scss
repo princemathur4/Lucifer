@@ -158,11 +158,14 @@
         }
         .control.has-icons-left .icon, .control.has-icons-right .icon {
           color: rgb(143, 143, 143);
+          z-index: 1 !important;
         }
         .control.has-icons-left .input:focus ~ .icon, .control.has-icons-left .select:focus ~ .icon, .control.has-icons-right .input:focus ~ .icon, .control.has-icons-right .select:focus ~ .icon {
           color: #4a4a4a;
+          z-index: 1 !important;
         }
         .icon{
+          z-index: 1 !important;
           height: 3rem;
         }
       }

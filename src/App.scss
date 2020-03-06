@@ -62,4 +62,6 @@ body{
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(63, 63, 63, 0.651) !important;
   }
-  
+  .icon{
+    z-index: 2 !important;
+}
