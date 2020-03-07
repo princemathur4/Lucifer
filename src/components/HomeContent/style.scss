@@ -1,12 +1,19 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
 @mixin apply-background-image ($url: none) {
     background: url($url) no-repeat center center;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
+.images-container{
+    padding: 4rem 0;
 
-.tile-container {
-    padding: 4rem 8rem;
+    .tile-container {
+        display: flex;
+        padding: 0 8rem;
+    }
 }
 
 .image-container {
@@ -101,3 +108,65 @@
 // .bg-women-shopping {
 //     @include apply-background-image("../../../public/img/women_pink.png")
 // }
+
+
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+@mixin styling(
+    $tilePadding: 3rem
+) {
+    .images-container{
+        padding: 4rem 0;
+    
+        .tile-container {
+            display: flex;
+            padding: $tilePadding;
+        }
+    }     
+}
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $tilePadding: 0 1rem
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $tilePadding: 0 1rem
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $tilePadding: 0 1rem
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $tilePadding: 0 1rem
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $tilePadding: 0 1.5rem
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+        $tilePadding: 0 2rem
+    );
+}
+
+@media #{$tablet} {
+    @include styling(
+        $tilePadding: 0 2rem
+    );
+  }
+  

@@ -6,42 +6,34 @@ class HomeContent extends Component {
     render() {
         return (
             <Fragment>
-                <div className="tile-container">
-                    <div className="tile is-ancestor">
-                        <div className="tile is-vertical is-6">
-                            <div className="tile image-container">
-                                <img src="https://i.ibb.co/K2B4JyB/89d97d35-05b6-4730-a5a3-518e9b1698f5.jpg" className="img-element"/>
-                                <div className="left-overlay">
-                                    <Link to="/products?category=bottomwear&sub_category=jeans" className="text">◀ Jeans </Link>
-                                </div>
+                <div className="images-container">
+                    <div className="tile-container">
+                        <div className="tile image-container">
+                            <img src="https://i.ibb.co/K2B4JyB/89d97d35-05b6-4730-a5a3-518e9b1698f5.jpg" className="img-element"/>
+                            <div className="left-overlay">
+                                <Link to="/products?category=bottomwear&sub_category=jeans" className="text">◀ Jeans </Link>
                             </div>
                         </div>
-                        <div className="tile is-vertical is-6">
-                            <div className="tile image-container">
-                                <img src="https://i.ibb.co/7bGTh6q/bf862c44-3584-43de-a62a-82781152c733.jpg" className="img-element"/>
-                                <div className="right-overlay">
-                                    <Link to="/products?category=bottomwear&sub_category=chinos" className="text">Chinos ▶</Link>
-                                </div>
+                        <div className="tile image-container">
+                            <img src="https://i.ibb.co/7bGTh6q/bf862c44-3584-43de-a62a-82781152c733.jpg" className="img-element"/>
+                            <div className="right-overlay">
+                                <Link to="/products?category=bottomwear&sub_category=chinos" className="text">Chinos ▶</Link>
                             </div>
                         </div>
                     </div>
-                    <div className="tile is-ancestor">
-                    <div className="tile is-vertical is-6">
+                    <div className="tile-container">
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/mTHtzQd/39d84077-ab6b-49e6-9715-b442919a3f4a.jpg" className="img-element"/>
                             <div className="right-overlay">
                                 <Link to="/latest" className="text">◀ Latest Collections</Link>
                             </div>
-                        </div>
                     </div>
-                    <div className="tile is-vertical is-6">
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/fYtcb2w/eb07740e-1366-4d12-a246-15ed66721a4b.jpg" className="img-element"/>
                             <div className="right-overlay">
                                 <Link to="/specials" className="text">Specials ▶</Link>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <nav className="features-container">
