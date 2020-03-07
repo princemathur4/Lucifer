@@ -1,3 +1,7 @@
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
+
 .special-product-item-card {
     min-width: 23% !important;
     width: 23% !important;
@@ -169,3 +173,104 @@
 @media (max-width:1360px) {
     @include styling();
 }
+
+
+@mixin styling(
+    $productItemCardWidth: 23%,
+    $hoverContainerDisplay: flex,
+    $mobileActionBtnsDisplay: none,
+    $cardContentPadding: 0.4rem, 
+    $mediaPadding: 0.4rem,
+){
+    .special-product-item-card {
+        width: $productItemCardWidth !important;
+        box-shadow: 0 0 0 0 !important;
+        &:hover {
+            border: 0px solid rgba(255, 255, 255, 0) !important;
+            box-shadow: 0 0 0 0 !important;
+        }
+    }
+    .hover-container{
+        display: $hoverContainerDisplay !important;
+    }
+    .mobile-action-buttons{
+        display: $mobileActionBtnsDisplay !important;
+    }
+    .card-content{
+        padding: $cardContentPadding !important;
+    }
+    .media{
+        padding: $mediaPadding !important;
+    }
+}
+
+@media #{$mobile--smallest} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile--smaller} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile--large} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$mobile--largest} {
+    @include styling(
+        $productItemCardWidth: 48%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+  @media #{$tablet--smaller} {
+    @include styling(
+        $productItemCardWidth: 31.33%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
+    @media #{$tablet} {
+    @include styling(
+        $productItemCardWidth: 31.33%,
+        $hoverContainerDisplay: none,
+        $mobileActionBtnsDisplay: flex,
+        $cardContentPadding: 0rem, 
+        $mediaPadding: 0rem,
+    );
+  }
+  
