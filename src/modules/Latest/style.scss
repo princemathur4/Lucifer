@@ -15,9 +15,14 @@
 
     .specials-products-container {
         display: flex;
+        align-content: flex-start;
+        justify-content: flex-start;
         flex-wrap: wrap;
-        padding: 4vw;
-        padding-top: 0;
+        flex-grow: 2;
+        padding: 1rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        box-sizing: border-box;
         .loader-container{
             display: flex;
             flex-grow: 2;
