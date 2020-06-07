@@ -158,7 +158,7 @@ class Signup extends Component {
 									<FontAwesomeIcon icon="exclamation-triangle" />
 								</span>
 								<p className="help is-danger">
-									This is a mandatory field
+									This is a compulsory field
                                 </p>
 							</Fragment>
 						}
