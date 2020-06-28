@@ -166,7 +166,7 @@ export const routes = [
         }
     },
     {
-        path: "/products",
+        path: "/products/:subCategory",
         component: ProductsPage,
         name: "products",
         authRequired: false,
@@ -262,6 +262,17 @@ export const routes = [
         authRequired: true,
         customProps: {
             name: "updateOrders",
+            store
+        }
+    },
+    // Not found route is supposed to be at the end always to only render as a contingency
+    {
+        path: null,
+        component: NotFound404,
+        name: "NotFound404",
+        authRequired: false,
+        customProps: {
+            name: "NotFound404",
             store
         }
     },
