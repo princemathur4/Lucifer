@@ -149,11 +149,11 @@ class ProductItem extends React.Component {
         this.setState({ activeImageindex: input });
     }
 
-    toggleHover = () => {
-        if (this.state.hover) {
-            this.setState({
-                hover: false
-            })
+    toggleHover = (applyVal) => {
+        this.setState({
+            hover: applyVal
+        })
+        if (applyVal) {
             if(this.props.productData.images.length > 1){
                 clearInterval(this.intervalId)
             }
@@ -161,9 +161,6 @@ class ProductItem extends React.Component {
             if(this.props.productData.images.length > 1){
                 this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 1200);
             }
-            this.setState({
-                hover: true
-            })
         }
     }
 
@@ -205,7 +202,7 @@ class ProductItem extends React.Component {
     render() {
         return (
             <Fragment>
-                <div className="card product-item-card" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
+                <div className="card product-item-card" onMouseEnter={()=>{this.toggleHover(true)}} onMouseLeave={()=>{this.toggleHover(false)}}>
                     <Link 
                         to={`/product?id=${this.props.productData._id}`} 
                         target="_blank" 

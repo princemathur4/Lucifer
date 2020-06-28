@@ -104,9 +104,9 @@ class SpecialProductItem extends React.Component {
         )
     }
 
-    toggleHover = () => {
+    toggleHover = (applyVal) => {
         this.setState({
-            hover: !this.state.hover
+            hover: applyVal
         })
     }
 
@@ -118,7 +118,7 @@ class SpecialProductItem extends React.Component {
     render() {
         return (
             <Fragment>
-                <div className="card special-product-item-card" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}>
+                <div className="card special-product-item-card" onMouseEnter={()=>{this.toggleHover(true)}} onMouseLeave={()=>{this.toggleHover(false)}}>
                     <div className="card-image" onClick={this.handleProductSelect}>
                         <figure className="image is-4by5" >
                             <img 
