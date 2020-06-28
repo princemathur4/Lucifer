@@ -165,17 +165,17 @@ class NavBar extends React.Component {
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
 
-                        <Link className={this.props.location.pathname + this.props.location.search === "/products/bottomwear/jeans" ? 
+                        <Link className={this.props.location.pathname + this.props.location.search === "/products/jeans" ? 
                             "sidenav-item is-active": "sidenav-item"} 
-                            to="/products/bottomwear/jeans"
+                            to="/products/jeans"
                             onClick={this.toggleSideNav}
                         >
                             Jeans
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
-                            to="/products/bottomwear/chinos"
-                            className={this.props.location.pathname + this.props.location.search  === "/products/bottomwear/chinos" ? 
+                            to="/products/chinos"
+                            className={this.props.location.pathname + this.props.location.search  === "/products/chinos" ? 
                                 "sidenav-item is-active": "sidenav-item"}
                             onClick={this.toggleSideNav}
                         >
@@ -183,8 +183,8 @@ class NavBar extends React.Component {
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
-                            to="/products/bottomwear/shorts"
-                            className={this.props.location.pathname + this.props.location.search  === "/products/bottomwear/shorts" ? 
+                            to="/products/shorts"
+                            className={this.props.location.pathname + this.props.location.search  === "/products/shorts" ? 
                                "sidenav-item is-active": "sidenav-item"}
                             onClick={this.toggleSideNav}
                         >
@@ -265,13 +265,13 @@ class NavBar extends React.Component {
                                 </Link>
                             }
 
-                            <Link className="navbar-item" to="/products/bottomwear/jeans">
+                            <Link className="navbar-item" to="/products/jeans">
                                 Jeans
                             </Link>
-                                <Link className="navbar-item" to="/products/bottomwear/chinos">
+                                <Link className="navbar-item" to="/products/chinos">
                                     Chinos
                             </Link>
-                                <Link className="navbar-item" to="/products/bottomwear/shorts">
+                                <Link className="navbar-item" to="/products/shorts">
                                     Shorts
                             </Link>
                                 <Link to="/specials" className="navbar-item">

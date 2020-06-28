@@ -17,7 +17,7 @@ import { titleCase } from '../../utils/utilFunctions';
 class ProductsPage extends React.Component {
     constructor(props) {
         super(props);
-        this.category = '';
+        this.category = 'bottomwear';
         this.sub_category = '';
         this.pageSize = 10;
         this.filters = {};
@@ -43,7 +43,6 @@ class ProductsPage extends React.Component {
 
     componentDidMount() {
         console.log(this.props.location);
-        this.category = this.props.match.params.hasOwnProperty('category') ? this.props.match.params.category : null;
         this.sub_category = this.props.match.params.hasOwnProperty('subCategory') ? this.props.match.params.subCategory : null;
         fetchCartItems();
         this.makeFetchFiltersApiCall();
@@ -56,12 +55,9 @@ class ProductsPage extends React.Component {
     }
     
     componentDidUpdate(prevProps, prevState){
-        // console.log(prevProps);
-        let prevCategory = prevProps.match.params.hasOwnProperty('category') ? prevProps.match.params.category : null;
         let prevSubCategory = prevProps.match.params.hasOwnProperty('subCategory') ? prevProps.match.params.subCategory : null;
-        this.category = this.props.match.params.hasOwnProperty('category') ? this.props.match.params.category : null;
         this.sub_category = this.props.match.params.hasOwnProperty('subCategory') ? this.props.match.params.subCategory : null;
-        if(prevCategory !== this.category || prevSubCategory !== this.sub_category){
+        if(prevSubCategory !== this.sub_category){
             this.makeFetchFiltersApiCall();
             this.makeGetProductsApiCall();
         }

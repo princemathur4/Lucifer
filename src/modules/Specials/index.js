@@ -13,8 +13,6 @@ import { fetchCartItems } from '../../utils/ProductUtils';
 class Specials extends React.Component {
     constructor(props) {
         super(props);
-        this.category = '';
-        this.sub_category = '';
         this.state = {
             products: [],
             productListLoader: true,

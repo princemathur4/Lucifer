@@ -151,7 +151,7 @@ class Login extends Component {
                 {
                     this.state.resendLinkActive && 
                     <div className="resend-link-container">
-                        <Link to="resend_verification_code" className="main-link">Resend Link</Link>
+                        <Link to="/resend_verification_code" className="main-link">Resend Link</Link>
                     </div>
                 }
                 {/* <div className="sign-up-using-text">
