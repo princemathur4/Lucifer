@@ -12,7 +12,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 
 class App extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isAuthenticated: false,
@@ -61,19 +61,19 @@ class App extends React.Component {
     }
 
     setRedirectUrl = () => {
-        if(store.redirectRoute === ""){
+        if (store.redirectRoute === "") {
             store.setRedirectRoute(window.location.href.split(window.location.origin)[1]);
         }
         return true;
     }
 
-    clearRedirectUrl = (customProps) =>{ 
-        if(!customProps.authComponent && store.redirectRoute){
-           store.setRedirectRoute('');
+    clearRedirectUrl = (customProps) => {
+        if (!customProps.authComponent && store.redirectRoute) {
+            store.setRedirectRoute('');
         }
         return true;
     }
- 
+
     render() {
         const authProps = {
             isAuthenticated: this.state.isAuthenticated,

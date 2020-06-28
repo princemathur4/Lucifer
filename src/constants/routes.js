@@ -15,6 +15,7 @@ import PrivacyPolicy from '../modules/PrivacyPolicy';
 import { store } from '../AppStore';
 import AddProduct from '../modules/AddProduct';
 import UpdateOrders from '../modules/UpdateOrders';
+import NotFound404 from '../modules/NotFound404';
 
 
 export const routes = [
