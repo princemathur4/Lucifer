@@ -5,6 +5,7 @@ import {
     faUser, faSignOutAlt, faExclamationTriangle, faEdit, faPlus, 
     faTrashAlt, faBookmark, faCartPlus, faAngleDown, faAngleLeft, 
     faAngleRight, faInfoCircle, faPencilAlt, faFileUpload, faPlusSquare,
+    faShoePrints
     
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,5 +14,5 @@ library.add(
     faMobile, faMobileAlt, faKey, faUser, faSignOutAlt, faCheck,
     faExclamationTriangle, faEdit, faPlus, faTrashAlt, faBookmark,
     faCartPlus, faAngleDown, faAngleLeft, faAngleRight, faInfoCircle, 
-    faPencilAlt, faFileUpload, faPlusSquare
+    faPencilAlt, faFileUpload, faPlusSquare, faShoePrints
 );

@@ -11,13 +11,13 @@ class HomeContent extends Component {
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/7bGTh6q/bf862c44-3584-43de-a62a-82781152c733.jpg" className="img-element"/>
                             <div className="left-overlay">
-                                <Link to="/products?category=bottomwear&sub_category=jeans" className="text">◀ Jeans </Link>
+                                <Link to="/products/bottomwear/jeans" className="text">◀ Jeans </Link>
                             </div>
                         </div>
                         <div className="tile image-container">
                             <img src="https://i.ibb.co/mTHtzQd/39d84077-ab6b-49e6-9715-b442919a3f4a.jpg" className="img-element"/>
                             <div className="right-overlay">
-                                <Link to="/products?category=bottomwear&sub_category=chinos" className="text">Chinos ▶</Link>
+                                <Link to="/products/bottomwear/chinos" className="text">Chinos ▶</Link>
                             </div>
                         </div>
                     </div>

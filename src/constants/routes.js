@@ -15,6 +15,7 @@ import PrivacyPolicy from '../modules/PrivacyPolicy';
 import { store } from '../AppStore';
 import AddProduct from '../modules/AddProduct';
 import UpdateOrders from '../modules/UpdateOrders';
+import NotFound404 from '../modules/NotFound404';
 
 
 export const routes = [
@@ -166,7 +167,7 @@ export const routes = [
         }
     },
     {
-        path: "/products",
+        path: "/products/:category/:subCategory",
         component: ProductsPage,
         name: "products",
         authRequired: false,
@@ -262,6 +263,16 @@ export const routes = [
         authRequired: true,
         customProps: {
             name: "updateOrders",
+            store
+        }
+    },
+    {
+        path: null,
+        component: NotFound404,
+        name: "NotFound404",
+        authRequired: false,
+        customProps: {
+            name: "NotFound404",
             store
         }
     },

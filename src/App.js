@@ -12,7 +12,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 
 class App extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isAuthenticated: false,
@@ -61,19 +61,19 @@ class App extends React.Component {
     }
 
     setRedirectUrl = () => {
-        if(store.redirectRoute === ""){
+        if (store.redirectRoute === "") {
             store.setRedirectRoute(window.location.href.split(window.location.origin)[1]);
         }
         return true;
     }
 
-    clearRedirectUrl = (customProps) =>{ 
-        if(!customProps.authComponent && store.redirectRoute){
-           store.setRedirectRoute('');
+    clearRedirectUrl = (customProps) => {
+        if (!customProps.authComponent && store.redirectRoute) {
+            store.setRedirectRoute('');
         }
         return true;
     }
- 
+
     render() {
         const authProps = {
             isAuthenticated: this.state.isAuthenticated,
@@ -85,47 +85,47 @@ class App extends React.Component {
             !this.state.isAuthenticating &&
             <Router >
                 <ScrollToTop>
-                {
-                    routes.map(({ path, component: C, name, customProps, authRequired }) => (
-                        <Route path={path} exact={true} key={name}
-                            render={
-                                (props) => {
-                                    if (path === "/") {
-                                        return <Redirect to="/home" />;
-                                    } else {
-                                        return ( 
-                                            <Fragment>
-                                                <NavBar { ...props} name={customProps.name} store={store} auth={authProps} />
-                                                {
-                                                    !authRequired ?
-                                                    <C
-                                                        {...props}
-                                                        {...customProps}
-                                                        auth={authProps}
-                                                    />
-                                                    :(
-                                                        (authRequired && this.state.isAuthenticated)
-                                                        ? 
-                                                        <C
-                                                            {...props}
-                                                            {...customProps}
-                                                            auth={authProps}
-                                                        /> 
-                                                        :
-                                                        <Redirect to="/login" />
-                                                    )
-                                                }
-                                                <Footer {...props} auth={authProps}/>
-                                            </Fragment>
-                                        )
-                                    }
+                        {
+                            routes.map(({ path, component: C, name, customProps, authRequired }) => (
+                                <Route path={path} exact={true} key={name}
+                                    render={
+                                        (props) => {
+                                            if (path === "/") {
+                                                return <Redirect to="/home" />;
+                                            } else {
+                                                return (
+                                                    <Fragment>
+                                                        <NavBar {...props} name={customProps.name} store={store} auth={authProps} />
+                                                        {
+                                                            !authRequired ?
+                                                                <C
+                                                                    {...props}
+                                                                    {...customProps}
+                                                                    auth={authProps}
+                                                                />
+                                                                : (
+                                                                    (authRequired && this.state.isAuthenticated)
+                                                                        ?
+                                                                        <C
+                                                                            {...props}
+                                                                            {...customProps}
+                                                                            auth={authProps}
+                                                                        />
+                                                                        :
+                                                                        <Redirect to="/login" />
+                                                                )
+                                                        }
+                                                        <Footer {...props} auth={authProps} />
+                                                    </Fragment>
+                                                )
+                                            }
 
-                                }
-                            }
-                        >
-                        </Route>
-                    ))
-                }
+                                        }
+                                    }
+                                >
+                                </Route>
+                            ))
+                        }
                 </ScrollToTop>
             </Router>
         )
