@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import "./App.scss";
 import "./imports";
 import Auth from '@aws-amplify/auth';
@@ -85,13 +85,15 @@ class App extends React.Component {
             !this.state.isAuthenticating &&
             <Router >
                 <ScrollToTop>
+                    <Switch>
                         {
                             routes.map(({ path, component: C, name, customProps, authRequired }) => (
+
                                 <Route path={path} exact={true} key={name}
                                     render={
                                         (props) => {
-                                            if (path === "/") {
-                                                return <Redirect to="/home" />;
+                                            if (path === "/home") {
+                                                return <Redirect to="/" />;
                                             } else {
                                                 return (
                                                     <Fragment>
@@ -126,6 +128,7 @@ class App extends React.Component {
                                 </Route>
                             ))
                         }
+                    </Switch>
                 </ScrollToTop>
             </Router>
         )

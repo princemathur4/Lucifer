@@ -21,7 +21,7 @@ import NotFound404 from '../modules/NotFound404';
 export const routes = [
     {
         path: "/",
-        component: MainLoginPage,
+        component: Home,
         name: "mainPage",
         authRequired: false,
         customProps: {
@@ -167,7 +167,7 @@ export const routes = [
         }
     },
     {
-        path: "/products/:category/:subCategory",
+        path: "/products/:subCategory",
         component: ProductsPage,
         name: "products",
         authRequired: false,
@@ -266,6 +266,7 @@ export const routes = [
             store
         }
     },
+    // Not found route is supposed to be at the end always to only render as a contingency
     {
         path: null,
         component: NotFound404,

@@ -25,7 +25,7 @@ class Footer extends React.Component{
                                 INFORMATION
                             </div>
                             <div className="footer-item">
-                                <Link to="about_us">About Us</Link>
+                                <Link to="/about_us">About Us</Link>
                             </div>
                             <div className="footer-item">
                                 <Link to="">Contact Us</Link>
@@ -58,16 +58,16 @@ class Footer extends React.Component{
                                 POLICIES
                             </div>
                             <div className="footer-item">
-                                <Link to="shipping_policy">Shipping Policy</Link>
+                                <Link to="/shipping_policy">Shipping Policy</Link>
                             </div>
                             <div className="footer-item">
-                                <Link to="return_exchange_policy">Return/Exchange Policy</Link>
+                                <Link to="/return_exchange_policy">Return/Exchange Policy</Link>
                             </div>
                             <div className="footer-item">
-                                <Link to="terms_and_conditions">Terms of Service</Link>
+                                <Link to="/terms_and_conditions">Terms of Service</Link>
                             </div>
                             <div className="footer-item">
-                                <Link to="privacy_policy">Privacy Policy</Link>
+                                <Link to="/privacy_policy">Privacy Policy</Link>
                             </div>
                         </div>
                     </div>

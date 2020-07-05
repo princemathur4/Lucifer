@@ -25,7 +25,7 @@ module.exports = merge(common,
                 template: "./public/index.html",
                 filename: 'index.html',
                 favicon: "./public/favicon.ico",
-                inject: false,
+                inject: true,
             }),
         ],
     }

@@ -442,7 +442,6 @@ class Product extends React.Component {
                                         <ul>
                                             <li><Link to="/home">Home</Link></li>
                                             <li><Link to="/products">Products</Link></li>
-                                            <li><Link to={window.location.href.split(window.location.origin)[1]}>{titleCase(this.state.productData.category)}</Link></li>
                                             <li className="is-active"><Link to={window.location.href.split(window.location.origin)[1]} aria-current="page">{titleCase(this.state.productData.sub_category)}</Link></li>
                                         </ul>
                                     </nav>
