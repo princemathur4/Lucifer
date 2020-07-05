@@ -21,7 +21,7 @@ import NotFound404 from '../modules/NotFound404';
 export const routes = [
     {
         path: "/",
-        component: MainLoginPage,
+        component: Home,
         name: "mainPage",
         authRequired: false,
         customProps: {
