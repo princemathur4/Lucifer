@@ -92,8 +92,8 @@ class App extends React.Component {
                                 <Route path={path} exact={true} key={name}
                                     render={
                                         (props) => {
-                                            if (path === "/") {
-                                                return <Redirect to="/home" />;
+                                            if (path === "/home") {
+                                                return <Redirect to="/" />;
                                             } else {
                                                 return (
                                                     <Fragment>
