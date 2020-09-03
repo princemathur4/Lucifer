@@ -8,11 +8,15 @@
     background-size: cover;
 }
 .images-container{
-    padding: 4rem 0;
-
-    .tile-container {
+    padding: 4rem 8rem;
+    display: flex;
+    flex-direction: row;
+    .row-container{
         display: flex;
-        padding: 0 8rem;
+        align-items: stretch;
+        .image-container{
+            width: 25%;
+        }
     }
 }
 
@@ -116,11 +120,12 @@
    ============================== */
 
 @mixin styling(
-    $tilePadding: 3rem
+    $tilePadding: 3rem,
+    $imagesContainerFlexDirection: row
 ) {
     .images-container{
         padding: 4rem 0;
-    
+        flex-direction: $imagesContainerFlexDirection;
         .tile-container {
             display: flex;
             padding: $tilePadding;
@@ -130,43 +135,50 @@
 
 @media #{$mobile--smallest} {
     @include styling(
-        $tilePadding: 0 1rem
+        $tilePadding: 0 1rem,
+        $imagesContainerFlexDirection: column
     );
   }
   
   @media #{$mobile--smaller} {
     @include styling(
-        $tilePadding: 0 1rem
+        $tilePadding: 0 1rem,
+        $imagesContainerFlexDirection: column
     );
   }
   
   @media #{$mobile} {
     @include styling(
-        $tilePadding: 0 1rem
+        $tilePadding: 0 1rem,
+        $imagesContainerFlexDirection: column
     );
   }
   
   @media #{$mobile--large} {
     @include styling(
-        $tilePadding: 0 1rem
+        $tilePadding: 0 1rem,
+        $imagesContainerFlexDirection: column
     );
   }
   
   @media #{$mobile--largest} {
     @include styling(
-        $tilePadding: 0 1.5rem
+        $tilePadding: 0 1.5rem,
+        $imagesContainerFlexDirection: column
     );
   }
   
   @media #{$tablet--smaller} {
     @include styling(
-        $tilePadding: 0 2rem
+        $tilePadding: 0 2rem,
+        $imagesContainerFlexDirection: column
     );
 }
 
 @media #{$tablet} {
     @include styling(
-        $tilePadding: 0 2rem
+        $tilePadding: 0 2rem,
+        $imagesContainerFlexDirection: column
     );
   }
   
