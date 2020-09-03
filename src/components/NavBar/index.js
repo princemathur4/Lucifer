@@ -183,12 +183,12 @@ class NavBar extends React.Component {
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
-                            to="/products/shorts"
-                            className={this.props.location.pathname + this.props.location.search  === "/products/shorts" ? 
+                            to="/products/shirts"
+                            className={this.props.location.pathname + this.props.location.search  === "/products/shirts" ? 
                                "sidenav-item is-active": "sidenav-item"}
                             onClick={this.toggleSideNav}
                         >
-                            Shorts
+                            Shirts
                             <FontAwesomeIcon className="accodian-icon" icon="angle-right"/>
                         </Link>
                         <Link 
@@ -271,8 +271,8 @@ class NavBar extends React.Component {
                                 <Link className="navbar-item" to="/products/chinos">
                                     Chinos
                             </Link>
-                                <Link className="navbar-item" to="/products/shorts">
-                                    Shorts
+                                <Link className="navbar-item" to="/products/shirts">
+                                    Shirts
                             </Link>
                                 <Link to="/specials" className="navbar-item">
                                     Specials
