@@ -1,11 +1,12 @@
 export const categoryOptions = [
-    { key: 'bottomwear', value: 'bottomwear', text: 'Bottomwear' }
+    { key: 'bottomwear', value: 'bottomwear', text: 'Bottomwear' },
+    { key: 'topwear', value: 'topwear', text: 'Topwear' }
 ]
 
 export const subCategoryOptions = [
     { key: 'jeans', value: 'jeans', text: 'Jeans' },
     { key: 'chinos', value: 'chinos', text: 'Chinos' },
-    { key: 'shorts', value: 'shorts', text: 'Shorts' },
+    { key: 'shirts', value: 'shirts', text: 'Shirts' },
 ]
 
 export const orderResponse = {

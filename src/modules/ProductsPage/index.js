@@ -44,6 +44,7 @@ class ProductsPage extends React.Component {
     componentDidMount() {
         console.log(this.props.location);
         this.sub_category = this.props.match.params.hasOwnProperty('subCategory') ? this.props.match.params.subCategory : null;
+        this.category = this.props.match.params.subCategory == 'shirts' ? 'topwear': 'bottomwear';
         fetchCartItems();
         this.makeFetchFiltersApiCall();
         this.makeGetProductsApiCall();
