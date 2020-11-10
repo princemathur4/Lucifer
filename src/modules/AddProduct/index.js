@@ -167,7 +167,7 @@ class AddProduct extends Component {
         payloadState.description = description;
         payloadState.price = Number(payloadState.price);
         payloadState.discount = payloadState.discount ? Number(String(payloadState.discount).replace('%', '')) : 0;
-        payloadState.size = Number(payloadState.size);
+        payloadState.size = isNaN(payloadState.size) ? payloadState.size : Number(payloadState.size);
         payloadState.stock = Number(payloadState.stock);
         payloadState.fit = payloadState.fit.replace(' ', '_').toLowerCase();
         payloadState.fabric = payloadState.fabric.replace(' ', '_').toLowerCase();
@@ -314,7 +314,10 @@ class AddProduct extends Component {
             errorField = 'color_code';
         } else if (f.name === "discount" && !f.value.match(this.discount_regex)) {
             errorField = 'discount';
-        } else if (f.name === "size" && isNaN(f.value)) {
+        } else if (f.name === "size" && 
+            (this.props.store.addProductCategory === "bottomwear" && isNaN(f.value))  
+            // this.props.store.addProductCategory === "topwear" && !isNaN(f.value))
+        ) {
             errorField = 'size';
         }
         if (errorField) {
