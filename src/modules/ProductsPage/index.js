@@ -19,7 +19,7 @@ class ProductsPage extends React.Component {
         super(props);
         this.category = 'bottomwear';
         this.sub_category = '';
-        this.pageSize = 10;
+        this.pageSize = 12;
         this.filters = {};
         this.lastOrderby = '';
         this.lastPaginationValue = '';
@@ -58,6 +58,7 @@ class ProductsPage extends React.Component {
     componentDidUpdate(prevProps, prevState){
         let prevSubCategory = prevProps.match.params.hasOwnProperty('subCategory') ? prevProps.match.params.subCategory : null;
         this.sub_category = this.props.match.params.hasOwnProperty('subCategory') ? this.props.match.params.subCategory : null;
+        this.category = this.sub_category == 'shirts' ? 'topwear': 'bottomwear';
         if(prevSubCategory !== this.sub_category){
             this.makeFetchFiltersApiCall();
             this.makeGetProductsApiCall();
