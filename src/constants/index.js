@@ -3,11 +3,13 @@ export const categoryOptions = [
     { key: 'topwear', value: 'topwear', text: 'Topwear' }
 ]
 
-export const subCategoryOptions = [
-    { key: 'jeans', value: 'jeans', text: 'Jeans' },
-    { key: 'chinos', value: 'chinos', text: 'Chinos' },
-    { key: 'shirts', value: 'shirts', text: 'Shirts' },
-]
+export const subCategoryOptions = {
+    bottomwear: [
+        { key: 'jeans', value: 'jeans', text: 'Jeans' },
+        { key: 'chinos', value: 'chinos', text: 'Chinos' },
+    ],
+    topwear: [{ key: 'shirts', value: 'shirts', text: 'Shirts' }],
+}
 
 export const orderResponse = {
     "data":{ 

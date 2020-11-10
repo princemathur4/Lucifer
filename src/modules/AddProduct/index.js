@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import commonApi from "../../apis/common";
 import { getSession } from "../../utils/AuthUtils";
 import "./style.scss";
+import { observer } from 'mobx-react';
 import axios from "axios";
 import { titleCase } from "../../utils/utilFunctions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,7 +26,7 @@ axios.interceptors.response.use((response) => {
     return Promise.reject(err);
 });
 
-export default class AddProduct extends Component {
+class AddProduct extends Component {
     constructor(props) {
         super(props);
         this.fileInput = React.createRef();
@@ -412,17 +413,20 @@ export default class AddProduct extends Component {
                                 name="addProductCategory"
                             />
                         </div>
-                        <div className="field">
-                            <Dropdown
-                                placeholder='Select product sub-category'
-                                fluid
-                                search
-                                selection
-                                options={subCategoryOptions}
-                                onChange={this.handleMainDropdownChange}
-                                name="addProductSubCategory"
-                            />
-                        </div>
+                        {
+                            this.props.store.addProductCategory &&
+                            <div className="field">
+                                <Dropdown
+                                    placeholder='Select product sub-category'
+                                    fluid
+                                    search
+                                    selection
+                                    options={subCategoryOptions[this.props.store.addProductCategory]}
+                                    onChange={this.handleMainDropdownChange}
+                                    name="addProductSubCategory"
+                                />
+                            </div>
+                        }
                         <div className="add-product-main-body">
                             {this.state.filtersLoader ?
                                 <Spinner color="primary" size="medium" />
@@ -538,3 +542,5 @@ export default class AddProduct extends Component {
         );
     }
 }
+
+export default observer(AddProduct);
