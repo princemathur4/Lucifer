@@ -155,11 +155,11 @@ class ProductItem extends React.Component {
         })
         if (applyVal) {
             if(this.props.productData.images.length > 1){
-                clearInterval(this.intervalId)
+                this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 1200);
             }
         } else {
             if(this.props.productData.images.length > 1){
-                this.intervalId = setInterval(() => { this.changeActiveImage(1) }, 1200);
+                clearInterval(this.intervalId)
             }
         }
     }
@@ -202,7 +202,7 @@ class ProductItem extends React.Component {
     render() {
         return (
             <Fragment>
-                <div className="card product-item-card" onMouseEnter={()=>{this.toggleHover(true)}} onMouseLeave={()=>{this.toggleHover(false)}}>
+                <div className="card product-item-card" onMouseOver={()=>{this.toggleHover(true)}} onMouseOut={()=>{this.toggleHover(false)}}>
                     <Link 
                         to={`/product?id=${this.props.productData._id}`} 
                         target="_blank" 

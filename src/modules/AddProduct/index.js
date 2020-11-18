@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import commonApi from "../../apis/common";
 import { getSession } from "../../utils/AuthUtils";
 import "./style.scss";
+import { observer } from 'mobx-react';
 import axios from "axios";
 import { titleCase } from "../../utils/utilFunctions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,7 +26,7 @@ axios.interceptors.response.use((response) => {
     return Promise.reject(err);
 });
 
-export default class AddProduct extends Component {
+class AddProduct extends Component {
     constructor(props) {
         super(props);
         this.fileInput = React.createRef();
@@ -166,7 +167,7 @@ export default class AddProduct extends Component {
         payloadState.description = description;
         payloadState.price = Number(payloadState.price);
         payloadState.discount = payloadState.discount ? Number(String(payloadState.discount).replace('%', '')) : 0;
-        payloadState.size = Number(payloadState.size);
+        payloadState.size = isNaN(payloadState.size) ? payloadState.size : Number(payloadState.size);
         payloadState.stock = Number(payloadState.stock);
         payloadState.fit = payloadState.fit.replace(' ', '_').toLowerCase();
         payloadState.fabric = payloadState.fabric.replace(' ', '_').toLowerCase();
@@ -313,7 +314,10 @@ export default class AddProduct extends Component {
             errorField = 'color_code';
         } else if (f.name === "discount" && !f.value.match(this.discount_regex)) {
             errorField = 'discount';
-        } else if (f.name === "size" && isNaN(f.value)) {
+        } else if (f.name === "size" && 
+            (this.props.store.addProductCategory === "bottomwear" && isNaN(f.value))  
+            // this.props.store.addProductCategory === "topwear" && !isNaN(f.value))
+        ) {
             errorField = 'size';
         }
         if (errorField) {
@@ -412,17 +416,20 @@ export default class AddProduct extends Component {
                                 name="addProductCategory"
                             />
                         </div>
-                        <div className="field">
-                            <Dropdown
-                                placeholder='Select product sub-category'
-                                fluid
-                                search
-                                selection
-                                options={subCategoryOptions}
-                                onChange={this.handleMainDropdownChange}
-                                name="addProductSubCategory"
-                            />
-                        </div>
+                        {
+                            this.props.store.addProductCategory &&
+                            <div className="field">
+                                <Dropdown
+                                    placeholder='Select product sub-category'
+                                    fluid
+                                    search
+                                    selection
+                                    options={subCategoryOptions[this.props.store.addProductCategory]}
+                                    onChange={this.handleMainDropdownChange}
+                                    name="addProductSubCategory"
+                                />
+                            </div>
+                        }
                         <div className="add-product-main-body">
                             {this.state.filtersLoader ?
                                 <Spinner color="primary" size="medium" />
@@ -538,3 +545,5 @@ export default class AddProduct extends Component {
         );
     }
 }
+
+export default observer(AddProduct);

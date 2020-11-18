@@ -26,13 +26,13 @@ class Home extends React.Component{
                             <div className="tile image-container">
                                 <img src="https://i.ibb.co/fYtcb2w/eb07740e-1366-4d12-a246-15ed66721a4b.jpg" className="img-element"/>
                                 <div className="right-overlay">
-                                    <Link to="/latest" className="text">◀ Latest Collections</Link>
+                                    <Link to="/latest" className="text">◀ Specials</Link>
                                 </div>
                             </div>
                             <div className="tile image-container">
                                 <img src="https://i.ibb.co/K2B4JyB/89d97d35-05b6-4730-a5a3-518e9b1698f5.jpg" className="img-element"/>
                                 <div className="right-overlay">
-                                    <Link to="/specials" className="text">Specials ▶</Link>
+                                    <Link to="/specials" className="text">Latest Collections ▶</Link>
                                 </div>
                             </div>
                     </div>

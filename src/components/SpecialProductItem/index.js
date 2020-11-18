@@ -118,7 +118,7 @@ class SpecialProductItem extends React.Component {
     render() {
         return (
             <Fragment>
-                <div className="card special-product-item-card" onMouseEnter={()=>{this.toggleHover(true)}} onMouseLeave={()=>{this.toggleHover(false)}}>
+                <div className="card special-product-item-card" onMouseOver={()=>{this.toggleHover(true)}} onMouseOut={()=>{this.toggleHover(false)}}>
                     <div className="card-image" onClick={this.handleProductSelect}>
                         <figure className="image is-4by5" >
                             <img 
