@@ -58,13 +58,22 @@ class ProductItem extends React.Component {
             this.props.handleLoginWarning();
             return;
         }
-        if (!this.state.activeSize) {
-            this.setState({ sizeSelectWarning: true });
-            return;
+        let {activeSize} = this.state;
+        
+        if (!activeSize) {
+            let sizes = this.props.productData.available_sizes;
+            console.log("stock", this.props.productData.variants[sizes[0]])
+            if (sizes.length === 1 && !!this.props.productData.variants[sizes[0]].stock){
+                this.setState({ activeSize: sizes[0] });
+                activeSize = sizes[0];
+            } else {
+                this.setState({ sizeSelectWarning: true });
+                return;
+            }
         }
         this.setState({ isAddingToCartLoading: true, sizeSelectWarning: false });
         let session = await getSession();
-        let product_id = this.props.productData.variants[this.state.activeSize]._id;
+        let product_id = this.props.productData.variants[activeSize]._id;
         try {
             let response = await commonApi.post(`update_cart`,
                 { product_id: product_id, count: 1 },
@@ -125,6 +134,7 @@ class ProductItem extends React.Component {
                                 (this.props.productData.variants[size].stock === 0 ? "size-box disabled" : "size-box")
                         }
                         disabled={this.props.productData.variants[size].stock === 0}
+                        title={this.props.productData.variants[size].stock === 0 ? "Size not available": size}
                         onClick={() => { this.handleSizeSelect(size) }}
                     >
                         {size}
@@ -202,7 +212,7 @@ class ProductItem extends React.Component {
     render() {
         return (
             <Fragment>
-                <div className="card product-item-card" onMouseOver={()=>{this.toggleHover(true)}} onMouseOut={()=>{this.toggleHover(false)}}>
+                <div className="card product-item-card" onMouseEnter={()=>{this.toggleHover(true)}} onMouseLeave={()=>{this.toggleHover(false)}}>
                     <Link 
                         to={`/product?id=${this.props.productData._id}`} 
                         target="_blank" 
