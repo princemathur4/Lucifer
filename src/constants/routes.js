@@ -268,6 +268,16 @@ export const routes = [
     },
     // Not found route is supposed to be at the end always to only render as a contingency
     {
+        path: "/not-found",
+        component: NotFound404,
+        name: "NotFound",
+        authRequired: false,
+        customProps: {
+            name: "NotFound",
+            store
+        }
+    },
+    {
         path: null,
         component: NotFound404,
         name: "NotFound404",

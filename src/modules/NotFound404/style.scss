@@ -1,27 +1,76 @@
-.not-found-container{
+@import "../../base/styles/media_queries";
+@import "../../base/styles/dimensions";
+
+.not-found-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    .icon-container{
-        
-        .not-found-icon{
+
+    .icon-container {
+
+        .not-found-icon {
             font-size: 3rem;
-            &:nth-child(1){
+
+            &:nth-child(1) {
                 color: rgb(207, 207, 207) !important;
             }
-            &:nth-child(2){
+
+            &:nth-child(2) {
                 color: rgb(146, 146, 146) !important;
             }
-            &:nth-child(3){
+
+            &:nth-child(3) {
                 color: rgb(70, 70, 70) !important;
             }
         }
     }
-    .not-found-title{
+
+    .not-found-title {
         font-size: 2rem;
         padding: 5rem 1rem;
         color: gray;
+        text-align: justify;
     }
+}
+
+/* ==============================
+   MEDIA QUERIES
+   ============================== */
+
+@mixin styling() {
+    .not-found-container {
+        .not-found-title {
+            font-size: 1.3rem !important;
+        }
+    }
+}
+
+@media #{$mobile--smallest} {
+    @include styling();
+}
+
+@media #{$mobile--smaller} {
+    @include styling();
+}
+
+@media #{$mobile} {
+    @include styling();
+}
+
+@media #{$mobile--large} {
+    @include styling();
+}
+
+@media #{$mobile--largest} {
+    @include styling();
+}
+
+@media #{$tablet--smaller} {
+    @include styling();
+}
+
+@media #{$tablet} {
+    @include styling();
 }

@@ -53,6 +53,9 @@ class Product extends React.Component {
 
     componentDidMount() {
         this.product_id = getParameterByName("id", window.location.href);
+        if (!this.product_id){
+            this.props.history.push("/not-found");
+        }
         this.makeGetProductApiCall(this.product_id);
     }
 
@@ -871,13 +874,9 @@ class Product extends React.Component {
                                             <div className="check-pincode-input-container">
                                                 <div
                                                     className={
-                                                        this.state
-                                                            .pincodeValidationStatus ===
-                                                        "error"
+                                                        this.state.pincodeValidationStatus === "error"
                                                             ? "control is-danger"
-                                                            : this.state
-                                                                  .pincodeValidationStatus ===
-                                                              "success"
+                                                            : this.state.pincodeValidationStatus === "success"
                                                             ? "control is-success"
                                                             : "control"
                                                     }
@@ -885,12 +884,10 @@ class Product extends React.Component {
                                                     <input
                                                         placeholder="Enter your Pincode"
                                                         className={
-                                                            this.state
-                                                                .pincodeValidationStatus ===
+                                                            this.state.pincodeValidationStatus ===
                                                             "error"
                                                                 ? "input is-danger"
-                                                                : this.state
-                                                                      .pincodeValidationStatus ===
+                                                                : this.state.pincodeValidationStatus ===
                                                                   "success"
                                                                 ? "input is-success"
                                                                 : "input"
@@ -910,12 +907,10 @@ class Product extends React.Component {
                                                     Check
                                                 </button>
                                             </div>
-                                            {this.state
-                                                .pincodeValidationMsg && (
+                                            {this.state.pincodeValidationMsg && (
                                                 <p
                                                     className={
-                                                        this.state
-                                                            .pincodeValidationStatus ===
+                                                        this.state.pincodeValidationStatus ===
                                                         "error"
                                                             ? "help is-danger"
                                                             : this.state
@@ -926,8 +921,7 @@ class Product extends React.Component {
                                                     }
                                                 >
                                                     {
-                                                        this.state
-                                                            .pincodeValidationMsg
+                                                        this.state.pincodeValidationMsg
                                                     }
                                                 </p>
                                             )}

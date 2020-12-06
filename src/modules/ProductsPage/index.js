@@ -8,11 +8,12 @@ import { getParameterByName } from '../../utils/Browser';
 import { getSession } from "../../utils/AuthUtils";
 import commonApi from "../../apis/common";
 import Spinner from "../../components/Spinner";
-import { productFilters, defaultFilterTemplate, products } from "../../constants";
+import { subCategories } from "../../constants";
 import { toJS } from 'mobx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fetchCartItems } from '../../utils/ProductUtils';
 import { titleCase } from '../../utils/utilFunctions';
+
 
 class ProductsPage extends React.Component {
     constructor(props) {
@@ -44,6 +45,10 @@ class ProductsPage extends React.Component {
     componentDidMount() {
         console.log(this.props.location);
         this.sub_category = this.props.match.params.hasOwnProperty('subCategory') ? this.props.match.params.subCategory : null;
+        if (!subCategories.includes(this.sub_category)){
+            this.props.history.push("/not-found");
+            return;
+        }
         this.category = this.props.match.params.subCategory == 'shirts' ? 'topwear': 'bottomwear';
         fetchCartItems();
         this.makeFetchFiltersApiCall();

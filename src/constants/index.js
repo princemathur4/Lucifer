@@ -1,3 +1,4 @@
+export const subCategories = ["jeans", "chinos", "shirts"]
 export const categoryOptions = [
     { key: 'bottomwear', value: 'bottomwear', text: 'Bottomwear' },
     { key: 'topwear', value: 'topwear', text: 'Topwear' }
