@@ -24,6 +24,38 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0px !important;
+            
+            .position-element{
+                position: absolute;
+                color: white;
+                font-size: 1.5rem;
+                font-family: inherit;
+                background: rgba(58, 58, 58, 0.288);
+                width: 100%;
+                height: 100%;
+                display: flex; 
+                align-items: center;
+                justify-content: center;
+            }
+            .remove-img-btn{
+                position: absolute;
+                top: 0.3rem;
+                right: 0.3rem;
+                background: #ff07078f;
+                &:hover{
+                    background: #d41919e1;
+                }
+            }
+            .draggable-img-1{
+                width: 100%;
+            }
+            .draggable-img-2{
+                width: 50%;
+            }
+            .draggable-img-3{
+                width: 33.33%;
+            }
             .arrow-btn{
                 cursor: pointer;
                 width: 4rem;
