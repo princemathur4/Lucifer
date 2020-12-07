@@ -14,10 +14,13 @@ import findindex from "lodash.findindex";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 
+const moment = require('moment');
+
 class Product extends React.Component {
     constructor(props) {
         super(props);
         this._id = "";
+        this.fileInput = React.createRef();
         this.state = {
             productLoaderActive: true,
             activeSize: "",
@@ -39,6 +42,11 @@ class Product extends React.Component {
             productInfoList: [],
             payload: {},
             imageItems: [],
+            fileInputKey: moment.now(),
+            file: null,
+            isUploading: false,
+            uploadResponseText: "",
+            uploadResponseType: "error",
             errors: {
                 title: false,
                 description: false,
@@ -53,7 +61,7 @@ class Product extends React.Component {
 
     componentDidMount() {
         this.product_id = getParameterByName("id", window.location.href);
-        if (!this.product_id){
+        if (!this.product_id) {
             this.props.history.push("/not-found");
         }
         this.makeGetProductApiCall(this.product_id);
@@ -147,7 +155,7 @@ class Product extends React.Component {
             this.handleLoginWarning();
             return;
         }
-        if (!this.state.pincode || isNaN(this.state.pincode) || this.state.pincode.length !== 6 ) {
+        if (!this.state.pincode || isNaN(this.state.pincode) || this.state.pincode.length !== 6) {
             this.setState({
                 pincodeValidationMsg: "Enter a valid Pincode",
                 pincodeValidationStatus: "error",
@@ -187,8 +195,17 @@ class Product extends React.Component {
         }
     }
 
+    onFileSelect = (e) => {
+        let file = e.target.files[0];
+        this.setState({ file });
+    }
+
+    handleChooseBtnClick = () => {
+        this.fileInput.current.click();
+    }
+
     handleSubmit = async () => {
-        let images = this.state.imageItems.map((obj)=>( obj.src ));
+        let images = this.state.imageItems.map((obj) => (obj.src));
 
         if (!this.state.payload.size && !this.state.activeSize && images === this.state.productData.images) {
             this.setState({
@@ -216,7 +233,7 @@ class Product extends React.Component {
             product_code: this.state.productData._id,
             ...this.state.payload,
         };
-        if (!!size){
+        if (!!size) {
             payload.size = Number(size);
         }
         // updating stock info 
@@ -237,7 +254,7 @@ class Product extends React.Component {
         payload.description = description;
 
         // updating images
-        
+
         payload.images = images;
         let session = await getSession();
         if (!session) {
@@ -262,16 +279,56 @@ class Product extends React.Component {
                     responseText: response.data.message,
                 });
             }
-        } catch (err) {}
+        } catch (err) { }
         this.setState({
             isSubmitLoading: false,
         });
     };
 
+    handleUpload = async event => {
+        event.preventDefault();
+        this.setState({ uploadResponseText: "", isUploading: true });
+
+        let form_data = new FormData();
+        form_data.append('file', this.state.file)
+        form_data.append('product_id', this.product_id);
+
+        let session = await getSession();
+        if (!session) {
+            return;
+        }
+        let response;
+        try {
+            response = await commonApi.post(
+                'image_upload',
+                form_data,
+                {
+                    headers: { "Content-Type": "text/plain", "Authorization": session.accessToken.jwtToken }
+                }
+            );
+            console.log("response", response);
+            if (response && response.status === 200 && response.data.success && response.data.data.url) {
+                this.setState({
+                    file: null
+                });
+            } else {
+                this.setState({
+                    uploadResponseText: response.data.message
+                });
+            }
+            this.addToImageItems(response.data.data.url)
+            this.setState({
+                isUploading: false,
+            });
+        } catch (err) {
+            this.setState({ uploadResponseText: "Something went wrong, Please contact admin", isUploading: false });
+        }
+    };
+
     getPriceJSX = () => {
         let discount = this.state.productData.discount;
-        let price = discount ? 
-            this.state.productData.price - Math.round((this.state.productData.price * discount) / 100) : 
+        let price = discount ?
+            this.state.productData.price - Math.round((this.state.productData.price * discount) / 100) :
             this.state.productData.price;
 
         return (
@@ -319,10 +376,10 @@ class Product extends React.Component {
                                     this.state.activeSize === size
                                         ? "size-box active"
                                         : this.state.mode !== "edit" &&
-                                          this.state.productData.variants[size]
-                                              .stock === 0
-                                        ? "size-box disabled"
-                                        : "size-box"
+                                            this.state.productData.variants[size]
+                                                .stock === 0
+                                            ? "size-box disabled"
+                                            : "size-box"
                                 }
                                 disabled={
                                     this.state.mode !== "edit" &&
@@ -499,6 +556,15 @@ class Product extends React.Component {
         return result;
     };
 
+    addToImageItems = (url) => {
+        let {imageItems} = this.state;
+        imageItems.push({
+            id: uuidv4(),
+            src: url,
+        })
+        this.setState({ imageItems });
+    }
+
     setImageItems = (data) => {
         if (!data) {
             return;
@@ -527,12 +593,12 @@ class Product extends React.Component {
             position: "relative",
             fontFamily: "inherit",
             userSelect: "none",
-            padding: `${this.state.imageItems.length/2}px`,
+            padding: `${this.state.imageItems.length / 2}px`,
             // margin: `0 ${this.state.imageItems.length}px 0 0`,
 
             // change background colour if dragging
             background: isDragging ? "lightgreen" : "#ffffff00",
-            width: this.state.imageItems.length && this.state.imageItems.length < 3 ? `${100/this.state.imageItems.length}%`: "33.33%",
+            width: this.state.imageItems.length && this.state.imageItems.length < 3 ? `${100 / this.state.imageItems.length}%` : "33.33%",
             // styles we need to apply on draggables
             ...draggableStyle,
         }
@@ -563,10 +629,10 @@ class Product extends React.Component {
     };
 
     handleRemoveImage = (id) => {
-        let {imageItems} = this.state;
+        let { imageItems } = this.state;
         let objIdx = findindex(this.state.imageItems, { id: id });
         imageItems.splice(objIdx, 1);
-        this.setState({imageItems})
+        this.setState({ imageItems })
     }
 
     render() {
@@ -657,6 +723,53 @@ class Product extends React.Component {
                                     </li>
                                 </ul>
                             </nav>
+                            {this.state.mode == "edit" &&
+                                <div className="file-input-container">
+                                    <input
+                                        type="file"
+                                        key={this.state.fileInputKey}
+                                        ref={this.fileInput}
+                                        accept="image/*"
+                                        multiple
+                                        onChange={this.onFileSelect}
+                                        hidden
+                                    />
+                                    <button className="button is-fullwidth choose-file-btn" onClick={() => { this.handleChooseBtnClick() }}>
+                                        Choose Files
+                                            <span className="icon">
+                                            <FontAwesomeIcon icon="file-upload" />
+                                        </span>
+                                    </button>
+                                    {
+                                        !!this.state.file &&
+                                        <div className="files-container">
+                                            <div className="file-item">
+                                                <div className="file-name-text">
+                                                    {this.state.file.name}
+                                                </div>
+                                            </div>
+                                            <button className={this.state.isUploading ?
+                                                "button submit-btn is-loading" :
+                                                "button submit-btn"
+                                            }
+                                                onClick={this.handleUpload}
+                                            >
+                                                Start Upload
+                                            </button>
+                                        </div>
+                                    }
+                                    {
+                                        !!this.state.uploadResponseText.length &&
+                                        <div
+                                            className={`response-text is-${this.state.uploadResponseType}`}
+                                        >
+                                            <span className="response-tag">
+                                                {this.state.uploadResponseText}
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                            }
                             <div className={`images-container`}>
                                 {this.state.mode == "view" ? (
                                     <Fragment>
@@ -680,7 +793,7 @@ class Product extends React.Component {
                                             {this.state.productData.images.map(
                                                 (imgSrc, Idx) => {
                                                     return (
-                                                        <img 
+                                                        <img
                                                             className={this.state.activeImageindex === Idx ? "mySlides active" : "mySlides"}
                                                             src={imgSrc}
                                                         />
@@ -703,7 +816,7 @@ class Product extends React.Component {
                                                                             this
                                                                                 .state
                                                                                 .activeImageindex ===
-                                                                            idxx
+                                                                                idxx
                                                                                 ? "w3-badge demo w3-transparent w3-hover-white w3-white"
                                                                                 : "w3-badge demo w3-transparent w3-hover-white"
                                                                         }
@@ -736,57 +849,59 @@ class Product extends React.Component {
                                             )}
                                     </Fragment>
                                 ) : (
-                                    // in edit mode
-                                    <Fragment>
-                                        <DragDropContext
-                                            onDragEnd={this.onDragEnd}
-                                        >
-                                            <Droppable
-                                                droppableId="droppable"
-                                                direction="horizontal"
+                                        // in edit mode
+                                        <Fragment>
+                                            <DragDropContext
+                                                onDragEnd={this.onDragEnd}
                                             >
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        style={this.getListStyle(
-                                                            snapshot.isDraggingOver
-                                                        )}
-                                                        {...provided.droppableProps}
-                                                    >
-                                                        {this.state.imageItems.map(
-                                                            (item, index) => (
-                                                                <Draggable
-                                                                    key={item.id}
-                                                                    draggableId={item.id}
-                                                                    index={index}
-                                                                >
-                                                                    {( provided, snapshot ) => (
-                                                                        <div ref={provided.innerRef}
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
-                                                                            style={this.getItemStyle(
-                                                                                snapshot.isDragging,
-                                                                                provided.draggableProps.style
-                                                                            )}
-                                                                        >
-                                                                            <div className="position-element">{index+1}</div>
+                                                <Droppable
+                                                    droppableId="droppable"
+                                                    direction="horizontal"
+                                                >
+                                                    {(provided, snapshot) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            style={this.getListStyle(
+                                                                snapshot.isDraggingOver
+                                                            )}
+                                                            {...provided.droppableProps}
+                                                        >
+                                                            {this.state.imageItems.map(
+                                                                (item, index) => (
+                                                                    <Draggable
+                                                                        key={item.id}
+                                                                        draggableId={item.id}
+                                                                        index={index}
+                                                                    >
+                                                                        {(provided, snapshot) => (
+                                                                            <div ref={provided.innerRef}
+                                                                                {...provided.draggableProps}
+                                                                                {...provided.dragHandleProps}
+                                                                                style={this.getItemStyle(
+                                                                                    snapshot.isDragging,
+                                                                                    provided.draggableProps.style
+                                                                                )}
+                                                                            >
+                                                                                <div className="position-element">{index + 1}</div>
+                                                                                <button
                                                                             <button 
-                                                                                className="remove-img-btn delete is-medium is-danger is-light"
-                                                                                onClick={()=>{this.handleRemoveImage(item.id)}}
-                                                                            ></button>
-                                                                            <img style={{ maxHeight: "80vh" }} src={item.src}/>
-                                                                        </div>
-                                                                    )}
-                                                                </Draggable>
-                                                            )
-                                                        )}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                )}
-                                            </Droppable>
-                                        </DragDropContext>
-                                    </Fragment>
-                                )}
+                                                                                <button
+                                                                                    className="remove-img-btn delete is-medium is-danger is-light"
+                                                                                    onClick={() => { this.handleRemoveImage(item.id) }}
+                                                                                ></button>
+                                                                                <img style={{ maxHeight: "80vh" }} src={item.src} />
+                                                                            </div>
+                                                                        )}
+                                                                    </Draggable>
+                                                                )
+                                                            )}
+                                                            {provided.placeholder}
+                                                        </div>
+                                                    )}
+                                                </Droppable>
+                                            </DragDropContext>
+                                        </Fragment>
+                                    )}
                             </div>
                         </div>
                         <div className="right-container">
@@ -817,14 +932,14 @@ class Product extends React.Component {
                                     {this.getInputJSX("title", "text")}
                                 </div>
                             ) : (
-                                <div className="product-title">
-                                    {this.state.productData.title
-                                        ? this.state.productData.title
-                                        : `Mens blue ${titleCase(
-                                              this.state.productData.category
-                                          )}`}
-                                </div>
-                            )}
+                                    <div className="product-title">
+                                        {this.state.productData.title
+                                            ? this.state.productData.title
+                                            : `Mens blue ${titleCase(
+                                                this.state.productData.category
+                                            )}`}
+                                    </div>
+                                )}
                             {adminuser && this.state.mode === "edit" ? (
                                 <div className="field-container">
                                     <div className="field-title">
@@ -836,10 +951,10 @@ class Product extends React.Component {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="price-container">
-                                    {this.getPriceJSX()}
-                                </div>
-                            )}
+                                    <div className="price-container">
+                                        {this.getPriceJSX()}
+                                    </div>
+                                )}
                             <div className="field-container">
                                 <div className="field-title">Size</div>
                                 <div className="sizes-content">
@@ -877,20 +992,20 @@ class Product extends React.Component {
                                                         this.state.pincodeValidationStatus === "error"
                                                             ? "control is-danger"
                                                             : this.state.pincodeValidationStatus === "success"
-                                                            ? "control is-success"
-                                                            : "control"
+                                                                ? "control is-success"
+                                                                : "control"
                                                     }
                                                 >
                                                     <input
                                                         placeholder="Enter your Pincode"
                                                         className={
                                                             this.state.pincodeValidationStatus ===
-                                                            "error"
+                                                                "error"
                                                                 ? "input is-danger"
                                                                 : this.state.pincodeValidationStatus ===
-                                                                  "success"
-                                                                ? "input is-success"
-                                                                : "input"
+                                                                    "success"
+                                                                    ? "input is-success"
+                                                                    : "input"
                                                         }
                                                         type="text"
                                                         name="pincode"
@@ -911,13 +1026,13 @@ class Product extends React.Component {
                                                 <p
                                                     className={
                                                         this.state.pincodeValidationStatus ===
-                                                        "error"
+                                                            "error"
                                                             ? "help is-danger"
                                                             : this.state
-                                                                  .pincodeValidationStatus ===
-                                                              "success"
-                                                            ? "help is-success"
-                                                            : "help is-info"
+                                                                .pincodeValidationStatus ===
+                                                                "success"
+                                                                ? "help is-success"
+                                                                : "help is-info"
                                                     }
                                                 >
                                                     {
@@ -931,68 +1046,68 @@ class Product extends React.Component {
                             )}
                             {(this.state.productData.color ||
                                 (adminuser && this.state.mode === "edit")) && (
-                                <div className="field-container">
-                                    <div className="field-title">
-                                        {adminuser && this.state.mode === "edit"
-                                            ? "Color and hex Code"
-                                            : "Color"}
-                                    </div>
-                                    {adminuser && this.state.mode === "edit" ? (
-                                        <div className="two-inputs">
-                                            {this.getInputJSX("color", "text")}
-                                            {this.getInputJSX(
-                                                "color_code",
-                                                "text"
-                                            )}
+                                    <div className="field-container">
+                                        <div className="field-title">
+                                            {adminuser && this.state.mode === "edit"
+                                                ? "Color and hex Code"
+                                                : "Color"}
                                         </div>
-                                    ) : (
-                                        <div className="colors-content">
-                                            <Fragment>
-                                                <div
-                                                    className="color-box"
-                                                    style={{
-                                                        backgroundColor: this
-                                                            .state.productData
-                                                            .color,
-                                                    }}
-                                                ></div>
-                                                {titleCase(
-                                                    this.state.productData.color
+                                        {adminuser && this.state.mode === "edit" ? (
+                                            <div className="two-inputs">
+                                                {this.getInputJSX("color", "text")}
+                                                {this.getInputJSX(
+                                                    "color_code",
+                                                    "text"
                                                 )}
-                                            </Fragment>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                                            </div>
+                                        ) : (
+                                                <div className="colors-content">
+                                                    <Fragment>
+                                                        <div
+                                                            className="color-box"
+                                                            style={{
+                                                                backgroundColor: this
+                                                                    .state.productData
+                                                                    .color,
+                                                            }}
+                                                        ></div>
+                                                        {titleCase(
+                                                            this.state.productData.color
+                                                        )}
+                                                    </Fragment>
+                                                </div>
+                                            )}
+                                    </div>
+                                )}
                             {(this.state.productData.fit ||
                                 (adminuser && this.state.mode === "edit")) && (
-                                <div className="field-container">
-                                    <div className="field-title">Fit</div>
-                                    <div className="field-content">
-                                        {adminuser && this.state.mode === "edit"
-                                            ? this.getInputJSX("fit", "text")
-                                            : titleCase(
-                                                  this.state.productData.fit
-                                              )}
+                                    <div className="field-container">
+                                        <div className="field-title">Fit</div>
+                                        <div className="field-content">
+                                            {adminuser && this.state.mode === "edit"
+                                                ? this.getInputJSX("fit", "text")
+                                                : titleCase(
+                                                    this.state.productData.fit
+                                                )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
                             {(this.state.productData.fabric ||
                                 (adminuser && this.state.mode === "edit")) && (
-                                <div className="field-container">
-                                    <div className="field-title">
-                                        Material & Fabric
+                                    <div className="field-container">
+                                        <div className="field-title">
+                                            Material & Fabric
                                     </div>
-                                    <div className="field-content">
-                                        {adminuser && this.state.mode === "edit"
-                                            ? this.getInputJSX("fabric", "text")
-                                            : // <div className="color-box"style={{ backgroundColor: this.state.productData.color }}></div>
-                                              titleCase(
-                                                  this.state.productData.fabric
-                                              )}
+                                        <div className="field-content">
+                                            {adminuser && this.state.mode === "edit"
+                                                ? this.getInputJSX("fabric", "text")
+                                                : // <div className="color-box"style={{ backgroundColor: this.state.productData.color }}></div>
+                                                titleCase(
+                                                    this.state.productData.fabric
+                                                )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
                             {adminuser && this.state.mode === "edit" ? (
                                 <div className="product-info-container">
                                     <button
@@ -1015,27 +1130,27 @@ class Product extends React.Component {
                                     )}
                                 </div>
                             ) : (
-                                !!Object.keys(
-                                    this.state.productData.description
-                                ).length &&
-                                Object.keys(
-                                    this.state.productData.description
-                                ).map((key, idx) => {
-                                    return (
-                                        <div className="field-container">
-                                            <div className="field-title">
-                                                {key}
+                                    !!Object.keys(
+                                        this.state.productData.description
+                                    ).length &&
+                                    Object.keys(
+                                        this.state.productData.description
+                                    ).map((key, idx) => {
+                                        return (
+                                            <div className="field-container">
+                                                <div className="field-title">
+                                                    {key}
+                                                </div>
+                                                <div className="field-content">
+                                                    {
+                                                        this.state.productData
+                                                            .description[key]
+                                                    }
+                                                </div>
                                             </div>
-                                            <div className="field-content">
-                                                {
-                                                    this.state.productData
-                                                        .description[key]
-                                                }
-                                            </div>
-                                        </div>
-                                    );
-                                })
-                            )}
+                                        );
+                                    })
+                                )}
                             {this.state.sizeSelectWarning && (
                                 <div className="select-size-error">
                                     Select Size
@@ -1079,10 +1194,10 @@ class Product extends React.Component {
                         </div>
                     </Fragment>
                 ) : (
-                    <div className="no-data">
-                        No Data Available for this Product
-                    </div>
-                )}
+                            <div className="no-data">
+                                No Data Available for this Product
+                            </div>
+                        )}
             </div>
         );
     }
