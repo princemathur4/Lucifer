@@ -884,8 +884,6 @@ class Product extends React.Component {
                                                                             >
                                                                                 <div className="position-element">{index + 1}</div>
                                                                                 <button
-                                                                            <button 
-                                                                                <button
                                                                                     className="remove-img-btn delete is-medium is-danger is-light"
                                                                                     onClick={() => { this.handleRemoveImage(item.id) }}
                                                                                 ></button>
