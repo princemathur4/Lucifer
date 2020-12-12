@@ -735,7 +735,7 @@ class Product extends React.Component {
                                         hidden
                                     />
                                     <button className="button is-fullwidth choose-file-btn" onClick={() => { this.handleChooseBtnClick() }}>
-                                        Choose Files
+                                        Add new images
                                             <span className="icon">
                                             <FontAwesomeIcon icon="file-upload" />
                                         </span>
